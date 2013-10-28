@@ -8,7 +8,7 @@ void Clmbr::set_y( void )
 {
 	int i;
 	for(i=0;i<n;i++) 
-		if ( isinf( *(y_in+i) ) || isnan( *(y_in+i) ) )  stop( _("invalid y value") );
+		if ( !R_FINITE( *(y_in+i) )  )  stop( _("invalid y value") );
 
 	Vector<double>  y(n,0.),  irSy(n,0.);
 

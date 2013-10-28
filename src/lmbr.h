@@ -1,6 +1,6 @@
 //
 //  define class  Clmbr  for  data-and-model objects 
-//  which are applications of the broken line model to observed data sets
+//  which are applications of the broken-line model to observed data sets
 //
 
 
@@ -8,7 +8,7 @@
 #define  CLMBR_H__
 
 
-#include "globals.h"
+#include  "globals.h"
 
 
 class Clmbr
@@ -56,13 +56,13 @@ private:
 
 //initializing functions
 	void initialize( void );
-	void set_x(void);
+	void set_x( void );
 	void set_Sigma( void );
 	void set_Q( void );
-	void pre_calc(void);
-	void set_y(void);
-	void set_theta0(double th_0, METHOD met =INIT);
-	void set_alpha0(double a_0, METHOD met =INIT);
+	void pre_calc( void );
+	void set_y( void );
+	void set_theta0( double th_0, METHOD met =INIT );
+	void set_alpha0( double a_0, METHOD met =INIT );
 	void set_SL( double cSL =0.05);
 	void set_acc( double acc =0.001);
 
@@ -132,7 +132,7 @@ private:
 	double mle( bool verbose =true, double *max_gamma_dot_Qy_sq =NULL, double *param = NULL ) const;
 	void set_sy(double *irsy, METHOD met =INIT);
 
-// 'ci' and 'cr' sub-subroutines
+//'ci' and 'cr' sub-subroutines
 	int ci_geo( METHOD met, double increments, double *bounds =0);
 	int ci_af( METHOD met, double *bounds =0);
 	double a_sl(METHOD met, double th, int high_low);
@@ -153,19 +153,19 @@ public:
 	void slR( int met, double acc, double theta0 );
 	void slR( int met, double acc, double theta0, double alpha0 );
 	double slR( int met, int verboseR, int valueR, double acc, double theta0 );
-	double slR( int met, int verboseR, int valueR, double acc, double theta0, double alpha0 ); 
-	void ciR(double CL, int met);
-	void crR(double CL, int met, double incr);
-	NumericMatrix crR(double CL, int met, double incr, int verboseR );
+	double slR( int met, int verboseR, int valueR, double acc, 
+				double theta0, double alpha0 ); 
+	void ciR( double CL, int met );
+	void crR( double CL, int met, double incr );
+	NumericMatrix crR( double CL, int met, double incr, int verboseR );
 	void MLE(void) const;
-	NumericVector PARAM(void) const;	//internal
-	void SET_rWy(NumericVector rWy);
+	NumericVector PARAM(void) const;	// internal
+	void SET_rWy( NumericVector rWy );
 
 
 // friend functions, integrands to 'Rdqag' routines in files 'geo' and 'sl_geo'
 	friend void igeo(double *x, const int n, void *const ex);
 	friend void igeo2(double *x, const int n, void *const ex);
-
 
 };
 

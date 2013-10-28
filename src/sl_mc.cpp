@@ -18,22 +18,23 @@ double Clmbr::sl_mc(void)  const
 	Rflush();
 
 
-	const double  tstart= time(NULL),  wsq= w*w; 
-	double  pstart= tstart;
-
+	const double  wsq= w*w; 
 	double  s0, testw;
 	if (variance_unknown) { s0 = z/sqrt( 1.- z*z );  testw = wsq/(1-z*z); } 
 					else  { s0 = z; testw = wsq; }
 
-
-	GetRNGstate();
+	bool shortcut= true;
 	const int  N = 10000000;
 	int  it,  count= 0;
+	const double  tstart = time( NULL );
+	double  pstart= tstart;
+
+	GetRNGstate();
 
 	for (it=1; it<N+1; it++)
 	{
 		Vector<double>  s(m,0.);
-		if (th0ex)  s[0] =norm_rand(); else  s[0] =0.;
+		if (th0ex)  s[0] =norm_rand();  else  s[0] =0.;
 		for (int i=1;i<m;i++) s[i] =norm_rand();
 		if (variance_unknown) s = 1./sqrt(s*s) * s;
 		if (!th0ex) s[0] =s0;
@@ -42,17 +43,21 @@ double Clmbr::sl_mc(void)  const
 		if ( m_ge_w(testw, rs) ) count++;
 
 		double  pfinish=  time( NULL ),  ptime= pfinish - pstart;
-		if ( it==N/10 || !(it%(N/5)) || ptime > 10 ) {
+		if ( it==N/10 || !(it%(N/5)) || ptime > 10 || (shortcut && ptime>1) )  {
 			const double  p = 1.*count/it,  err_est = 2*sqrt( p*(1.-p)/it );
-			Rcout << setw(10) << it << setw(12) << p << setw(15) << err_est << endl; Rflush();
-			if ( err_est < acc )  {it++; break;}
+			if( !shortcut || (shortcut && err_est < acc) )
+				Rcout << setw(10) << it << setw(12) << p << setw(15) << err_est << endl; 
+			Rflush();
+			if( err_est < acc )  {it++; break;}
 			pstart= pfinish;
+			shortcut= false;
 		}
 	}
-	it--;
-	PutRNGstate();
-	Rcout << endl;
 
+	PutRNGstate();
+
+	Rcout << endl;
+	it--;
 	const double  sL = count*1./it;
 
 	return sL; 
@@ -84,13 +89,13 @@ double Clmbr::sl_mc2(void)  const
 
 // generate mock results
 
-	const double  tstart = time( NULL );
-	double  pstart= tstart;
-
-	GetRNGstate();
+	bool shortcut= true;
 	const int  N = 10000000;
 	int  it,  count= 0;
-	double  sum=0., sumsqs=0.;
+	const double  tstart = time( NULL );
+	double  pstart= tstart,  sum=0.,  sumsqs=0.;
+
+	GetRNGstate();
 
 	for (it=1; it<N+1; it++)
 	{
@@ -132,20 +137,24 @@ double Clmbr::sl_mc2(void)  const
 
 
 		double  pfinish=  time( NULL ),  ptime= pfinish - pstart;
-		if ( it==N/10 || !(it%(N/5)) || ptime > 10 )  {
+		if ( it==N/10 || !(it%(N/5)) || ptime > 10 || (shortcut && ptime>1) )  {
 			const double  p = 1.*sum/it,  sd = sqrt( (sumsqs/it - p*p)/it );
-			double err_est = 2*c*sd;
+			double  err_est = 2*c*sd;
 			if (!variance_unknown)  err_est *= lambda;
 			if (variance_unknown) sL = 2*Fc + 2*c*sum/it; else sL = 2*Fc + lambda*2*c*sum/it;
-			Rcout << setw(10) << it << setw(14) << sL << setw(15) << err_est << endl; Rflush();
+			if( !shortcut || (shortcut && err_est < acc) )
+				Rcout << setw(10) << it << setw(14) << sL << setw(15) << err_est << endl; 
+			Rflush();
 			if ( err_est < acc )  {it++; break;}
 			pstart= pfinish;
+			shortcut= false;
 		}
 	}
-	it--;
-	PutRNGstate();
-	Rcout << endl;
 
+	PutRNGstate();
+
+	it--;
+	Rcout << endl;
 	if (variance_unknown)  sL = 2*Fc + 2*c*sum/it;  else  sL = 2*Fc + lambda*2*c*sum/it;
 
 	return sL;
@@ -155,7 +164,7 @@ double Clmbr::sl_mc2(void)  const
 
 
 
-bool Clmbr::m_ge_w(const double wsq, const Vector<double> &s)  const
+bool Clmbr::m_ge_w( double wsq, const Vector<double> &s)  const
 // Check whether  max(<gam(theta).s>^2)  >=  wsq  for some 'theta'.  Use pre-calculated  M*"stump of 1"  vectors 
 // for the dot products of 'gamma' with 's',  by  gamma*u = gamma*(M-transpose*s) = (M*gamma)*s .  
 {

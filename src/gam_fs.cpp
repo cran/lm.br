@@ -4,21 +4,21 @@
 
 
  
-Vector<double> Clmbr::gam(const double th, const int k) const
+Vector<double> Clmbr::gam( double th, int k )  const
 // calculate gamma
 {
-	if ( (Model==M2 && isinf(th) ) || (Model==M1 && th <=xs[0]) || xs[ns-1] <= th) return *nan_m; else
+	if ( (Model==M2 && (!R_FINITE(th) && !ISNAN(th)) ) || (Model==M1 && th <=xs[0]) || xs[ns-1] <= th) return *nan_m; else
 		if (xs[ns-2] <= th  &&  th < xs[ns-1]) return *puqen; else
 			if (Model==M1  &&  (xs[0] < th  &&  th <= xs[1]) ) return *puqe1; else
 				if (Model==M2  &&  th <= xs[0])  return *puqx;  else
-					if ( Model==M3  &&  isinf(th) )  return  *pv1h;  else
+					if ( Model==M3  &&  (!R_FINITE(th) && !ISNAN(th)) )  return  *pv1h;  else
 
 	return  1./sqrt( ff(th,k) ) * q_f(th,k);
 }
 
 
  
-Vector<double> Clmbr::gfr(const double th, const int k) const
+Vector<double> Clmbr::gfr( double th, int k )  const
 // gamma frown
 {
 	if (th >= xs[ns-1]) return *nan_m1; else
@@ -29,7 +29,7 @@ Vector<double> Clmbr::gfr(const double th, const int k) const
 
 
  
-Vector<double> Clmbr::gsm(const double th, const int k) const
+Vector<double> Clmbr::gsm( double th, int k )  const
 // this function "gamma-smile" used in Model M1 only
 {
 	if (th <= xs[0])  return *nan_m1;  else
@@ -50,7 +50,7 @@ Vector<double> Clmbr::gsm(const double th, const int k) const
 
 
  
-Vector<double> Clmbr::gbar(const double th, const int k) const
+Vector<double> Clmbr::gbar( double th, int k )  const
 // gamma bar
 {
 	if ( (Model==M1 && th <= xs[0])  ||  xs[ns-1] <= th )  return *nan_m1;  else  {
@@ -64,7 +64,7 @@ Vector<double> Clmbr::gbar(const double th, const int k) const
 
 
  
-Vector<double> Clmbr::gbar_prime(const double th, const int k) const
+Vector<double> Clmbr::gbar_prime( double th, int k )  const
 // gamma bar prime
 {
 	if ( (Model==M1 && th <= xs[0])  ||  xs[ns-1] <= th )  return *nan_m1;  else  {
@@ -78,28 +78,28 @@ Vector<double> Clmbr::gbar_prime(const double th, const int k) const
 
 
  
-Vector<double> Clmbr::q_f(const double th, const int k) const
+Vector<double> Clmbr::q_f( double th, int k )  const
 {
 	return  pqx[k] - th*pq1[k];
 }
 
 
  
-Vector<double> Clmbr::sf(const double th, const int k) const
+Vector<double> Clmbr::sf( double th, int k )  const
 {
 	return  psx[k] - th*ps1[k];
 }
 
 
 
-Vector<double> Clmbr::sfc(const double th, const int k) const
+Vector<double> Clmbr::sfc( double th, int k )  const
 {
 	return  (*psigx - psx[k]) - th*(*psig1 - ps1[k]);
 }
 
 
 
-double Clmbr::ff(const double th, const int k) const
+double Clmbr::ff( double th, int k )  const
 {
 	return  qxx[k] + (q11[k]*th - 2*qx1[k])*th;
 }

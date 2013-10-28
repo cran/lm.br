@@ -8,8 +8,8 @@
 
 
 
-Clmbr::Clmbr( const NumericVector  yR,  const NumericMatrix  xR,  const NumericMatrix  wR,  const int model_num,
-						const int  inv,  const int  var_k )
+Clmbr::Clmbr(  NumericVector  yR,  NumericMatrix  xR,  NumericMatrix  wR,  int model_num,
+						int  inv,  int  var_k )
 // constructor
 {
 	w_in = x_in = y_in = xs = NULL;

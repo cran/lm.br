@@ -50,12 +50,12 @@ responses vector}
 A broken-line model consists of two straight lines joined at a
 changepoint.  Three versions are
 
-LL:   y = alpha +  B * min( x-theta , 0 ) + B'* max( x-theta, 0 )
+LL:   y = alpha +  B * min( x-theta , 0 ) + Bp* max( x-theta, 0 )
 + e
 
 LT:   y = alpha +  B * min( x-theta , 0 ) + e
 
-TL:   y = alpha +  B'* max( x-theta , 0 ) + e
+TL:   y = alpha +  Bp* max( x-theta , 0 ) + e
 
 where  e ~ N( 0 , var * inv(weights) ).  All parameters are
 unknown except for 'weights'.  The LT and TL models
@@ -83,8 +83,8 @@ the null hypothesis "single line" versus the alternate hypothesis
 'lm.br' returns a list that includes a C++ object with accessor
 functions.
 
-Function 'ci' gets confidence intervals, 'cr' confidence regions,
-and 'sl' significance levels for the changepoint's x-coordinate or
+Function 'sl' gets significance levels, 'ci' confidence intervals, 
+and 'cr' confidence regions for the changepoint's x-coordinate or
 (x,y)-coordinates.
 
 Other functions are 'mle' to get maximum likelihood estimates
@@ -103,8 +103,11 @@ algebraic expressions of the model above.
 
 
 \references{
-Siegmund, D. and Zhang, H.P. (1994),  "Confidence regions in
-broken line regression,"  in  _Change-point Problems_,  IMS
+Knowles, M., Siegmund, D. and Zhang, H.P. (1991)  Confidence regions 
+in semilinear regression,  _Biometrika_, *78*, 15-31. 
+
+Siegmund, D. and Zhang, H.P. (1994),  Confidence regions in
+broken line regression,  in  _Change-point Problems_,  IMS
 Lecture Notes -- Monograph Series, vol. 23,  eds. E. Carlstein, H.
 Muller and D. Siegmund,  Hayward, CA: Institute of Mathematical
 Statistics,  pp. 292-316.
@@ -113,10 +116,8 @@ Statistics,  pp. 292-316.
 \keyword{ package }
 
 \seealso{
-\code{\link{ci}}, \code{\link{cr}}, \code{\link{sl}}, 
+\code{\link{sl}}, \code{\link{ci}}, \code{\link{cr}}, 
 \code{\link{mle}}, \code{\link{sety}}
-
-The 'sety' help page gives an example simulations test.
 
 vignette( "\href{../doc/lm.br.pdf}{lm.br}" )
 
@@ -132,10 +133,10 @@ library( lm.br )
 crea <- c( 37.3, 47.1, 51.5, 67.6, 75.9, 73.3, 69.4, 61.5, 31.8, 19.4 )
 day <- c( 1., 2., 3., 4., 5., 6., 7., 8., 9., 10. )
 sc <- lm.br( crea ~ day )
-sc$mle()
-sc$ci()
-sc$cr(.90,'af')
-sc$sl( day[1] - 1.5 )      # test for the presence of a changepoint
+sc $ mle()
+sc $ ci()
+sc $ cr( .90, 'af' )
+sc $ sl( day[1] - 1.5 )      # test for the presence of a changepoint
 
 
 
@@ -172,7 +173,7 @@ lm.br( log_odds ~ group, 'TL', w= variances, inv= TRUE, var.k= TRUE )
 
 
 #  An example that shows different confidence regions from inference by
-#  conditional likelihood-ratio  vs  approximate-F
+#  conditional likelihood-ratio  versus  approximate-F
 y <- c( 1.55, 3.2, 6.3, 4.8, 4.3, 4.0, 3.5, 1.8 )
 x <- 1:8
 eg <- lm.br( y ~ x )

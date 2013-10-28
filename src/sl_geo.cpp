@@ -2,11 +2,11 @@
 
 #include "lmbr.h"
 
-void  igeo2( double *const x,  const int n,  void *const ex );
+void  igeo2( double * x,  const int n,  void *const ex );
 
 
 
-double Clmbr::sl_geo(double *const err)
+double Clmbr::sl_geo(double * err)
 // calculate significance level for changepoint = theta0 by CLR 
 // using Knowles, Siegmund, Zhang's geometric formula
 // assume model-object's  th0, y, z, w  values already set
@@ -49,7 +49,7 @@ double Clmbr::sl_geo(double *const err)
 
 
 
-double Clmbr::sl_geo2(double *const err)
+double Clmbr::sl_geo2(double * err)
 // calculate significance level for  changepoint = (theta0,alpha0)  by CLR 
 // using Knowles, Siegmund, Zhang's geometric-expectation formula
 // assume  th0  and  y  values already set
@@ -93,7 +93,7 @@ double Clmbr::sl_geo2(double *const err)
 
 
 
-void  igeo2(double *const x, const int n, void *const ex)
+void  igeo2(double * x, const int n, void *const ex)
 // integrand for Rdqags 
 {
 	Clmbr  **const  ppObj  = static_cast< Clmbr **const > ( ex );
@@ -114,7 +114,7 @@ void  igeo2(double *const x, const int n, void *const ex)
 
 
 
-double Clmbr::prden(const double xi, double *const err)
+double Clmbr::prden( double xi, double * err)
 // integrand for  sl( theta, alpha )  generic formula
 {
 	double den;

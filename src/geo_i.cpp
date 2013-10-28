@@ -9,14 +9,14 @@
 
 
 
-double Clmbr::amu_by_Omega(const double th, const int k)  const
+double Clmbr::amu_by_Omega( double th,  int k)  const
 {
 	if ( k==k0 || fabs(th-th0) < zero_eq )  return Inf;
 
 	const double  ro = rho(th,k),  zwr = fabs(z-w*ro);
 	const double  rosq = rhosq(th,k),  r = 1 - rosq;
 
-	if( isinf(th) )  {
+	if( !R_FINITE(th) && !ISNAN(th) )  {
 		if( B[k]-rosq < 0 )  return 0.;
 		return  zwr * sqrt( (B[k]-rosq) / (1-B[k]) / r );
 
@@ -32,11 +32,11 @@ double Clmbr::amu_by_Omega(const double th, const int k)  const
 
 
 
-double Clmbr::Emupr(const double th, const int k)  const
+double Clmbr::Emupr( double th,  int k)  const
 // calculate (E-mu+)*pr, in Knowles,Siegmund,Zhang's geometric-expectation formula for variance unknown
 // as a function of theta
 {
-	if ( k==k0 || fabs(th-th0) < zero_eq || isinf(th) )  return 0.;
+	if ( k==k0 || fabs(th-th0) < zero_eq || (!R_FINITE(th) && !ISNAN(th)) )  return 0.;
 
 	const double  rosq = rhosq(th,k),  ro = rho(th,k),  r=1-rosq,  zz = 1.-z*z,  wzr = w-z*ro;
 	const double  drosq = drhosq(th,k),  zwr = fabs(z-w*ro);
@@ -58,11 +58,11 @@ double Clmbr::Emupr(const double th, const int k)  const
 
 
 
-double  Clmbr::Emupr_vk(const double th, const int k)  const
+double  Clmbr::Emupr_vk( double th,  int k)  const
 // calculate (E-mu+)*pr, the integrand in geometric-expectation formula for variance known
 // as a function of theta
 {
-	if ( k==k0  ||  fabs(th-th0) < zero_eq  ||  isinf(th) )  return 0.;
+	if ( k==k0  ||  fabs(th-th0) < zero_eq  ||  (!R_FINITE(th) && !ISNAN(th)) )  return 0.;
 
 	const double  rosq = rhosq(th,k),  r=1-rosq,  rr = sqrt(r),  ro= rho(th,k);
 	const double  zwr= fabs(z-w*ro);

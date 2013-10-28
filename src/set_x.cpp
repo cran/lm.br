@@ -19,7 +19,7 @@ void Clmbr::set_x( void )
 	for(i=0;i<n;i++) {
 		xib= xi;
 		xi= x[i];
-		if ( isinf( xi ) || isnan( xi ) )  stop( _("invalid 'x' value") );
+		if ( !R_FINITE( xi ) )  stop( _("invalid 'x' value") );
 		if( xib > xi )  stop( _("'x' values must be non-decreasing") );
 		const double xdiff= xi - xib;
 		if ( 0 < xdiff  &&  xdiff < min_xdiff  ) {

@@ -4,10 +4,10 @@
 
 
 
-void  Clmbr::set_theta0( const double th_0, const METHOD met )
+void  Clmbr::set_theta0( double th_0,  METHOD met )
 // precalculate numbers and vectors that depend on theta0, including 'w' and 'z'
 {
-	if ( !isinf(th_0) && isnan(th_0) )  stop( _("invalid 'theta0' value") );
+	if ( ISNAN(th_0) )  stop( _("invalid 'theta0' value") );
 
 	if(  th_0 != th0  ||  ( th0==xs[k0-1] && fabs(th_0-th0) > zero_eq )  )  { //1
 
@@ -66,7 +66,7 @@ void  Clmbr::set_theta0( const double th_0, const METHOD met )
 
 						if( ( xs[ns-2] <= th0 && th0 < xs[ns-1] )  ||
 								( Model==M1 && xs[0]<th0 && th0<=xs[1] )  ||  
-									( Model==M2 && th0<=xs[0] ) || (Model==M3 && isinf(th0))  ) 	// 'th0' on an end-interval
+									( Model==M2 && th0<=xs[0] ) || (Model==M3 && (!R_FINITE(th0) && !ISNAN(th0)))  ) 	// 'th0' on an end-interval
 
 							B[k] =  ( qxx[k]*q10[k]*q10[k] - 2*qx1[k]*q10[k]*qx0[k] + q11[k]*qx0[k]*qx0[k] ) / ck[k] ;
 

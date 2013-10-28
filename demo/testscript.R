@@ -48,8 +48,8 @@ testrun  <-  function( )  {
     tcurrent <- Sys.time()
     dtime <- round( 
       as.numeric( difftime(tcurrent,tstart,units="mins")), 0)
-    cat("test", ntests, "of", totaltests, ",  elapsed ", 
-      dtime, "min\n")
+    cat("\n******  test", ntests, "of", totaltests, ",  elapsed ", 
+      dtime, "min  ******\n")
 
 ## generate model
 
@@ -245,7 +245,10 @@ testrun  <-  function( )  {
     unlink( rWy2name )
   }
 
-  cat( "\ntests of 'lm.br' completed successfully\n\n" )
+  tcurrent <- Sys.time()
+  dtime <- round( 
+    as.numeric( difftime(tcurrent,tstart,units="mins")), 0)
+  cat( "\nTests of 'lm.br' completed successfully.  Elapsed ",dtime,"min.\n\n" )
 }
 
 

@@ -4,7 +4,7 @@
 
 
 
-int Clmbr::ci(const METHOD met, const double incr, const bool verbose, double *const bounds)
+int Clmbr::ci( METHOD met, double incr, bool verbose, double * bounds)
 // check whether {theta  such that  sig. level  > SL}  is contiguous
 // return number of contiguous segments and boundaries of each segment
 // 'incr' specifies increments to cover in grid search for method 'GEO'
@@ -28,7 +28,7 @@ int Clmbr::ci(const METHOD met, const double incr, const bool verbose, double *c
 
 		numr= 1.;
 		const double thmle= mle(false);
-		if( isnan(thmle)  &&  !isinf(thmle) )  { bds[0]= -Inf; bds[1]= Inf; }  
+		if( ISNAN(thmle) )  { bds[0]= -Inf; bds[1]= Inf; }  
 			else  { if( Model==M2 && thmle==xs[0] )  { bds[0]= -Inf; bds[1]= thmle; }		// single line in Model 2
 				else  bds[0] = bds[1] = thmle; }
 
@@ -76,7 +76,7 @@ int Clmbr::ci(const METHOD met, const double incr, const bool verbose, double *c
 
 
 
-int Clmbr::ci_geo( const METHOD met, const double incr, double *const bds )
+int Clmbr::ci_geo( METHOD met,  double incr, double * bds )
 // Using Knowles, Siegmund and Zhang's geometric formula to calculate significance level.
 // In Model=M1, treat regions before x[0] and after x[n-1] as two seperate regions.
 // Conditional SL(th,mle-alpha) is not constant on end-intervals.
@@ -269,7 +269,7 @@ int Clmbr::ci_geo( const METHOD met, const double incr, double *const bds )
 
 
 
-int Clmbr::ci_af( const METHOD met, double *const bds )
+int Clmbr::ci_af( METHOD met, double * bds )
 // using AF to calculate significance level
 {
 	double  th,  sl_th,  thold;
