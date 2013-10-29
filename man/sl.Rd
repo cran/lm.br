@@ -22,9 +22,9 @@ sl( theta0, alpha0,  method ="CLR", accuracy =0.001, verbose =TRUE )
 }
 
 \details{
-Siegmund and Zhang derived the conditional likelihood-ratio significance level of a changepoint value as a probability of a generic random variable.
+Knowles, Siegmund and Zhang reduced the conditional likelihood-ratio significance test of a changepoint value to a probability expression based on a generic random variable.
 
-The default method "CLR" evaluates this probability using a geometric-expectation formula derived by Siegmund and Zhang, which slightly over-estimates.  The overestimate is negligible for significance levels below 0.20.
+The default method "CLR" evaluates this probability using a geometric-expectation formula developed by Knowles et al. that slightly over-estimates.  The overestimate is negligible for significance levels below 0.20.
 
 Method "MC" evaluates the probability expression directly by Monte Carlo simulation, which avoids the over-estimate of the "CLR" method.
 
@@ -47,9 +47,11 @@ x <- 1:10
 sc <- lm.br( y ~ x )
 
 sc $ sl( 6.1 )
-sc $ sl( 6.1, 88.2, 'af' )
+\donttest{sc $ sl( 6.1, 'mc' )}
 \donttest{sc $ sl( 6.1, 'mc', 0.00001 )}
-tmp <- sc $ sl( 6.1, 88.2, 'clr', 0.0001, TRUE )
+sc $ sl( 6.1, 88.2, 'clr' )
+sc $ sl( 6.1, 88.2, 'af' )
+tmp <- sc $ sl( 6.1, 88.2, 'mc', 0.001, TRUE )
 tmp
 }
 

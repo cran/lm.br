@@ -4,7 +4,7 @@
 
 
 
-double  Clmbr::mle( const bool verbose,  double *const  max_gqysq,  double *const  par  )  const
+double  Clmbr::mle(  bool verbose,  double *  max_gqysq,  double *  par  )  const
 // find theta_mle for maximum value of (gamma(theta)*qy)^2
 // calculate  alphamle, betamle, betapmle, vmle
 {
@@ -87,7 +87,7 @@ double  Clmbr::mle( const bool verbose,  double *const  max_gqysq,  double *cons
 
 		alphamle = 0.;
 		betamle = 0.;
-		if( !isinf(thmle) )  betapmle =  ( *psy*sf(thmle,kmle) )/( sf(thmle,kmle)*sf(thmle,kmle) );  else  betapmle= 0.;
+		if( R_FINITE(thmle) )  betapmle =  ( *psy*sf(thmle,kmle) )/( sf(thmle,kmle)*sf(thmle,kmle) );  else  betapmle= 0.;
 
 		if(model_in < 0) {
 			betamle= -betapmle;

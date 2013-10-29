@@ -56,8 +56,8 @@ random variable because it is a function of the random
 observations.  A significance level is the probability that $D$
 could be worse than the observed value,
 $SL(p_{0})  = Pr [ D(p_{0}) > D(p_{0})_{obs} ]$, based on the
-model.  The set of postulate values such that  $SL > 1 - \alpha$
-is a $100\alpha\%$ confidence region.\\
+model.  The set of postulate values such that  $SL > \alpha$
+is a $100(1-\alpha)\%$ confidence region.\\
 
 Conditional inference incorporates sufficient statistics to
 account for the other, unknown parameters.  This refinement
@@ -87,7 +87,7 @@ nonlinear regression, but it is not exact.  The AF method
 estimates the distribution of a likelihood-ratio statistic by its
 asymptotic $\chi^{2}$ distribution, with partial conditioning on a
 sufficient statistic for the variance.  See 
-\citet[ch.24]{draper+smith:1998}.
+\citet[sec. 24.6]{draper+smith:1998}.
 
 \section{Examples}
 \subsection{Simulation Tests}

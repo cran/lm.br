@@ -16,14 +16,14 @@ void Clmbr::set_Sigma( void )
 	if( vectorS )  {
 		for (i=0;i<n;i++) {
 			const double  wi = *(w_in + i);
-			if ( isinf(wi) || isnan(wi) )  stop( _("'weights' has invalid entries") );
+			if ( !R_FINITE(wi) )  stop( _("'weights' has invalid entries") );
 			if ( wi <= 0 )  stop( _("'weights' has invalid entries") );
 		}
 
 	}  else  {
 		for (i=0;i<n;i++) for (j=0;j<n;j++) {
 			double  wij = *(w_in+j*n+i),  wji = *(w_in+i*n+j);
-			if ( isinf(wij) || isnan(wij) )  stop( _("'weights' has invalid entries") );
+			if ( !R_FINITE(wij) )  stop( _("'weights' has invalid entries") );
 			if( fabs(wij - wji) < zero_eq )  if( i < j)  *(w_in+j*n+i) = wji;
 		}
 	}

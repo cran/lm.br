@@ -4,7 +4,7 @@
 
 
 
-double Clmbr::rho(const double th)  const
+double Clmbr::rho( double th)  const
 {
 	int k=0;
 	while (xs[k]<th && k<ns) k++;
@@ -13,7 +13,7 @@ double Clmbr::rho(const double th)  const
 
 
 
-double Clmbr::rho(const double th, const int k)  const
+double Clmbr::rho( double th,  int k )  const
 // compute the rho function,  accurately 
 {
 	if( th>=xs[ns-1] || (Model==M1  &&  th<xs[0])  )  return NaN;  else  {	//1
@@ -21,10 +21,10 @@ double Clmbr::rho(const double th, const int k)  const
 // check if th0 or th is on an end-interval
 		bool  th1= false, th2= false, th01= false, th02= false;
 		if( xs[ns-2] <= th && th < xs[ns-1] ) th2= true;  else  {
-			if( (Model==M1 && xs[0]<th && th<=xs[1]) || (Model==M2 && th<=xs[0]) || (Model==M3 && isinf(th)) ) th1= true;
+			if( (Model==M1 && xs[0]<th && th<=xs[1]) || (Model==M2 && th<=xs[0]) || (Model==M3 && (!R_FINITE(th) && !ISNAN(th))) ) th1= true;
 		}
 		if( xs[ns-2] <= th0 && th0 < xs[ns-1] ) th02= true;  else  {
-			if(  ( Model==M1 && xs[0]<th0 && th0<=xs[1] )  ||  ( Model==M2 && th0<=xs[0] ) || (Model==M3 && isinf(th0))  ) th01 = true;
+			if(  ( Model==M1 && xs[0]<th0 && th0<=xs[1] )  ||  ( Model==M2 && th0<=xs[0] ) || (Model==M3 && (!R_FINITE(th0) && !ISNAN(th0)))  ) th01 = true;
 		}
 
 		if( th==th0 || (th1 && th01) || (th2 && th02) )  return 1.;  else  {	//2
@@ -55,7 +55,7 @@ double Clmbr::rho(const double th, const int k)  const
 
 
 
-double Clmbr::rhosq(const double th, const int k)  const
+double Clmbr::rhosq( double th,  int k )  const
 // compute  rho squared,  accurately 
 {
 	if( th>=xs[ns-1] || (Model==M1  &&  th<xs[0])  )  return NaN;  else  {	//1
@@ -63,10 +63,10 @@ double Clmbr::rhosq(const double th, const int k)  const
 // check if th0 or th is on an end-interval
 		bool  th1= false, th2= false, th01= false, th02= false;
 		if( xs[ns-2] <= th && th < xs[ns-1] ) th2= true;  else  {
-			if( (Model==M1 && xs[0]<th && th<=xs[1]) || (Model==M2 && th<=xs[0]) || (Model==M3 && isinf(th)) ) th1= true;
+			if( (Model==M1 && xs[0]<th && th<=xs[1]) || (Model==M2 && th<=xs[0]) || (Model==M3 && (!R_FINITE(th) && !ISNAN(th))) ) th1= true;
 		}
 		if( xs[ns-2] <= th0 && th0 < xs[ns-1] ) th02= true;  else  {
-			if(  ( Model==M1 && xs[0]<th0 && th0<=xs[1] )  ||  ( Model==M2 && th0<=xs[0] ) || (Model==M3 && isinf(th0))  ) th01 = true;
+			if(  ( Model==M1 && xs[0]<th0 && th0<=xs[1] )  ||  ( Model==M2 && th0<=xs[0] ) || (Model==M3 && (!R_FINITE(th0) && !ISNAN(th0)))  ) th01 = true;
 		}
 
 		if( th==th0 || (th1 && th01) || (th2 && th02) )  return 1.;  else  {	//2
@@ -96,11 +96,11 @@ double Clmbr::rhosq(const double th, const int k)  const
 
 
 
-double Clmbr::drho(const double th, const int k)  const
+double Clmbr::drho( double th,  int k )  const
 {
 	if(th>=xs[ns-1])  return NaN;  else
 		if(Model==M1  &&  th<xs[0])  return NaN;  else  
-			if( isinf(th) )  return 0.;  else  {
+			if( !R_FINITE(th) && !ISNAN(th) )  return 0.;  else  {
 				const double fsq= ff(th,k);
 				double dro = (a0[k] - b0[k]*th)/sqrt(fsq)/fsq; 
 				if (th < th0)  dro = -dro;
@@ -110,11 +110,11 @@ double Clmbr::drho(const double th, const int k)  const
 
 
 
-double Clmbr::drhosq(const double th, const int k)  const
+double Clmbr::drhosq( double th,  int k )  const
 {
 	if(th>=xs[ns-1])  return NaN;  else
 		if(Model==M1  &&  th<xs[0])  return NaN;  else  
-			if( isinf(th) )  return 0.;  else  {
+			if( !R_FINITE(th) && !ISNAN(th) )  return 0.;  else  {
 				const double  fsq = ff(th,k);
 				const double ab= a0[k] - b0[k]*th; 
 				return ab*ab/(fsq*fsq*fsq);
@@ -123,7 +123,7 @@ double Clmbr::drhosq(const double th, const int k)  const
 
 
 
-double Clmbr::dgsq(const double th, const int k)  const
+double Clmbr::dgsq( double th,  int k )  const
 // norm of derivative of gamma, squared
 {
 	if(th>=xs[ns-1])  return NaN;  else
@@ -136,8 +136,8 @@ double Clmbr::dgsq(const double th, const int k)  const
 
 
 
-double Clmbr::rho_inv(const double s, const int k, const int hi_lo)  const
-//      Returns 'th' such that rho(th) = s  and 'th' is in (x[k-1], x[k]);
+double Clmbr::rho_inv( double s,  int k,  int hi_lo )  const
+//   Returns 'th' such that rho(th) = s  and 'th' is in (x[k-1], x[k]);
 // 'rho_inv' gives the same result for s and for -s, so it checks that  sign( rho(th) ) = sign(s); 
 // result 'th' is a quadratic root, so if both roots are in the data interval then 
 // it returns the lower value if 'hi_lo' < 0 and the greater value if 'hi_lo' > 0 .

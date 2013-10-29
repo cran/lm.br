@@ -29,13 +29,12 @@ If 'output' is "V", then 'cr' returns an N x 3 matrix of boundary points (theta,
 
 
 \examples{
-##  Data for Patient B from Smith and Cook (1980)
+#  A quick example
 library(lm.br)
-y <- c(37.3, 47.1, 51.5, 67.6, 75.9, 73.3, 69.4, 61.5, 31.8, 19.4)
-x <- 1:10
-sc <- lm.br(y~x)
-\donttest{sc$cr()}
-\donttest{sc $ cr( .9, incr = 0.1 )}
-sc $ cr( .99, 'af', out='t' )
+y <- c( 2, 0, 2.001, 4, 6 )
+x <- 1:5
+t <- lm.br( y ~ x )
+t $ cr()
+t$cr( .9, 'af', incr = 0.1, out='t' )
 }
 

@@ -6,7 +6,7 @@
 
 
 
-double Clmbr::sl_af(const int mode)  const
+double Clmbr::sl_af( int mode )  const
 // estimate significance level for broken line regression by Approximate F method
 {
 	int q;  

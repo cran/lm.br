@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lm.br 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-20 20:31-0400\n"
+"POT-Creation-Date: 2013-10-25 20:08-0400\n"
 "PO-Revision-Date: 2013-09-20 20:09-0500\n"
 "Last-Translator: \n"
 "Language-Team: Marc Adams <lm.br.pkg@gmail.com>\n"
@@ -36,7 +36,7 @@ msgstr "'method' doit être 1, 2 ou 3"
 msgid "not applicable for this model"
 msgstr "pas applicable pour ce modèle"
 
-#: R_interface.cpp:278
+#: R_interface.cpp:280
 msgid "'rWy' vector has wrong dimension"
 msgstr "longueur du vecteur 'rWy' est incorrect"
 
@@ -55,17 +55,17 @@ msgstr ""
 "'bisect' 'const' ne peut pas trouvé un point à l'intérieur des valeurs "
 "initiales"
 
-#: bisect.cpp:43
+#: bisect.cpp:44
 msgid ""
 "'bisect' const  failed to reach tolerance after maximum number of iterations"
 msgstr "'bisect' 'const' hors tolérance après nombre maximum d'itérations"
 
-#: bisect.cpp:59
+#: bisect.cpp:60
 msgid "'bisect_sl' cannot find interim point from starting values"
 msgstr ""
 "'bisect_sl' ne peut pas trouvé un point à l'intérieur des valeurs initiales"
 
-#: bisect.cpp:66
+#: bisect.cpp:68
 msgid ""
 "'bisect_sl' failed to reach tolerance after maximum number of iterations"
 msgstr "'bisect_sl' hors tolérance après nombre maximum d'itérations"
@@ -83,16 +83,16 @@ msgstr "progrès:"
 msgid "getting theta-boundaries...   "
 msgstr "cherchant les limites pour theta...   "
 
-#: cr.cpp:85
+#: cr.cpp:81
 msgid "getting alpha-boundaries...   "
 msgstr "cherchant les limites pour alpha...   "
 
-#: cr.cpp:216
-msgid "-percent joint confidence region for  (theta, alpha)  by method  "
+#: cr.cpp:212
+msgid "-percent joint confidence region for  (theta, alpha)  by "
 msgstr ""
 "-pourcent région de confiance jointe pour  (theta, alpha)  par méthode  "
 
-#: cr.cpp:256
+#: cr.cpp:252
 msgid "'a_sl' initial point below critical SL"
 msgstr "'a_sl' point initial a SL moin le niveau critical"
 
@@ -223,17 +223,14 @@ msgstr "  par la méthode "
 msgid " for (th0,a0)= ( "
 msgstr " pour (th0,a0)= ( "
 
-#: sl_mc.cpp:15 sl_mc.cpp:73
+#: sl_mc.cpp:15 sl_mc.cpp:78
 msgid "MC evaluation of conditional likelihood-ratio SL"
-msgstr ""
-"évaluation Monte Carlo de SL par ratio-de-vraisemblance conditionelle"
+msgstr "évaluation Monte Carlo de SL par ratio-de-vraisemblance conditionelle"
 
-#: sl_mc.cpp:16 sl_mc.cpp:74
+#: sl_mc.cpp:16 sl_mc.cpp:79
 msgid "for "
 msgstr "pour "
 
-#: sl_mc.cpp:16 sl_mc.cpp:75
+#: sl_mc.cpp:16 sl_mc.cpp:80
 msgid "target accuracy =  "
 msgstr "précision de cible =  "
-
-

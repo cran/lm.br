@@ -4,9 +4,9 @@
 
 
 
-int Clmbr::cr(const METHOD met, const double incr, const bool verbose, double *const bounds)
+int Clmbr::cr( METHOD met, double incr, bool verbose, double * bounds)
 //
-//      Checks whether { (theta,alpha)  such that  sig. level  > SL}  is contiguous.
+//      Checks whether { (theta,alpha)  such that  sig. level  > 'SL' }  is contiguous.
 // Returns N = number of rows for the array 'bounds[N][3]' = (th, min_alpha, max_alpha) values.
 // If (met==GEO) using Knowles, Siegmund and Zhang's geometric formula to calculate  sig. levels;
 // if (met==AF) using Approximate-F method.
@@ -21,29 +21,30 @@ int Clmbr::cr(const METHOD met, const double incr, const bool verbose, double *c
 	Rcpp::Function  Rflush("flush.console");
 
 	bool  verbose_progress;
-	if( met==GEO )  verbose_progress = true;  else  verbose_progress = false;
-
-	double inc;
-	if( incr == -1 )  inc= xinc;  else  inc= incr;
+	if( met==GEO  && !trivial )  verbose_progress = true;  else  verbose_progress = false;
 
 
 // get theta-boundaries of confidence region(s)
+	
+	double inc;
+	if( incr == -1 )  inc= xinc;  else  inc= incr;
 
 	if(verbose_progress) { Rcout << "   " << _("getting theta-boundaries...   ");  Rflush(); }
 
 	double*  tmp = Calloc( 2*ns, double );
 
-
 	int numr;
 	if(met==GEO)  numr = ci(GEO2,inc,false,tmp);  else  numr = ci(AF2,inc,false,tmp);
 
-
 	double*  th_bds= Calloc( 2*numr, double );
-
 
 	int i;
 	for (i=0;i<2*numr;i++)  th_bds[i] = tmp[i];
 	Free( tmp );
+
+
+// get (theta,alpha)-boundaries of confidence region(s)
+// store boundary values in an  N x 3  array
 
 	const double  th_min= xs[0]-1,  th_max= xs[ns-1]+1;
 	if(th_bds[0]== -Inf)  th_bds[0]= th_min;
@@ -53,10 +54,6 @@ int Clmbr::cr(const METHOD met, const double incr, const bool verbose, double *c
 		if( fabs(th_bds[i]-xs[ns-1]) < zero_eq )  th_bds[i]= xs[ns-1];
 	}
 
-
-// get (theta,alpha)-boundaries of confidence region(s)
-// store boundary values in an  N x 3  array
-	
 	int  N=0;
 	double width= 0;						
 	for (i=0;i<numr;i++) width += th_bds[2*i+1] - th_bds[2*i];
@@ -67,7 +64,7 @@ int Clmbr::cr(const METHOD met, const double incr, const bool verbose, double *c
 
 	const double thmle= mle(false);
 
-	if( trivial && !(isnan(thmle) && !isinf(thmle)) && thmle!=xs[0] )  {
+	if( trivial && !ISNAN(thmle) && thmle!=xs[0] )  {
 
 		const double amle= ahigh(AF,thmle);
 		*(bds+N*3+0) = thmle; *(bds+N*3+1) = amle; *(bds+N*3+2) = amle; N++;
@@ -76,7 +73,6 @@ int Clmbr::cr(const METHOD met, const double incr, const bool verbose, double *c
 	}  else  {
 
 		double  th= 0;
-
 
 		int  width =0,  col =0;
 		double  min_th=0,  max_th=0;
@@ -89,7 +85,6 @@ int Clmbr::cr(const METHOD met, const double incr, const bool verbose, double *c
 			width = tw[0];
 			col = 33;
 		}
-
 
 
 		for (i=0;i<numr;i++) {
@@ -184,7 +179,7 @@ int Clmbr::cr(const METHOD met, const double incr, const bool verbose, double *c
 
 // confidence region ends at "thb" with an open end if  thb = x(n) + 1,
 // a vertical line if thb= x(n), a vertical line if  thb= x(1) in M1,
-// otherwise an alpha-MLE point
+// otherwise an 'alpha-MLE' point
 
 			if( thb == th_max ) {
 				*(bds+N*3+0) =thb; *(bds+N*3+1) =a_sl(met,thb,-1); *(bds+N*3+2) =a_sl(met,thb,1); N++; 
@@ -210,10 +205,11 @@ int Clmbr::cr(const METHOD met, const double incr, const bool verbose, double *c
 
 	}
 
+
 	if(verbose_progress)  Rcout << endl << endl;
 
-	if(verbose)  { 
-		Rcout << " " << 100*(1-SL) << _("-percent joint confidence region for  (theta, alpha)  by method  ");
+	if(verbose)  {
+		Rcout << 100*(1-SL) << _("-percent joint confidence region for  (theta, alpha)  by ");
 		if(met==GEO)  Rcout << "CLR" << endl; else  Rcout << "AF" << endl;
 		Rcout << endl << setw(10) << "theta" << setw(16) << "min. alpha" << setw(15) 
 				<< "max. alpha" << endl << endl;
@@ -243,7 +239,7 @@ int Clmbr::cr(const METHOD met, const double incr, const bool verbose, double *c
 
 
 
-double Clmbr::a_sl(const METHOD met, const double th, const int high_low)
+double Clmbr::a_sl( METHOD met, double th, int high_low)
 // return alpha high or low value for a given SL value and a given theta0
 // if high_low > 0 return high value, if high_low < 0 return low value
 // if met=GEO use AF alpha as first guess, then grid search + bisection
@@ -256,7 +252,7 @@ double Clmbr::a_sl(const METHOD met, const double th, const int high_low)
 		if( sl(th,ah,met,false) < SL )  stop( _("'a_sl' initial point below critical SL") );
 		const double incr = inc_y*high_low; 
 		double guess = a_af(th, high_low);
-		if ( isnan(guess) || (guess-ah)*high_low < zero_eq) guess = ah+incr;
+		if ( ISNAN(guess) || (guess-ah)*high_low < zero_eq) guess = ah+incr;
 		double guess2 = ah;
 		while ( sl(th,guess,met,false) > SL) { 
 			guess2 = guess;  
@@ -269,7 +265,7 @@ double Clmbr::a_sl(const METHOD met, const double th, const int high_low)
 
 
 
-double Clmbr::a_af(const double th, const int high_low)
+double Clmbr::a_af( double th, int high_low )
 // return alpha high or low value for a given SL and given theta0 by AF
 // alpha-boundaries by AF are roots of a quadratic
 // if 'high_low' > 0 return high value, if 'high_low' < 0 return low value
@@ -313,7 +309,7 @@ double Clmbr::a_af(const double th, const int high_low)
 
 
 
-double Clmbr::ahigh(const METHOD met, const double th)
+double Clmbr::ahigh( METHOD met, double th )
 // return 'alpha' value that gives the highest significance level for a given theta
 {
 	if(trivial) {
@@ -388,7 +384,7 @@ double Clmbr::ahigh(const METHOD met, const double th)
 
 
 
-double Clmbr::sl_a(const double alpha, const int k)
+double Clmbr::sl_a( double alpha, int k )
 // wrapper for use in the bisection routine
 // return sl_geo2(th0,alpha)
 // assume th0 preset and use default accuracy
