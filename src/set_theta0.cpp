@@ -12,7 +12,7 @@ void  Clmbr::set_theta0( double th_0,  METHOD met )
 	if(  th_0 != th0  ||  ( th0==xs[k0-1] && fabs(th_0-th0) > zero_eq )  )  { //1
 
 		int k_0 = 0;
-		while ( xs[k_0] - th_0 < zero_eq  &&  k_0 < ns )  k_0++;
+		while ( k_0 < ns  &&  xs[k_0] - th_0 < zero_eq )  k_0++;
 		th0 = th_0;
 		if( fabs(th_0) < zero_eq )  th0= 0.;
 		if( k_0 > 0 )   if ( fabs( xs[k_0-1] - th_0 ) < zero_eq )  th0 = xs[k_0-1];

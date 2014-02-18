@@ -10,7 +10,7 @@
 \title{Fit a Linear Model with a Breakpoint}
 
 \description{
-Exact significance tests for a coefficient changepoint in
+Exact significance tests for a changepoint in
 linear or multivariate linear regression, assuming continuity.
 Confidence intervals and confidence regions with exact coverage
 probabilities for the changepoint.
@@ -49,15 +49,12 @@ responses vector}
 \details{
 A broken-line model consists of two straight lines joined at a
 changepoint.  Three versions are
+\preformatted{LL   y = alpha + B * min( x-theta, 0 ) + Bp* max( x-theta, 0 ) + e
 
-LL:   y = alpha +  B * min( x-theta , 0 ) + Bp* max( x-theta, 0 )
-+ e
+LT   y = alpha + B * min( x-theta, 0 ) + e
 
-LT:   y = alpha +  B * min( x-theta , 0 ) + e
-
-TL:   y = alpha +  Bp* max( x-theta , 0 ) + e
-
-where  e ~ N( 0 , var * inv(weights) ).  All parameters are
+TL   y = alpha + Bp* max( x-theta, 0 ) + e}
+where  e ~ Normal( 0 , var * inv(weights) ).  All parameters are
 unknown except for 'weights'.  The LT and TL models
 omit 'alpha' if the formula is without intercept, such as 'y~x+0'.
 
@@ -66,16 +63,16 @@ x1 + x2 + ... + xn'  where 'alpha' becomes the coefficient of the
 "1"-vector and 'theta' becomes the changepoint for the cofficient 
 of the first predictor term, 'x1'.
 
+Test for the presence of a changepoint by the significance level
+of a postulate value outside the range of x-values.  Thus,
+'sl( x[1] - 1 )'  would give the exact significance level of 
+the null hypothesis "single line" versus the alternate hypothesis
+"broken line," in the LL model.
+
 Exact inferences about the changepoint  'theta'  or
 '(theta,alpha)'  are based on the distribution of its
 likelihood-ratio statistic, conditional on sufficient statistics
 for the other parameters.
-
-Test for the presence of a changepoint by the significance level
-of a postulate value outside of the x-values.  Thus,
-'sl( min(x1) - 1 )'  would give the exact significance level of 
-the null hypothesis "single line" versus the alternate hypothesis
-"broken line," in the LL model.
 }
 
 
@@ -96,9 +93,8 @@ list including 'coefficients', 'fitted.values' and 'residuals'.
 
 
 \note{
-If variance is known,  'weights'  is the inverse of the variances
-vector or variance-covariance matrix, and  'var'=1  in the
-algebraic expressions of the model above.
+If variance is known, then 'var' = 1,  and 'weights'  is the inverse of the variances
+vector or variance-covariance matrix.
 }
 
 
@@ -118,15 +114,11 @@ Statistics,  pp. 292-316.
 \seealso{
 \code{\link{sl}}, \code{\link{ci}}, \code{\link{cr}}, 
 \code{\link{mle}}, \code{\link{sety}}
-
-vignette( "\href{../doc/lm.br.pdf}{lm.br}" )
-
-demo( testscript )
+\cr vignette( "\href{../doc/lm.br.pdf}{lm.br}" )
+\cr demo( testscript )
 }
 
 \examples{
-library( lm.br )
-
 #  Data for Patient B from Smith and Cook (1980), Appl Stat, vol 29,
 #  pp 180-189,  reciprocal of blood creatinine L/micromol  versus
 #  day after kidney transplant:
@@ -139,8 +131,7 @@ sc $ cr( .90, 'af' )
 sc $ sl( day[1] - 1.5 )      # test for the presence of a changepoint
 
 
-
-#  A 'TL' example, from figure 1 of Chiu et al. (2006), J Am Stat Assoc,  
+#  A 'TL' example from figure 1 of Chiu et al. (2006), J Am Stat Assoc,  
 #  vol 101, pp 542-553,  log(salmon abundance) vs year:
 salmon <- c( 2.50, 2.93, 2.94, 2.83, 2.43, 2.84, 3.06, 2.97, 2.94, 2.65,
   2.92, 2.71, 2.93, 2.60, 2.12, 2.08, 1.81, 2.45, 1.71, 0.55, 1.30 )
@@ -149,27 +140,23 @@ chiu <- lm.br( salmon ~ year, 'tl' )
 chiu $ ci()
 
 
-
 #  A multivariate example, using one of R's included datasets,
 #  automobile miles-per-gallon  versus  weight and horsepower:
 lm.br( mpg ~ wt + hp, data = mtcars )
 
 
-
 #  An example with variance known, in the Normal approximations of binomial
-#  random variables.
-#     ex. 3.4 of J Freeman (2010) "Inference for binomial changepoint data"
-#  in _Advances in Data Analysis_, ed. C Skiadas, Boston: Birkhauser, 345-352
+#  random variables, using formula 2.28 of Cox and Snell (1989).
+#   Ex. 3.4 of J Freeman (2010) "Inference for binomial changepoint data" in
+# _Advances in Data Analysis_, ed. C Skiadas, Boston: Birkhauser, 345-352
 group <- 1 : 20
 trials <- c( 15, 82, 82, 77, 38, 81, 12, 97, 33, 75,
   85, 37, 44, 96, 76, 26, 91, 47, 41, 35 )
 successes <- c( 8, 44, 47, 39, 24, 38, 3, 51, 16, 43,
   47, 27, 33, 64, 41, 18, 61, 32, 33, 24 )
-log_odds <- log( successes/(trials - successes) )
+log_odds <- log( (successes - 0.5)/(trials - successes - 0.5) )
 variances <- (trials-1)/( successes*(trials-successes) )
-
 lm.br( log_odds ~ group, 'TL', w= variances, inv= TRUE, var.k= TRUE )
-
 
 
 #  An example that shows different confidence regions from inference by

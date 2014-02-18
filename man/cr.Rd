@@ -16,7 +16,7 @@
   \item{CL}{confidence level, between 0 and 1}
   \item{method}{"CLR" or "AF" which stand for conditional likelihood-ratio  or  approximate-F (rapid), see \code{\link{sl}} for details}
   \item{incr}{increment of theta values in the confidence region boundary-points}
-  \item{output}{"G", "T" or "V" which stand for graph, text printout  or  value}
+  \item{output}{"G", "T" or "V" which stand for graph, text  or  value}
 }
 
 \details{
@@ -24,13 +24,12 @@ This subroutine scans to determine the postulate values of (theta,alpha) that ha
 }
 
 \value{
-If 'output' is "V", then 'cr' returns an N x 3 matrix of boundary points (theta, min-alpha, max-alpha).  Otherwise, 'cr' graphs or prints-out the confidence region, but does not return a value.
+If 'output' is "V" then 'cr' returns an N x 3 matrix of boundary points  ( theta, min-alpha, max-alpha ).  Otherwise, 'cr' graphs or prints-out the confidence region, but does not return a value.
 }
 
 
 \examples{
 #  A quick example
-library(lm.br)
 y <- c( 2, 0, 2.001, 4, 6 )
 x <- 1:5
 t <- lm.br( y ~ x )

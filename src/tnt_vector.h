@@ -77,10 +77,10 @@ class Vector
         //
         //  assert(v_ == NULL);
 
-		v_ = Calloc(N,T);
+		if(N>0) v_ = Calloc(N,T);
 
         //  assert(v_  != NULL);
-        vm1_ = v_-1;
+        if(N>0) vm1_ = v_-1;
         n_ = N;
     }
    

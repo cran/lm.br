@@ -17,7 +17,7 @@
 }
 
 \details{
-The pre-multiplied vector is more convenient as input during simulation tests.  The 'rWy' vector is simply the y-vector if the model does not include 'weights'.  
+The pre-multiplied vector as input is more convenient during simulation tests.  The 'rWy' vector is simply the y-vector if the model is without 'weights'.  'rWy' is the inverse square-root if 'inverse' was TRUE in the 'lm.br' call. 
 
 The square-root of a vector 'W' is the vector 'rW' of the square-roots of the elements of 'W'.  The square-root of a matrix 'W' is the matrix 'rW' such that rW*rW = W (a stricter definition than  rW*transpose(rW) = W).
 }
@@ -38,9 +38,7 @@ sc$sety( newy )
 sc$ci()
 
 
-
-#  An example simulation test
-
+#  A simulation test
 simtest  <-  function( x, theta, alpha, B, Bp, var, N =10000 )  {
   cat("\n\n   Monte Carlo simulation test:\n")
   cat("for model   theta=",theta," alpha=",alpha," B=",B," B'=",Bp," var=",var,"\n")
@@ -57,9 +55,9 @@ simtest  <-  function( x, theta, alpha, B, Bp, var, N =10000 )  {
     err <- rnorm( n, 0, sqrt(var) )
     y <- alpha + B*pmin(x-theta,0) + Bp*pmax(x-theta,0) + err
     LLmodel$sety( y )
-    stest <- LLmodel$sl( theta, 'clr', .0001, FALSE )
+    stest <- LLmodel$sl( theta, 'clr', .0001, "V" )
     if( stest > 0.05 )  countCLR <- countCLR + 1
-    stest <- LLmodel$sl( theta, 'af', .0001, FALSE )
+    stest <- LLmodel$sl( theta, 'af', .0001, "V" )
     if( stest > 0.05 )  countAF <- countAF + 1
 
     if( floor(i/1000) - i/1000 == 0) {

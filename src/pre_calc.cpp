@@ -26,6 +26,7 @@ void  Clmbr::pre_calc( void )
 	double *  temp= Calloc( n, double );
 	double  tmp[1];
 
+
 // first, use DORMQR to setup some vectors and constants
 	{
 		Vector<double>  e1(n,0.),  en(n,0.);
@@ -40,6 +41,7 @@ void  Clmbr::pre_calc( void )
 			*(C0+2*n+i) = e1[i];
 			*(C0+3*n+i) = en[i];
 		}
+
 
 		if( vectorS )  for(j=0;j<nC0;j++)  for(i=0;i<n;i++)  *(C0+n*j+i) *=  *( irS + i );
 		if( matrixS )  for(j=0;j<nC0;j++)  {

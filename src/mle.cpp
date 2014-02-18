@@ -117,44 +117,44 @@ double  Clmbr::mle(  bool verbose,  double *  max_gqysq,  double *  par  )  cons
 		}
 	}
 
-
-//  find 'theta' value for minimum of 'ff' =(Q*f)^2 to check for singular x-matrix
-	double  ffmin = Inf,  thfmin = xs[1];
-	double  lo_limit = xs[0]+acc_xb;
-	if( Model==M2 )  lo_limit = xs[0]-acc_xb-1;
-
-	for( int k = k1+1; k < ns; k++ )  {
-
-		const double  rad= qx1[k]*qx1[k] - q11[k]*qxx[k],  Df0 = qx1[k]/q11[k];
-
-		if( rad >= 0 ) {
-			const double  r = sqrt(rad),  th1 = (qx1[k]-r)/q11[k],  th2 = (qx1[k]-r)/q11[k];
-			if( k > 0 )  {
-				if( xs[k-1] <= th1  &&  th1 <= xs[k]  &&  lo_limit+acc_xb < th1  &&  th1 < xs[ns-1]-acc_xb ) { thfmin=th1; break; }
-				if( xs[k-1] <= th2  &&  th2 <= xs[k]  &&  lo_limit+acc_xb < th2  &&  th2 < xs[ns-1]-acc_xb ) { thfmin=th2; break; }
-			}  else  {
-				if( -Inf < th1  &&  th1 <= xs[k]  &&  th1 < xs[ns-1]-acc_xb ) { thfmin=th1; break; }
-				if( -Inf < th2  &&  th2 <= xs[k]  &&  th2 < xs[ns-1]-acc_xb ) { thfmin=th2; break; }
-			}
-		}
-
-		if( k > 0 )  {
-			if( xs[k-1] <= Df0  &&  Df0 <= xs[k]  &&  lo_limit+acc_xb < Df0  &&  Df0 < xs[ns-1]-acc_xb )
-				if( ff(Df0,k) < ffmin )  { ffmin = ff(Df0,k);  thfmin = Df0; }
-		}  else  {
-			if( -Inf < Df0  &&  Df0 <= xs[k]  &&  Df0 < xs[ns-1]-acc_xb )
-				if( ff(Df0,k) < ffmin )  { ffmin = ff(Df0,k);  thfmin = Df0; }
-		}
-
-		if( k == 0 )  if( q11[k] < ffmin )  { ffmin = q11[k];  thfmin = -Inf; }		// test limit at th = -Inf
-		if( k < ns-1 )  if( ff(xs[k],k) < ffmin )  { ffmin = ff(xs[k],k);  thfmin = xs[k]; }
-	}
-
-
 	const int  reflect = copysign( 1, model_in );
 
-	if( par != NULL )  *par= thmle*reflect,  *(par+1)= alphamle,  *(par+2)= betamle,  
-							*(par+3)= betapmle,  *(par+4)= thfmin*reflect;
+//  if called by PARAM
+//  find 'theta' value for minimum of 'ff' =(Q*f)^2 to check for singular x-matrix
+	if( par != NULL )  {
+		double  ffmin = Inf,  thfmin = xs[1];
+		double  lo_limit = xs[0]+acc_xb;
+		if( Model==M2 )  lo_limit = xs[0]-acc_xb-1;
+
+		for( int k = k1+1; k < ns; k++ )  {
+
+			const double  rad= qx1[k]*qx1[k] - q11[k]*qxx[k],  Df0 = qx1[k]/q11[k];
+
+			if( rad >= 0 ) {
+				const double  r = sqrt(rad),  th1 = (qx1[k]-r)/q11[k],  th2 = (qx1[k]-r)/q11[k];
+				if( k > 0 )  {
+					if( xs[k-1] <= th1  &&  th1 <= xs[k]  &&  lo_limit+acc_xb < th1  &&  th1 < xs[ns-1]-acc_xb ) { thfmin=th1; break; }
+					if( xs[k-1] <= th2  &&  th2 <= xs[k]  &&  lo_limit+acc_xb < th2  &&  th2 < xs[ns-1]-acc_xb ) { thfmin=th2; break; }
+				}  else  {
+					if( -Inf < th1  &&  th1 <= xs[k]  &&  th1 < xs[ns-1]-acc_xb ) { thfmin=th1; break; }
+					if( -Inf < th2  &&  th2 <= xs[k]  &&  th2 < xs[ns-1]-acc_xb ) { thfmin=th2; break; }
+				}
+			}
+
+			if( k > 0 )  {
+				if( xs[k-1] <= Df0  &&  Df0 <= xs[k]  &&  lo_limit+acc_xb < Df0  &&  Df0 < xs[ns-1]-acc_xb )
+					if( ff(Df0,k) < ffmin )  { ffmin = ff(Df0,k);  thfmin = Df0; }
+			}  else  {
+				if( -Inf < Df0  &&  Df0 <= xs[k]  &&  Df0 < xs[ns-1]-acc_xb )
+					if( ff(Df0,k) < ffmin )  { ffmin = ff(Df0,k);  thfmin = Df0; }
+			}
+
+			if( k == 0 )  if( q11[k] < ffmin )  { ffmin = q11[k];  thfmin = -Inf; }		// test limit at th = -Inf
+			if( k < ns-1 )  if( ff(xs[k],k) < ffmin )  { ffmin = ff(xs[k],k);  thfmin = xs[k]; }
+		}
+
+		*par= thmle*reflect,  *(par+1)= alphamle,  *(par+2)= betamle,  *(par+3)= betapmle,  *(par+4)= thfmin*reflect;
+	}
 
 
 	if (verbose) {
