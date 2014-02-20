@@ -145,6 +145,15 @@ Clmbr::Clmbr( const Clmbr  &initM )
 Clmbr::~Clmbr()
 // destructor
 {
+	const Vector<double>  free(0);
+	*px = *pv1h = *pxh = *psig1 = *psigx = *nan_m1 = *nan_m = free;
+	*pnse1 = *pnuse1 = *pusen = *puqe1 = *puqen = *puqx = free;
+	*py = *psy = *pqy = free;
+	for(int i=0; i<ns+1; i++) {
+		ps1[i]= free;  psx[i]= free;  pq1[i]= free;  pqx[i]= free;  pmq1[i]= free;
+	}
+	if(Model==M3)  *pm1h = free;
+
 	Free( w_in );  Free( x_in );  Free( y_in );  Free( xs );
 	Free( px );
 	Free( rS );  Free( irS );  Free( Q ); Free( tau );

@@ -11,7 +11,7 @@
 
 
 
-void  Clmbr::slR(  int met,  double acc,
+void  Clmbr::sl3R(  int met,  double acc,
 	double theta_0 ) 
 { 
 	METHOD MET;
@@ -37,7 +37,7 @@ void  Clmbr::slR(  int met,  double acc,
 
 
 
-void  Clmbr::slR( int met,  double acc,
+void  Clmbr::sl4R( int met,  double acc,
 	double theta_0,  double alpha_0 ) 
 { 
 	if(Model==M3)  {
@@ -71,7 +71,7 @@ void  Clmbr::slR( int met,  double acc,
 
 
 
-double  Clmbr::slR( int met,  int verboseR,  int valueR,
+double  Clmbr::sl5R( int met,  int verboseR,  int valueR,
 	double acc,  double theta_0 ) 
 { 
 	METHOD MET;
@@ -100,12 +100,13 @@ double  Clmbr::slR( int met,  int verboseR,  int valueR,
 	acc_sl_abs= tmp1;
 	acc_sl_rel= tmp2;
 
-	return result;
+	return  result;
 }
 
 
 
-double  Clmbr::slR( int met,  int verboseR,  int valueR,
+
+double  Clmbr::sl6R( int met,  int verboseR,  int valueR,
 	double acc,  double theta_0,  double alpha_0 ) 
 { 
 	if(Model==M3)  {
@@ -140,7 +141,7 @@ double  Clmbr::slR( int met,  int verboseR,  int valueR,
 	acc_sl_abs= tmp1;
 	acc_sl_rel= tmp2;
 
-	return result;
+	return  result;
 }
 
 
@@ -167,7 +168,7 @@ void  Clmbr::ciR( double CL,  int met)
 
 
 
-void  Clmbr::crR( double CL,  int met,  double incr) 
+void  Clmbr::cr3R( double CL,  int met,  double incr) 
 { 
 	if(Model==M3)  {
 		Rcout << model_msg << endl << endl;
@@ -195,7 +196,7 @@ void  Clmbr::crR( double CL,  int met,  double incr)
 
 
 
-NumericMatrix  Clmbr::crR( double CL,  int met, 
+NumericMatrix  Clmbr::cr4R( double CL,  int met, 
 	 double incr,  int verboseR ) 
 { 
 	if(Model==M3)  {

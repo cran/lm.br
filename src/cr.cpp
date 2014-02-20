@@ -7,7 +7,7 @@
 int Clmbr::cr( METHOD met, double incr, bool verbose, double * bounds)
 //
 //      Checks whether { (theta,alpha)  such that  sig. level  > 'SL' }  is contiguous.
-// Returns N = number of rows for the array 'bounds[N][3]' = (th, min_alpha, max_alpha) values.
+// Returns N = number of rows for the array 'bounds[N][3]' of (th, min_alpha, max_alpha) values.
 // If (met==GEO) using Knowles, Siegmund and Zhang's geometric formula to calculate  sig. levels;
 // if (met==AF) using Approximate-F method.
 //

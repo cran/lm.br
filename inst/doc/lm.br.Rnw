@@ -24,7 +24,7 @@ The \textsf{R} package \texttt{lm.br} delivers exact tests and
 exact confidence regions for a changepoint in linear or
 multivariate linear regression.  This package implements the
 likelihood theory of conditional inference.  Examples 
-demonstrate its use and note some properties 
+demonstrate its use and show some properties 
 of the broken line models.
 \end{abstract}
 
@@ -47,7 +47,7 @@ and $a_{+}=max(a,0)$.  Parameters $\theta$, $\alpha$, $\beta$,
 $\beta{}'$, $\sigma$ are unknown but $\Sigma$ is known.  
 Model (2) is a threshold model, while model (3) would apply for 
 a known threshold level.  The following presentation orders 
-$x_1 \le x_2 \le ... \le x_n$, without loss of generality.\\
+$x_1 \le x_2 \le ... \le x_n$ without loss of generality.\\
 
 The likelihood-ratio is a test statistic.  A test statistic $D$
 assigns a numeric value to a postulate parameter value, $p_{0}$,
@@ -80,14 +80,15 @@ a formula for rapid evaluation, which \texttt{lm.br} implements.\\
 exact significance test for $(\theta, \alpha)$ in model (1).  The
 theory adapts to the case  $\sigma$  known.  And these exact
 significance tests simplify for a postulate changepoint value
-outside of  $[ x_{1}, x_{n} ]$  \citep{knowles+siegmund:1989}.\\
+outside the range of  $x$  \citep{knowles+siegmund:1989}.\\
 
 Approximate-F (AF) is another inference method that is common in
 nonlinear regression, but it is not exact.  The AF method
 estimates the distribution of a likelihood-ratio statistic by its
 asymptotic $\chi^{2}$ distribution, with partial conditioning on a
-sufficient statistic for the variance.  See 
-\citet[sec. 24.6]{draper+smith:1998}.
+sufficient statistic for the variance.  (The \textsf{R} function 'confint' 
+uses this method to estimate parameter confidence intervals for 'nls' and
+'glm' objects.)  See \citet[sec. 24.6]{draper+smith:1998}.
 
 \section{Examples}
 \subsection{Simulation Tests}
@@ -193,7 +194,7 @@ region for the changepoint $(\theta,\alpha)$.}
 
 In \textsf{R} the commands are
 <<>>=
-library( lm.br )
+library(lm.br)
 log_odds <-  c( -1.194, -2.023, -2.285, -1.815, -1.673, 
   -1.444, -1.237, -1.228 )
 year <-  c( 1998.92, 2001.25, 2002.29, 2003.37, 2004.37, 
@@ -216,9 +217,10 @@ The wide difference between the CLR and AF confidence intervals
 here is due to plateaus in the significance levels on end-intervals.  Both 
 the CLR and AF methods give a constant significance level for all
 postulate values $\theta_{0}$ on $[ x_{1}, x_{2} ]$, on $[ x_{n-1}, x_{n} ]$, 
-and outside $[ x_{1}, x_{n} ]$, in model (1).  The
-inference assumes that any line slope is possible, extending to an
-instantaneous drop near Dec. 1998 in this example.
+or outside $[ x_{1}, x_{n} ]$, in model (1).  (Coverage probability
+is still exactly 95% by CLR if the true changepoint is in one of these 
+intervals.)  The inference assumes that any line slope is possible, extending 
+to an instantaneous drop near Dec. 1998 in this example. 
 
 \subsection{Multivariate Regression}
 \texttt{lm.br} can test for a changepoint in multivariate
@@ -229,7 +231,7 @@ multiple parameters or discontinuity.\\
 
 \citet{liu+wu+zidek:1997} suggested a changepoint for the 
 coefficient of car weight in a linear fit of miles-per-gallon 
-against weight and horsepower for 38 cars, 1978-79 models.  One 
+against weight and horsepower, for 38 cars of 1978-79 models.  One 
 of \textsf{R}'s included datasets is the ratings for 32 cars, 
 1973-74 models.  Analysis of this 1973-74 dataset by conditional 
 likelihood-ratio inference also shows some evidence for a changepoint:
@@ -238,11 +240,11 @@ lm.br( mpg ~ wt + hp, data = mtcars )
 @
 
 \texttt{lm.br} applies a canonical transform for multivariate regression 
-\citep{siegmund+zhang:1994}.  One way to see how this method works is formulaic.  The composite likelihood-ratio statistic uses optimal values for unknown parameters.  A canonical model lets these optimal coefficients for other terms reduce their correspondent errors to zero always.  Thus they have no effect on inference, so the algebra can omit them.  This elimination reduces the multivariate model to a univariate model.  See
+\citep{siegmund+zhang:1994}.  One way to see how this method works is formulaic.  The composite likelihood-ratio statistic uses optimal values for unknown parameters.  A canonical model lets these optimal coefficients reduce their correspondent errors to zero always.  Thus they have no effect on inference, so the algebra can omit them.  This elimination reduces the multivariate model to a univariate model.  See
 \citet[ch.6]{hoffman+kunze:1971}, \citet[sec. 7.1]{lehmann:2005}.
 
 \section{Remarks}
-If a broken line with Normal errors represents the relationship between a factor and responses, \texttt{lm.br} solves the inference step for the changepoint.  Fitting a broken line can reveal the plausible interval for a changepoint, although practical cause-effect relations usually have 
+If a broken line with Normal errors represents the relationship between a factor and responses, then \texttt{lm.br} solves the inference step for the changepoint.  Fitting a broken line can reveal the plausible interval for a changepoint, although practical cause-effect relations usually have 
 a smooth transition.  Any statistical analysis should examine the fit of the model and the error distribution with graphs and significance tests, 
 interpret results, and consider adjustments to the model or alternative models.
 

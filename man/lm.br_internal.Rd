@@ -1,8 +1,8 @@
 
-% File  man/lm.br-internal.Rd
+% File  man/lm.br_internal.Rd
 % Part of the lm.br package
 
-\name{lm.br-internal}
+\name{lm.br_internal}
 
 \alias{Cpp_Clmbr}
 \alias{Cpp_Clmbr-class}

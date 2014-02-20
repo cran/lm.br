@@ -150,14 +150,15 @@ public:
 
 
 // interface functions
-	void slR( int met, double acc, double theta0 );
-	void slR( int met, double acc, double theta0, double alpha0 );
-	double slR( int met, int verboseR, int valueR, double acc, double theta0 );
-	double slR( int met, int verboseR, int valueR, double acc, 
+	void sl3R( int met, double acc, double theta0 );
+	void sl4R( int met, double acc, double theta0, double alpha0 );
+	double sl5R( int met, int verboseR, int valueR, double acc, 
+				double theta0 );
+	double sl6R( int met, int verboseR, int valueR, double acc, 
 				double theta0, double alpha0 ); 
 	void ciR( double CL, int met );
-	void crR( double CL, int met, double incr );
-	NumericMatrix crR( double CL, int met, double incr, int verboseR );
+	void cr3R( double CL, int met, double incr );
+	NumericMatrix cr4R( double CL, int met, double incr, int verboseR );
 	void MLE(void) const;
 	NumericVector PARAM(void) const;	// internal
 	void SET_rWy( NumericVector rWy );

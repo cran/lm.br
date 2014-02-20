@@ -10,8 +10,6 @@
 #
 
 
-library( lm.br )
-
 
 testrun  <-  function( )  {
 # loop to generate random models of different types
@@ -22,8 +20,7 @@ testrun  <-  function( )  {
   cat("For each random model, it checks coverage frequencies and tests\n")
   cat("functions 'sl', 'ci', 'cr'.  A complete run takes 10-20 hours.\n\n\n")
 
-# if 'track' = TRUE then keep an ongoing log of input values
-# in local disk files
+# 'track' = TRUE  keeps an ongoing log of input in local disk files
   track <- FALSE
 
   if( track )  {
@@ -41,8 +38,8 @@ testrun  <-  function( )  {
   ntests <- 0
 
   for(nmodel in c(-3,-2,1,2,3) )  { for(vk in 0:1)
-      { for(wtype in 1:3)  { for(mvx in 0:1)  
-        { for(ntest in 1:testspertype) {
+    { for(wtype in 1:3)  { for(mvx in 0:1)  
+      { for(ntest in 1:testspertype) {
 
     ntests <- ntests + 1
     tcurrent <- Sys.time()
@@ -239,6 +236,7 @@ testrun  <-  function( )  {
 
   } } } } }
 
+
   if( track )  {
     unlink( scname )
     unlink( rWyname )
@@ -304,6 +302,7 @@ simtest <- function( x, W, model, xint, x2coef, x3coef, vk,
   cat("   iterations                CLR                    AF",
     "\n" )
   flush.console()
+  rWy <- vector( "numeric", n )
   cicov <- 0.95
   passed <- FALSE
   ntrials <- 0
@@ -319,9 +318,9 @@ simtest <- function( x, W, model, xint, x2coef, x3coef, vk,
         close(yset)
       }
       mod$sety(rWy)
-      stest <- mod$sl(theta,"clr",.0001,FALSE)
+      stest <- mod$sl(theta,"clr",.0001,"V")
       if(stest>0.05) countCLR <- countCLR + 1
-      stest <- mod$sl(theta,"af",.0001,FALSE)
+      stest <- mod$sl(theta,"af",.0001,"V")
       if(stest>0.05) countAF <- countAF + 1
 
       if(i/1000 - floor(i/1000) == 0) {
@@ -371,9 +370,9 @@ simtest <- function( x, W, model, xint, x2coef, x3coef, vk,
         close(yset2)
       }
       mod$sety(rWy)
-      stest <- mod$sl(theta,alpha,"clr",.001,FALSE)
+      stest <- mod$sl(theta,alpha,"clr",.001,"V")
       if(stest>0.05) countCLR <- countCLR + 1
-      stest <- mod$sl(theta,alpha,"af",.001,FALSE)
+      stest <- mod$sl(theta,alpha,"af",.001,"V")
       if(stest>0.05) countAF <- countAF + 1
 
       if(i/1000 - floor(i/1000) == 0) {
@@ -404,17 +403,18 @@ simtest <- function( x, W, model, xint, x2coef, x3coef, vk,
   cat("\ntesting 'sl', 'ci' and 'cr' with  'rWy' = \n")
   cat( "  ", rWy )
   cat("\n\n")
+  mod$sety( rWy )
 
   cat("\ncompare 'sl' by methods CLR-MC and CLR:\n\n")
   cat("for sl(theta):\n")
-  slmc <- mod$sl(theta,'mc',.001,TRUE)
+  slmc <- mod$sl(theta,'mc',.001,"B")
   cat("\n\n")
-  slclr <- mod$sl(theta,'clr',.001,TRUE)
+  slclr <- mod$sl(theta,'clr',.001,"B")
   dif <- slclr - slmc
   if( dif/slmc < -0.1  ||  ( slmc < .1  &&  dif > 0.01) )
   {
     cat(" re-check CLR-MC:\n")
-    slmc <- mod$sl(theta,'mc',.0001,TRUE)
+    slmc <- mod$sl(theta,'mc',.0001,"B")
     dif <- slclr - slmc
     if( dif/slmc < -0.1  ||  ( slmc < .1  &&  dif > 0.01) )
       warning(
@@ -426,14 +426,14 @@ simtest <- function( x, W, model, xint, x2coef, x3coef, vk,
 
   if( xint )  {
     cat("\n\nfor sl(theta,alpha):\n")
-    slmc <- mod$sl(theta,alpha,'mc',.001,TRUE)
+    slmc <- mod$sl(theta,alpha,'mc',.001,"B")
     cat("\n\n")
-    slclr <- mod$sl(theta,alpha,'clr',.001,TRUE)
+    slclr <- mod$sl(theta,alpha,'clr',.001,"B")
     dif <- slclr - slmc
     if( dif/slmc < -0.1  ||  ( slmc < .1  &&  dif > 0.01) )
     {
       cat(" re-check CLR-MC:\n")
-      slmc <- mod$sl(theta,alpha,'mc',.0001,TRUE)
+      slmc <- mod$sl(theta,alpha,'mc',.0001,"B")
       dif <- slclr - slmc
       if( dif/slmc < -0.1  || ( slmc < .1  &&  dif > 0.01) )
         warning(
