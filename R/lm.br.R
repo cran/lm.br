@@ -1,23 +1,11 @@
 
 
 
-.onAttach <- function(...)  {
-  library(help=lm.br)$info[[1]] -> version
-  version <- version[pmatch("Version",version)]
-  um <- strsplit(version," ")[[1]]
-  version <- um[nchar(um)>0][2]
-  hello <- paste( " lm.br  version ", version, 
-    ",  '?lm.br' starts help", sep="" )
-  packageStartupMessage( hello )
-}
+lm.br  <- function( formula, type ="LL", data, subset,
+  weights, inverse =FALSE, var.known =FALSE, na.action,
+  contrasts =NULL, offset, ... )  {
 
-
-
-
-
-lm.br  <- function( formula, type ="LL", data, subset, na.action,
-  weights, inverse =FALSE, var.known =FALSE, offset,
-  contrasts =NULL, ... )  {
+## pre-process the input
 
   call <- match.call()
   mf <- match.call(expand.dots = FALSE)
@@ -85,8 +73,8 @@ lm.br  <- function( formula, type ="LL", data, subset, na.action,
 
 
 # 'xb' is the 'x' input matrix, but with two vectors for 'x1'
-#  before and after changepoint,  and zeroes for columns
-#  that were linearly dependent
+#  before and after changepoint,  and with zeroes for columns
+#  that were found to be linearly dependent
     nx <- ncol(x)
     nxb <- ncol(x)+1
     xb <- matrix( 0, nrow(x), nxb )
@@ -111,9 +99,8 @@ lm.br  <- function( formula, type ="LL", data, subset, na.action,
       }
 
 
-#  construct C++ object
 #  re-order for 'x1' non-decreasing,  drop rows with  w = 0,  
-#  drop columns that are not independent
+#  drop columns that are linearly dependent
     x_ <- x[ order(x1), , drop = FALSE]
     y_ <- y
     if(!is.null(offset)) y_ <- y_ - as.vector(model.offset(mf))
@@ -149,13 +136,15 @@ lm.br  <- function( formula, type ="LL", data, subset, na.action,
     }
 
 
-#  loop to drop columns that are dependent at some changepoint value
-#  if x-matrix is dependent at  changepoint = 'th'  then  
-#  Q*f(th)=0  on lower rows,  where  f(th) = max( x1-th, 0 )
+#  Drop columns that are dependent at some changepoint value, via 'while' loop.
+#  If the x-matrix is dependent at  changepoint = 'th'  then  
+#  Q*f(th)=0  on lower rows,  where  f(th) = max( x1-th, 0 ) and QR = x-matrix.
+#  The C++ object includes a subroutine that returns 'th' for minimum Q*f(th).
     x_dep <- TRUE
 
     while( x_dep )  {
 
+#  construct the C++ object
       obj <- new( Cpp_Clmbr, y_, x_, w_, model_num, 
             as.integer(inverse), as.integer(var.known) )
 
@@ -235,140 +224,15 @@ lm.br  <- function( formula, type ="LL", data, subset, na.action,
 #  accessor functions
     z$CppObj  <-  obj
 
+    z$ci <- function(...)  .ci( z, ... )
 
-    z$ci <- function( CL =0.95, method ="clr" )  {
-      method <- toupper(method)
-      met <- integer(1)
-      if( method=="CLR" )  met <- 1  else  {
-        if( method=="AF" )  met <- 2  else
-          stop( "'method' must be \"CLR\" or \"AF\"" )
-      }
-      (z$CppObj)$ci( CL, met )
-    }
+    z$cr <- function(...)  .cr( z, ... )
 
-
-    z$cr <- function( CL =0.95, method ="clr", incr =NULL, output ="G" )  {
-      if( is.null(incr) )  incr<- -1  else 
-        if( incr <= 0 )  stop("'incr' must be positive")
-      method <- toupper(method)
-      met <- integer(1)
-      if( method=="CLR" )  met <- 1  else  {
-        if( method=="AF" )  met <- 2  else
-          stop( "'method' must be \"CLR\" or \"AF\"" )
-      }
-      if(missing(output) && .Device=="null device")  output <- "T"
-      output <- toupper(output)
-      if( output=="T" )
-        (z$CppObj)$cr3( CL, met, incr )
-      else  {
-        bounds <- (z$CppObj)$cr4( CL, met, incr, as.integer(FALSE) )
-        if( output=="V" )
-          return( bounds )
-        else  {
-          if( output=="G" )  {
-            nbd <- nrow(bounds)
-            cl <- as( round(100*CL,0), "character" )
-            title <- paste( cl, 
-              "% conf. region for changepoint by ", method, sep="")
-            if( (z$xint && length(z$coef)==4) ||
-                  (!z$xint && length(z$coef)==3) )  {
-#  univariate model
-              n <- length(z$x1)
-              x <- y <- matrix( NA, max(n,nbd), 3 )
-              x[1:n,1] <- z$x1
-              y[1:n,1] <- z$y
-              x[1:nbd,2:3] <- bounds[,1]
-              y[1:nbd,2:3] <- bounds[,2:3]
-              matplot( x, y,
-                type=c('p','l','l'), pch=4, lty='solid', col='black',
-                main=title, xlab=z$x1nm, ylab=z$ynm )
-            } else {
-#  multivariate
-              x <- y <- matrix( NA, nbd, 2 )
-              x[,1:2] <- bounds[,1]
-              y[,1:2] <- bounds[,2:3]
-              xnm <- paste( "theta (", z$x1nm, ")", sep="")
-              matplot( x, y,
-                type=c('l','l'), lty='solid', col='black',
-                main=title, xlab=xnm, ylab="alpha" )
-            }
-          } else
-            stop("'output' must be \"G\", \"T\" or \"V\"")
-        }
-      }
-    }
-
-
-    z$sl <- function( theta0, alpha0 =NULL,  method ="clr",
-              accuracy =0.001, output ="T" )  {
-# overload by if-else statements
-      if( !is.null(alpha0) && !is.numeric(alpha0) )  {
-        if( is.numeric(method) ) {
-          if( !missing(accuracy) )  {
-            if( is.character(accuracy) )  output <- accuracy
-              else  stop( "'output' must be \"T\", \"V\" or \"B\"" )
-          }
-          accuracy <- method
-        }
-        method <- alpha0
-        alpha0 <- NULL
-      }
-      method <- toupper(method)
-      output <- toupper(output)
-      met <- integer(1)
-      if( method=="CLR" )  met <- 1  else  {
-        if( method=="AF" )  met <- 2  else  {
-          if( method=="MC" )  met <- 3  else
-            stop( "'method' must be \"CLR\", \"AF\" or \"MC\"" )
-        }
-      }
-      value <- verbose <- logical(1)
-      if( output=="T" )  {
-        value <- FALSE
-        verbose <- TRUE  
-      } else {
-        if( output=="V" )  {
-          value <- TRUE
-          verbose <- FALSE
-        } else {
-          if( output=="B" )
-            value <- verbose <- TRUE
-          else  stop( "'output' must be \"T\", \"V\" or \"B\"" )
-        }
-      }
-      if(value) {
-        result <- double(1)
-        result <- if( is.null(alpha0) )
-            (z$CppObj)$sl5( met, as.integer(verbose),
-              as.integer(value), accuracy, theta0 )
-          else
-            (z$CppObj)$sl6( met, as.integer(verbose),
-              as.integer(value), accuracy, theta0, alpha0 )
-        return( result )
-      }  else  {
-        if( is.null(alpha0) | !is.numeric(alpha0) )
-          (z$CppObj)$sl3( met, accuracy, theta0 )
-        else
-          (z$CppObj)$sl4( met, accuracy, theta0, alpha0 )
-      }
-    }
-
+    z$sl <- function(...)  .sl( z, ... ) 
 
     z$mle <- function( )  (z$CppObj)$mle( )
 
-
-    z$sety <- function( rWy )  {
-      if( NCOL(rWy) > 1 | !is.numeric(rWy) )  
-        stop( "'rWy' must be a numeric vector" )
-      rWy <- drop(rWy)
-      if( !is.null(z$offset) )  rWy <- rWy - z$rWoffset
-      rWysorted <- rWy[ order(z$x1) ]
-      if( is.vector(z$weights) )  if( any(z$weights==0) )  {
-        wsorted <- z$weights[ order(z$x1) ]
-        rWysorted <- rWysorted[ wsorted!=0 ]
-      }
-      (z$CppObj)$sety( rWysorted )
-    }
+    z$sety <- function( rWy )  .sety( z, rWy )
 
 
 #  output list
@@ -384,8 +248,8 @@ lm.br  <- function( formula, type ="LL", data, subset, na.action,
     if(!is.null(offset)) z$rWoffset <- sqrt(w) * offset
   }  else
   if( is.matrix(w) )  {
-     z$fitted.values <- drop(Ainv %*% z$fitted.values)
-     z$residuals <- drop(Ainv %*% z$residuals)
+    z$fitted.values <- drop(Ainv %*% z$fitted.values)
+    z$residuals <- drop(Ainv %*% z$residuals)
     if(!is.null(offset)) z$rWoffset <- offset
   }
 
@@ -404,44 +268,5 @@ lm.br  <- function( formula, type ="LL", data, subset, na.action,
 }
 
 
-
-
-print.lm.br  <-  function ( x, digits = max(3L, getOption("digits") - 3L), ... )  {
-  cat("\nCall:\n", paste(deparse(x$call), sep = "\n", collapse ="\n"),
-    "\n\n", sep = "")
-  type <- x$type
-  cat( "Broken-line type:  ", type, "\n\n" )
-  if (length(coef(x))>1  && !is.na(x$coef[2]))  {
-    cat( "Significance Level of H0:\"no changepoint\" vs",
-      "H1:\"one changepoint\"\n" )
-    cat("  ")
-    mx1 <- max( x$x1 )
-    mn1 <- min( x$x1 )
-    ai <- (mx1-mn1)/( length( x$x1 ) - 1 )
-    if( type=='LT' && x$xint )
-      x$sl( round( min( mx1 + ai*1.5 ), 2) )
-    else
-      if( type=='TL' && !x$xint )
-        x$sl( -Inf )
-      else
-        if( type=='LT' && !x$xint )
-          x$sl( Inf )
-        else
-          x$sl( round( max( mn1 - ai*1.5 ), 2) )
-    cat("\n")
-    x$ci()
-
-# print coefficients unless 'sety' has been called
-    par <- x$CppObj$param()
-    if( !par[6] )  {
-      cat( "Changepoint and coefficients:\n" )
-      print.default( round(x$coef, 5) )
-    }
-    else  cat( "Use 'mle()' for parameter estimates after a call to 'sety'.\n" )
-  }
-  else  cat( "No coefficients\n" )
-  cat("\n")
-  invisible(x)
-}
 
 

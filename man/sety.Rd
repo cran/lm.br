@@ -13,63 +13,33 @@
 }
 
 \arguments{
-\item{rWy}{vector of 'y' values, pre-multiplied by the square-root of 'weights'}
+\item{rWy}{vector of 'y' values, pre-multiplied by the square-root of 'weights'.}
 }
 
 \details{
-The pre-multiplied vector as input is more convenient during simulation tests.  The 'rWy' vector is simply the y-vector if the model is without 'weights'.  'rWy' is the inverse square-root if 'inverse' was TRUE in the 'lm.br' call. 
-
-The square-root of a vector 'W' is the vector 'rW' of the square-roots of the elements of 'W'.  The square-root of a matrix 'W' is the matrix 'rW' such that rW*rW = W (a stricter definition than  rW*transpose(rW) = W).
+The 'rWy' vector is simply the y-vector if the model does not specify weights.  The square-root of a vector 'W' is the vector 'rW' of the square-roots of the elements of 'W'.  The square-root of a matrix 'W' here is the matrix 'rW' such that rW*rW = W (a stricter definition than  rW*transpose(rW) = W).  'rW' is the inverse square-root if 'inverse' was TRUE in the 'lm.br' call.  
 }
 
 \note{
-This method changes the y-values for the accessor functions 'sl', 'ci', 'cr' and 'mle'.  But the output list of 'coefficients', 'fitted.values' and so on retains its values from the original call.
+The pre-multiplied vector is more convenient as input during simulation tests.  'sety' changes the y-values for the accessor functions 'sl', 'ci', 'cr' and 'mle'.  But the output list of 'coefficients', 'fitted.values' and so on, retains its values from the original call.
 }
 
 
 \examples{
-#  Data for Patient B from Smith and Cook (1980)
-y <- c( 36.0, 45.5, 50.0, 60.0, 73.3, 71.0, 66.7, 60.0, 30.5, 18.3 )
-x <- 1:10
-sc <- lm.br( y ~ x )
-sc$ci()
-newy <- c( 37.3, 47.1, 51.5, 67.6, 75.9, 73.3, 69.4, 61.5, 31.8, 19.4 )
-sc$sety( newy )
-sc$ci()
-
-
 #  A simulation test
-simtest  <-  function( x, theta, alpha, B, Bp, var, N =10000 )  {
-  cat("\n\n   Monte Carlo simulation test:\n")
-  cat("for model   theta=",theta," alpha=",alpha," B=",B," B'=",Bp," var=",var,"\n")
-  cat("with observations at  x=",x,"\n\n")
-  cat("     no. of     coverage frequency of the 0.95-confidence interval by\n")
-  cat("   iterations                CLR                    AF\n")
-  flush.console()
-
-  y <- x
-  LLmodel <- lm.br( y ~ x )    # construct an object with arbitrary 'y'
-  n <- length(x)
-  countCLR <- countAF <- 0
-  for( i in 1:N )  {
-    err <- rnorm( n, 0, sqrt(var) )
-    y <- alpha + B*pmin(x-theta,0) + Bp*pmax(x-theta,0) + err
-    LLmodel$sety( y )
-    stest <- LLmodel$sl( theta, 'clr', .0001, "V" )
-    if( stest > 0.05 )  countCLR <- countCLR + 1
-    stest <- LLmodel$sl( theta, 'af', .0001, "V" )
-    if( stest > 0.05 )  countAF <- countAF + 1
-
-    if( floor(i/1000) - i/1000 == 0) {
-      cat( format( i, width=10 ),
-        format( countCLR/i, digits=4, nsmall=4, width=22 ),
-        format(  countAF/i, digits=4, nsmall=4, width=22 ), "\n" )
-      flush.console()
-    }
-  }
-}
-
 x <- c( 1.0, 1.1, 1.3, 1.7, 2.4, 3.9, 5.7, 7.6, 8.4, 8.6 )
-\donttest{simtest( x, 3, 0, -1, 0.5, 1 )}
+y <- x
+LLmodel <- lm.br( y ~ x )    
+countCLR <- countAF <- 0
+theta <- 3
+\donttest{for( i in 1:10000 )  {
+  y <- 0 + (-1.)*pmin(x-theta,0) + (0.5)*pmax(x-theta,0) + rnorm(10)
+  LLmodel$sety( y )
+  stest <- LLmodel$sl( theta, 'clr', .0001, "V" )
+  if( stest > 0.05 )  countCLR <- countCLR + 1
+  stest <- LLmodel$sl( theta, 'af', .0001, "V" )
+  if( stest > 0.05 )  countAF <- countAF + 1
+  if( floor(i/1000) - i/1000 == 0 ) cat(i, countCLR/i, countAF/i, "\n")
+}}
 }
 

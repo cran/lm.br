@@ -13,8 +13,8 @@
 }
 
 \arguments{
-  \item{CL}{confidence level, between 0 and 1}
-  \item{method}{"CLR" or "AF" which stand for conditional likelihood-ratio or approximate-F, see \code{\link{sl}} for details}
+  \item{CL}{confidence level, between 0 and 1.}
+  \item{method}{"CLR" or "AF" which stand for conditional likelihood-ratio or approximate-F, see \code{\link{sl}} for details.}
 }
 
 \details{

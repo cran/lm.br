@@ -62,7 +62,7 @@ int Clmbr::ci( METHOD met, double incr, bool verbose, double * bounds)
 			}
 
 		}
-		Rcout << endl << endl;
+		Rcout << endl;
 	}
 
 

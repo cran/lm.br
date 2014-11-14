@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lm.br 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-25 20:08-0400\n"
+"POT-Creation-Date: 2014-02-27 08:40-0500\n"
 "PO-Revision-Date: 2013-09-20 20:09-0500\n"
 "Last-Translator: \n"
 "Language-Team: Marc Adams <lm.br.pkg@gmail.com>\n"
@@ -36,7 +36,7 @@ msgstr "'method' doit être 1, 2 ou 3"
 msgid "not applicable for this model"
 msgstr "pas applicable pour ce modèle"
 
-#: R_interface.cpp:280
+#: R_interface.cpp:281
 msgid "'rWy' vector has wrong dimension"
 msgstr "longueur du vecteur 'rWy' est incorrect"
 
@@ -125,8 +125,8 @@ msgstr "gradient de la première ligne"
 msgid "slope of second line"
 msgstr "gradient de la deuxième ligne"
 
-#: pre_calc.cpp:60 pre_calc.cpp:65 pre_calc.cpp:159 pre_calc.cpp:164
-#: pre_calc.cpp:185 pre_calc.cpp:190 set_sy.cpp:36 set_sy.cpp:41
+#: pre_calc.cpp:62 pre_calc.cpp:67 pre_calc.cpp:161 pre_calc.cpp:166
+#: pre_calc.cpp:187 pre_calc.cpp:192 set_sy.cpp:36 set_sy.cpp:41
 #: set_theta0.cpp:117 set_theta0.cpp:120
 msgid "LAPACK routine 'dormqr' failed"
 msgstr "routine 'dormqr' de LAPACK a échoué"

@@ -14,17 +14,17 @@ sl( theta0, alpha0,  method ="CLR", accuracy =0.001, output ="T" )
 }
 
 \arguments{
-  \item{theta0}{postulate value for 'theta', the changepoint's x-coordinate }
-  \item{alpha0}{postulate value for 'alpha', the changepoint's y-coordinate }
-  \item{method}{"CLR", "MC" or "AF" which stand for conditional likelihood-ratio, conditional likelihood-ratio by Monte Carlo or approximate-F, details below}
-  \item{accuracy}{maximum absolute error in numerical integration for the "CLR" method, or in Monte Carlo evaluation for the "MC" method, not referenced for the "AF" method}
-  \item{output}{"T", "V" or "B" which stand for text print-out, value or both}
+  \item{theta0}{postulate value for 'theta', the changepoint's x-coordinate.}
+  \item{alpha0}{postulate value for 'alpha', the changepoint's y-coordinate.}
+  \item{method}{"CLR", "MC" or "AF" which stand for conditional likelihood-ratio, conditional likelihood-ratio by Monte Carlo or approximate-F, details below.}
+  \item{accuracy}{maximum absolute error in numerical integration for the "CLR" method, or in Monte Carlo evaluation for the "MC" method, not referenced for the "AF" method.}
+  \item{output}{"T", "V" or "B" which stand for text, value or both.}
 }
 
 \details{
-Knowles, Siegmund and Zhang reduced the conditional likelihood-ratio significance test to a probability expression based on a generic random variable.
+Knowles, Siegmund and Zhang (1991) reduced the conditional likelihood-ratio significance test to a probability expression based on a generic random variable.
 
-The default method "CLR" evaluates this probability using a geometric-expectation formula developed by Knowles et al. that slightly over-estimates.  The overestimate is negligible for significance levels below 0.20.
+The default method "CLR" evaluates this probability using a geometric-expectation formula that Knowles et al. also derived. This formula slightly over-estimates, but the error is negligible for significance levels below 0.20.
 
 Method "MC" evaluates the probability expression directly by Monte Carlo simulation, which avoids the over-estimate of the "CLR" method.
 
@@ -32,11 +32,11 @@ Method "AF" estimates the distribution of the likelihood-ratio statistic by the 
 }
 
 \note{
-The 'accuracy' error limit does not include the slight over-estimate that is inherent in the "CLR" method, nor the approximation inherent in the "AF" method.
+The 'accuracy' error-limit does not include the slight over-estimate that is inherent in the "CLR" method, nor the approximation inherent in the "AF" method.
 }
 
 \value{
-'sl' returns a numeric value if 'output' is "V" or "B".  'sl' prints-out the result but does not return a value if 'output' is "T".
+'sl' prints-out the result but does not return a value if 'output' is "T".  'sl' returns a numeric value if 'output' is "V" or "B".
 }
 
 \examples{

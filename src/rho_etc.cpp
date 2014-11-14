@@ -7,7 +7,7 @@
 double Clmbr::rho( double th)  const
 {
 	int k=0;
-	while (xs[k]<th && k<ns) k++;
+	while (k<ns && xs[k]<th) k++;
 	return rho(th,k);
 }
 
@@ -16,7 +16,7 @@ double Clmbr::rho( double th)  const
 double Clmbr::rho( double th,  int k )  const
 // compute the rho function,  accurately 
 {
-	if( th>=xs[ns-1] || (Model==M1  &&  th<xs[0])  )  return NaN;  else  {	//1
+	if( th>=xs[ns-1] || (Model==M1  &&  th<=xs[0])  )  return NaN;  else  {	//1
 
 // check if th0 or th is on an end-interval
 		bool  th1= false, th2= false, th01= false, th02= false;
@@ -58,7 +58,7 @@ double Clmbr::rho( double th,  int k )  const
 double Clmbr::rhosq( double th,  int k )  const
 // compute  rho squared,  accurately 
 {
-	if( th>=xs[ns-1] || (Model==M1  &&  th<xs[0])  )  return NaN;  else  {	//1
+	if( th>=xs[ns-1] || (Model==M1  &&  th<=xs[0])  )  return NaN;  else  {	//1
 
 // check if th0 or th is on an end-interval
 		bool  th1= false, th2= false, th01= false, th02= false;
@@ -99,7 +99,7 @@ double Clmbr::rhosq( double th,  int k )  const
 double Clmbr::drho( double th,  int k )  const
 {
 	if(th>=xs[ns-1])  return NaN;  else
-		if(Model==M1  &&  th<xs[0])  return NaN;  else  
+		if(Model==M1  &&  th<=xs[0])  return NaN;  else  
 			if( !R_FINITE(th) && !ISNAN(th) )  return 0.;  else  {
 				const double fsq= ff(th,k);
 				double dro = (a0[k] - b0[k]*th)/sqrt(fsq)/fsq; 
@@ -113,7 +113,7 @@ double Clmbr::drho( double th,  int k )  const
 double Clmbr::drhosq( double th,  int k )  const
 {
 	if(th>=xs[ns-1])  return NaN;  else
-		if(Model==M1  &&  th<xs[0])  return NaN;  else  
+		if(Model==M1  &&  th<=xs[0])  return NaN;  else  
 			if( !R_FINITE(th) && !ISNAN(th) )  return 0.;  else  {
 				const double  fsq = ff(th,k);
 				const double ab= a0[k] - b0[k]*th; 
@@ -127,7 +127,7 @@ double Clmbr::dgsq( double th,  int k )  const
 // norm of derivative of gamma, squared
 {
 	if(th>=xs[ns-1])  return NaN;  else
-		if(Model==M1  &&  th<xs[0])  return NaN;  else  
+		if(Model==M1  &&  th<=xs[0])  return NaN;  else  
 			if( ck[k]==0. )  return  0.;  else  {
 				const double  fsq = ff(th,k);
 				return ck[k]/fsq/fsq;

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: lm.br 2.3\n"
-"POT-Creation-Date: 2013-10-25 20:08\n"
+"Project-Id-Version: lm.br 2.6\n"
+"POT-Creation-Date: 2014-10-29 06:59\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -9,6 +9,15 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+
+msgid "'method' must be \"CLR\" or \"AF\""
+msgstr ""
+
+msgid "'incr' must be positive"
+msgstr ""
+
+msgid "'output' must be \"G\", \"T\" or \"V\""
+msgstr ""
 
 msgid "mutiple response vectors not supported"
 msgstr ""
@@ -28,17 +37,11 @@ msgstr ""
 msgid "'type' must be \"LL\", \"LT\" or \"TL\""
 msgstr ""
 
-msgid "'method' must be \"CLR\" or \"AF\""
+msgid "'rWy' must be a numeric vector"
 msgstr ""
 
-msgid "'incr' must be positive"
-msgstr ""
-
-msgid "'output' must be \"G\", \"T\" or \"V\""
+msgid "'output' must be \"T\", \"V\" or \"B\""
 msgstr ""
 
 msgid "'method' must be \"CLR\", \"AF\" or \"MC\""
-msgstr ""
-
-msgid "'rWy' must be a numeric vector"
 msgstr ""

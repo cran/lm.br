@@ -1,10 +1,10 @@
 #
 #  This R-script tests inferences by 'lm.br' to confirm its exact accuracy.  
 #
-#  'testrun' generates random models of all types covered by 'lm.br'.  Then
-#  'simtest' generates random observations according to each model.  The
-#  inferences that 'lm.br' makes from these observations are compared with 
-#  the "unknown", underlying, true model.  
+#  'testrun' generates arbitrary models of all types supported by 'lm.br'.
+#  Then 'simtest' generates random observations according to each model.
+#  The inferences that 'lm.br' makes from these observations are compared 
+#  with the underlying, "unknown," true model.  
 #
 #  A complete run takes 10-20 hours, depending on your computer system.
 #
@@ -12,15 +12,17 @@
 
 
 testrun  <-  function( )  {
-# loop to generate random models of different types
+# loop to generate arbitrary models of different types
 # and then call function 'simtest'
 
   cat("\n\nStarting tests of the R package 'lm.br':\n")
-  cat("This script generates random models of all supported types.\n")
-  cat("For each random model, it checks coverage frequencies and tests\n")
+  cat("This script generates arbitrary models of all supported types.\n")
+  cat("For each arbitrary model, it checks coverage frequencies and tests\n")
   cat("functions 'sl', 'ci', 'cr'.  A complete run takes 10-20 hours.\n\n\n")
 
-# 'track' = TRUE  keeps an ongoing log of input in local disk files
+# if  'track'=TRUE  this script keeps an ongoing log of input in local
+# disk files, which is useful for debugging if the program hangs
+
   track <- FALSE
 
   if( track )  {
@@ -29,13 +31,21 @@ testrun  <-  function( )  {
     rWy2name <- tempfile( pat="rWy2", fileext=".txt" )
   }
 
+# record coverage frequencies in a local disk file for summary
+  cfqName <- tempfile( pat="cfq", fileext=".txt" )
+  warning( "Coverage frequencies in tempfile  ", cfqName, "\n")
+  cfqs <- file( cfqName, "wt")
+  cat("Test no., sl(theta), sl(theta,'AF'),  sl(theta,alpha), sl(theta,alpha,'AF') \n\n" , file= cfqs)
+  close( cfqs )
+
   set.seed(1234)
 
-## test 2 random models for each type of model
+## how many arbitrary models for each type of model
   testspertype <- 2
   totaltests <- 5*2*3*2*testspertype
   tstart <- Sys.time()
   ntests <- 0
+
 
   for(nmodel in c(-3,-2,1,2,3) )  { for(vk in 0:1)
     { for(wtype in 1:3)  { for(mvx in 0:1)  
@@ -124,10 +134,10 @@ testrun  <-  function( )  {
       x3coef <- round( (runif(1)-0.5)*5, 4 )
     }
 
-    alpha <- 0.;
+    alpha <- 0.
 
     if (nmodel==1) { beta <- -1. }
-    if (nmodel==2 || nmodel==3) { beta<-0 }
+    if (nmodel==2 || nmodel==3) { beta <- 0 }
 
     betap <- 2. - runif(1)*2.5;
     betap <- round(betap,4)
@@ -174,12 +184,14 @@ testrun  <-  function( )  {
       }  
     }  
 
+#todo:    offst <- runif(n,-5,5) 
+
     if(nmodel==1)  model <- 'LL'
     if(nmodel==2 || nmodel==3)  model <- 'TL'
     if(nmodel==-2 || nmodel==-3)  model <- 'LT'
     if(abs(nmodel)==3)  xint <- FALSE  else  xint <- TRUE
 
-#  echo call to 'simtest'
+# echo call to 'simtest'
     cat("\n  model ", model, ",")
     if(!xint)  cat("  'alpha' known =0,")
     if(vk)  cat("  'var' known =1,")
@@ -189,7 +201,7 @@ testrun  <-  function( )  {
     if(wtype==2) cat("vector weights")
     if(wtype==3) cat("matrix weights")
     cat("\n  test", ntest, "of", testspertype, "\n\n")
-    cat("  random model:\n")
+    cat("  computer-generated model:\n")
     cat("  theta=", theta, " alpha=", alpha,
       " B=", beta, " Bp=", betap, " var=", var, "\n")
     if(mvx) {
@@ -212,7 +224,7 @@ testrun  <-  function( )  {
       if(!xint)  cat(",  'alpha' known =0", file= simcall)
       if(vk)  cat(",  'var' known =1", file= simcall)
       cat("\n\n", file= simcall)
-      cat("  random model:\n", file= simcall)
+      cat("  computer-generated model:\n", file= simcall)
       cat("  theta=", theta, " alpha=", alpha,
         " B=", beta, " Bp=", betap, " var=", var, "\n", file= simcall)
       if(mvx) {
@@ -229,9 +241,10 @@ testrun  <-  function( )  {
       close( simcall )
     }
 
-    simtest( as.matrix(x), wgts, model, xint, x2coef, x3coef,
+
+    simtest( ntests, as.matrix(x), wgts, model, xint, x2coef, x3coef,
              vk, theta, alpha, beta, betap, var, 10000,
-               track, rWyname, rWy2name  )
+               track, cfqName, rWyname, rWy2name  )
 
 
   } } } } }
@@ -247,6 +260,13 @@ testrun  <-  function( )  {
   dtime <- round( 
     as.numeric( difftime(tcurrent,tstart,units="mins")), 0)
   cat( "\nTests of 'lm.br' completed successfully.  Elapsed ",dtime,"min.\n\n" )
+
+  cat("Summary of coverage frequencies:\n")
+  cfqs <- file( cfqName, "r")
+  cfL <- readLines( cfqs )
+  close( cfqs )
+  for(i in 1:length(cfL)) cat( cfL[i], "\n")
+  cat("\n")
 }
 
 
@@ -254,13 +274,13 @@ testrun  <-  function( )  {
 
 
 
-simtest <- function( x, W, model, xint, x2coef, x3coef, vk, 
-  theta, alpha, B, Bp, var, N =10000, track, rWyname, rWy2name  )
+simtest <- function( ntests, x, W, model, xint, x2coef, x3coef, vk, theta,
+  alpha, B, Bp, var, N =10000, track, cfqName, rWyname, rWy2name )
 #
 #  This function generates sets of random observations according 
-#  to the input model.  The inferences that 'lm.br' makes from these 
-#  observations are compared with the true model. 
-#  Tests coverage frequency of 95% confidence intervals and regions. 
+#  to the input model.  Then it compares the inferences that 'lm.br' 
+#  makes from these observations with the true model. 
+#    It tests coverage frequency of 95% confidence intervals and regions. 
 #  Also, on one set of random data, compares 'sl' by CLR-MC and CLR 
 #  and tests 'ci' and 'cr'.
 #
@@ -289,13 +309,14 @@ simtest <- function( x, W, model, xint, x2coef, x3coef, vk,
 
 
 # construct an 'lm.br' object with arbitrary 'y' values
+# then loop with new sets of 'y' values each time
   y <- x1
   mod  <-  if( xint ) 
       lm.br( y ~ x, model, w = W, var.k = vk )
     else
       lm.br( y ~ x+0, model, w = W, var.k = vk )
 
-  cat("\n Monte Carlo simulation test of conf. interval",
+  cat("\n Monte Carlo simulation test of confidence interval",
        "for 'theta':\n" )
   cat("     no. of     coverage frequency of the", 
     "0.95-confidence interval by\n" )
@@ -303,7 +324,7 @@ simtest <- function( x, W, model, xint, x2coef, x3coef, vk,
     "\n" )
   flush.console()
   rWy <- vector( "numeric", n )
-  cicov <- 0.95
+  cicov <- cicovAF <- 0.95
   passed <- FALSE
   ntrials <- 0
   while( !passed && ntrials < 3 ) {
@@ -334,6 +355,7 @@ simtest <- function( x, W, model, xint, x2coef, x3coef, vk,
 
     cat("\n")
     cicov <- countCLR/N
+    cicovAF <- countAF/N
     passed <- if( cicov < .945 )  FALSE  else  TRUE
     ntrials <- ntrials + 1
   }
@@ -345,7 +367,7 @@ simtest <- function( x, W, model, xint, x2coef, x3coef, vk,
       as.integer(100*cicov)) 
     )
 
-  cat("\n Monte Carlo simulation test of conf. region",
+  cat("\n Monte Carlo simulation test of confidence region",
         "for '(theta,alpha)':\n")
   cat("     no. of     coverage frequency of the", 
     "0.95-confidence region by\n")
@@ -356,7 +378,7 @@ simtest <- function( x, W, model, xint, x2coef, x3coef, vk,
     passed <- TRUE
   }
   flush.console()
-  crcov <- .95
+  crcov <- crcovAF <- .95
   ntrials <- 0
   while( !passed && ntrials < 3 ) {
     countCLR <- countAF <- 0
@@ -386,6 +408,7 @@ simtest <- function( x, W, model, xint, x2coef, x3coef, vk,
 
     cat("\n")
     crcov <- countCLR/N
+    crcovAF <- countAF/N
     passed <- if( crcov < .945 )  FALSE  else  TRUE
     ntrials <- ntrials + 1
   }
@@ -397,9 +420,20 @@ simtest <- function( x, W, model, xint, x2coef, x3coef, vk,
       as.integer(100*crcov)) 
     )
 
+  cfqs <- file( cfqName, "at")
+#  cat( ntests, cicov, cicovAF, crcov, crcovAF, "\n", file= cfqs)
+  if(!xint) crcov <- crcovAF <- NA
+  cat( format(ntests,width=4),
+    format(cicov, digits=4, nsmall=4, width=10),
+    format( cicovAF, digits=4, nsmall=4, width=8),
+    format(crcov, digits=4, nsmall=4, width=10),
+    format( crcovAF, digits=4, nsmall=4, width=8),
+          "\n", file= cfqs )
+  close( cfqs )
 
+# use final set of random 'rWy' data to compare 'sl' by
+# CLR-MC and CLR, and test 'ci' and 'cr'
 
-# use final random 'rWy' data 
   cat("\ntesting 'sl', 'ci' and 'cr' with  'rWy' = \n")
   cat( "  ", rWy )
   cat("\n\n")
@@ -447,11 +481,13 @@ simtest <- function( x, W, model, xint, x2coef, x3coef, vk,
   cat("\n\ntest 'ci'\n")
   mod$ci()
 
-  cat("test 'cr'\n")
+  cat("\ntest 'cr'\n")
   mod$cr(output="T")
   cat("\n")
 }
 
+
+# this command initiates the whole testscript
 
 testrun()
 

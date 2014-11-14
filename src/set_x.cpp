@@ -5,7 +5,7 @@
 
 
 void Clmbr::set_x( void )
-// check the x input,  set 'ns' and 'px'
+// check the 'x' input,  set 'ns' and 'px'
 {
 	int i;
 
@@ -21,12 +21,17 @@ void Clmbr::set_x( void )
 		xi= x[i];
 		if ( !R_FINITE( xi ) )  stop( _("invalid 'x' value") );
 		if( xib > xi )  stop( _("'x' values must be non-decreasing") );
+
+// some test examples with near identical x values caused errors
+// but warning seems more trouble than it's worth, so below warning is off for now
+/*
 		const double xdiff= xi - xib;
 		if ( 0 < xdiff  &&  xdiff < min_xdiff  ) {
 			Rcout << _("consider a repeat predictor value instead of the values") << endl;
 			Rcout << xib << ",  " << xi << endl;
 			Rf_warning( _("predictor values might be too close for reliable computations") );
 		}
+*/
 	}
 
 

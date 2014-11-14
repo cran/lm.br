@@ -1,7 +1,7 @@
 ### R code from vignette source 'lm.br.Rnw'
 
 ###################################################
-### code chunk number 1: lm.br.Rnw:156-184
+### code chunk number 1: lm.br.Rnw:158-186
 ###################################################
 library(lm.br)
 log_odds <- c( -1.194, -2.023, -2.285, -1.815, -1.673, -1.444, -1.237, -1.228 )
@@ -19,7 +19,7 @@ dd <- lm.br( log_odds ~ year, w = VarCov, inv = TRUE, var.known = TRUE )
 bounds <- dd$cr( CL=0.90, out='v')
 n <- length(dd$x1)
 nbd <- nrow(bounds)
-title <- "90% conf. region for changepoint by CLR"
+title <- "Exact 90% confidence region for changepoint"
 x <- y <- matrix( NA, max(n,nbd), 4 )
 x[1:n,1] <- dd$x1
 y[1:n,1] <- dd$y
@@ -34,9 +34,8 @@ matplot( x, y,
 
 
 ###################################################
-### code chunk number 2: lm.br.Rnw:196-213
+### code chunk number 2: lm.br.Rnw:198-214
 ###################################################
-library(lm.br)
 log_odds <-  c( -1.194, -2.023, -2.285, -1.815, -1.673, 
   -1.444, -1.237, -1.228 )
 year <-  c( 1998.92, 2001.25, 2002.29, 2003.37, 2004.37, 
@@ -50,13 +49,13 @@ VarCov <-  matrix(  c( 0.0361,  0,  0,  0,  0,  0,  0,  0,
   0,  0,  0,  0,  0,  0.0607,  0.0664,  0.0607,
   0,  0,  0,  0,  0,  0.0607,  0.0607,  0.0662 ), 
   nrow = 8,  ncol = 8  )
-dd <- lm.br( log_odds ~ year, w= VarCov, inv= T, var.k= T )
+dd <- lm.br( log_odds ~ year, w= VarCov, inv= T, var.known= T )
 dd$ci( )
 dd$ci( method = "AF" )
 
 
 ###################################################
-### code chunk number 3: lm.br.Rnw:238-239
+### code chunk number 3: lm.br.Rnw:239-240
 ###################################################
 lm.br( mpg ~ wt + hp, data = mtcars )
 

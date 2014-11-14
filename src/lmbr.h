@@ -124,14 +124,6 @@ private:
 	double bisect(double x1, double x2, double (Clmbr::*fn)(double,int) const, int k, double value, double crit) const;
 	double bisect_sl(double x1, double x2, METHOD met, double crit);
 
-//private engines for interface functions
-	double sl(double theta0, METHOD met = GEO, bool verbose =true);
-	double sl(double theta0, double alpha0, METHOD met = GEO, bool verbose =true);
-	int ci(METHOD met =GEO, double increments = -1, bool verbose =true, double *bounds =0);
-	int cr(METHOD met =GEO, double increments = -1, bool verbose =true, double *bounds =0);
-	double mle( bool verbose =true, double *max_gamma_dot_Qy_sq =NULL, double *param = NULL ) const;
-	void set_sy(double *irsy, METHOD met =INIT);
-
 //'ci' and 'cr' sub-subroutines
 	int ci_geo( METHOD met, double increments, double *bounds =0);
 	int ci_af( METHOD met, double *bounds =0);
@@ -139,6 +131,14 @@ private:
 	double a_af(double th, int high_low);
 	double ahigh(METHOD met, double th);
 	double sl_a(double alpha, int k);
+
+//private engines for interface functions
+	double sl(double theta0, METHOD met = GEO, bool verbose =true);
+	double sl(double theta0, double alpha0, METHOD met = GEO, bool verbose =true);
+	int ci(METHOD met =GEO, double increments = -1, bool verbose =true, double *bounds =0);
+	int cr(METHOD met =GEO, double increments = -1, bool verbose =true, double *bounds =0);
+	double mle( bool verbose =true, double *max_gamma_dot_Qy_sq =NULL, double *param = NULL ) const;
+	void set_sy(double *irsy, METHOD met =INIT);
 
 
 public:
