@@ -41,9 +41,9 @@ void Clmbr::initialize( void )
 	}
 
 
-//  The computations for a multivariate model are the same as for a univariate, 
+//  The computations for a multiple-regression model are the same as for a simple, 
 //  except that the bottom 'm1' rows of Q*inv-root-Sigma replaces inv-root-Sigma.
-//  So, if multivariate set the 'cov_matrix' flag to non-diagonal to invoke 
+//  So, if multiple, set the 'cov_matrix' flag to non-diagonal to invoke 
 //  more general routines, even if 'weights' is the default identity matrix.
  
 	if( m1 < n )  cov_matrix_diagonal = false;
@@ -116,7 +116,7 @@ void Clmbr::initialize( void )
 	prev_SL= -1; 
 	set_SL();
 
-	set_acc();
+	set_tol();
 
 	C = Calloc( 3, double );
 	C[0]= get_C(m-2); C[1]= get_C(m-1); C[2]= get_C(m); 

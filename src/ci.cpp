@@ -93,7 +93,7 @@ int Clmbr::ci_geo( METHOD met,  double incr, double * bds )
 		const double  sl_inf= sl(-Inf,met,false);
 		th= min( -1., xs[0] );
 		int it=0;
-		while( fabs( sl_th - sl_inf ) > acc_sl_abs  &&  it < 18 )  
+		while( fabs( sl_th - sl_inf ) > tol_sl_abs  &&  it < 18 )  
 			th *= 2,  sl_th= sl(th,met,false),  it++;
 		if (sl_th > SL)  bds[numi++] = -Inf,  ind= 1;
 		thold= th;
@@ -103,11 +103,11 @@ int Clmbr::ci_geo( METHOD met,  double incr, double * bds )
 		for (th=thi;th<xs[0];th+=inc) {
 			sl_th = sl(th,met,false);
 			if (sl_th > SL && ind==0) {
-				bds[numi++] = bisect_sl(thold,th,met,-acc_xb);
+				bds[numi++] = bisect_sl(thold,th,met,-tol_xb);
 				ind=1;
 			}
 			if (sl_th < SL && ind==1) {
-				bds[numi++] = bisect_sl(thold,th,met,-acc_xb);
+				bds[numi++] = bisect_sl(thold,th,met,-tol_xb);
 				ind=0;
 			}
 			thold = th;
@@ -142,7 +142,7 @@ int Clmbr::ci_geo( METHOD met,  double incr, double * bds )
 			}
 
 			if(met==GEO2) {
-				th = xs[0] + acc_xb/2;
+				th = xs[0] + tol_xb/2;
 				sl_th = sl(th,met,false);
 				if (sl_th > SL && ind==0) {
 					bds[numi++] = xs[0];
@@ -170,13 +170,13 @@ int Clmbr::ci_geo( METHOD met,  double incr, double * bds )
 
 	int k= 0, ncp= 0;
 	if(Model==M1) k= 1;
-	if(met==GEO2 && Model==M1) cpts[ncp++]= xs[0]+acc_xb/2;
+	if(met==GEO2 && Model==M1) cpts[ncp++]= xs[0]+tol_xb/2;
 	if(met==GEO2 && Model==M2) cpts[ncp++]= xs[0]-1;
 	while(xs[k]<thm) cpts[ncp++]= xs[k++];
 	cpts[ncp++]= thm;
 	if(thmle==xs[k]) k++;
 	while( k < ns-1 ) cpts[ncp++]= xs[k++];
-	if(met==GEO2) cpts[ncp++]= xs[ns-1]-acc_xb/2;
+	if(met==GEO2) cpts[ncp++]= xs[ns-1]-tol_xb/2;
 
 	bool msg= false;
 	int  width =0,  col =33;
@@ -189,11 +189,11 @@ int Clmbr::ci_geo( METHOD met,  double incr, double * bds )
 		th= cpts[k];
 			sl_th = sl(th,met,false);
 			if (sl_th > SL && ind==0) {
-				bds[numi++] = bisect_sl( thold, th, met, -acc_xb );
+				bds[numi++] = bisect_sl( thold, th, met, -tol_xb );
 				ind= 1;
 			}
 			if (sl_th < SL && ind==1) {
-				bds[numi++] = bisect_sl( thold, th, met, -acc_xb );
+				bds[numi++] = bisect_sl( thold, th, met, -tol_xb );
 				ind= 0;
 			}
 			thold = th;
@@ -205,15 +205,15 @@ int Clmbr::ci_geo( METHOD met,  double incr, double * bds )
 		if(Model==M3 && k==0) inc= (cpts[k+1]-cpts[k])/(subints+0.5);
 		while( (cpts[k+1]-cpts[k])/inc < subints + 1 )  inc /= 2.;
 		double  fth= floor(th);
-		while( fth < cpts[k] + acc_xb )  fth += inc;
-		for ( th = fth; th < cpts[k+1] - acc_xb; th += inc )  { 
+		while( fth < cpts[k] + tol_xb )  fth += inc;
+		for ( th = fth; th < cpts[k+1] - tol_xb; th += inc )  { 
 			sl_th = sl(th,met,false);
 			if (sl_th > SL && ind==0) {
-				bds[numi++] = bisect_sl( thold, th, met, -acc_xb );
+				bds[numi++] = bisect_sl( thold, th, met, -tol_xb );
 				ind= 1;
 			}
 			if (sl_th < SL && ind==1) {
-				bds[numi++] = bisect_sl( thold, th, met, -acc_xb );
+				bds[numi++] = bisect_sl( thold, th, met, -tol_xb );
 				ind= 0;
 			}
 			thold = th;
@@ -241,11 +241,11 @@ int Clmbr::ci_geo( METHOD met,  double incr, double * bds )
 	th = cpts[k];
 	sl_th = sl( th, met, false );
 	if (sl_th > SL && ind==0) {
-		bds[numi++] = bisect_sl( thold, th, met, -acc_xb );
+		bds[numi++] = bisect_sl( thold, th, met, -tol_xb );
 		ind= 1;
 	}
 	if (sl_th < SL && ind==1) {
-		bds[numi++] = bisect_sl( thold, th, met, -acc_xb );
+		bds[numi++] = bisect_sl( thold, th, met, -tol_xb );
 		ind= 0;
 	}
 
@@ -289,7 +289,7 @@ int Clmbr::ci_af( METHOD met, double * bds )
 		th= min( th, th1 );
 		th *= 2,  sl_th= sl( th, met, false );
 		int it =0;
-		while( fabs( sl_th - sl_inf ) > acc_sl_abs  &&  it < 18 )  
+		while( fabs( sl_th - sl_inf ) > tol_sl_abs  &&  it < 18 )  
 			th *= 2,  sl_th= sl(th,met,false),  it++;
 		if (sl_th > SL)  bds[numi++] = -Inf,  ind=1;
 		thold= th;
@@ -298,11 +298,11 @@ int Clmbr::ci_af( METHOD met, double * bds )
 			th = th1;
 			sl_th = sl( th, met, false );
 			if (sl_th > SL && ind==0) {
-				bds[numi++] = bisect_sl( thold, th, met, -acc_xb );
+				bds[numi++] = bisect_sl( thold, th, met, -tol_xb );
 				ind=1;
 			}
 			if (sl_th < SL && ind==1) {
-				bds[numi++] = bisect_sl( thold, th, met, -acc_xb );
+				bds[numi++] = bisect_sl( thold, th, met, -tol_xb );
 				ind=0;
 			}
 			thold = th;
@@ -312,11 +312,11 @@ int Clmbr::ci_af( METHOD met, double * bds )
 			th = th2;
 			sl_th = sl( th, met, false );
 			if (sl_th > SL && ind==0) {
-				bds[numi++] = bisect_sl( thold, th, met, -acc_xb );
+				bds[numi++] = bisect_sl( thold, th, met, -tol_xb );
 				ind=1;
 			}
 			if (sl_th < SL && ind==1) {
-				bds[numi++] = bisect_sl( thold, th, met, -acc_xb );
+				bds[numi++] = bisect_sl( thold, th, met, -tol_xb );
 				ind=0;
 			}
 			thold = th;
@@ -325,11 +325,11 @@ int Clmbr::ci_af( METHOD met, double * bds )
 		th = xs[0];
 		sl_th = sl( th, met, false );
 		if (sl_th > SL && ind==0) {
-			bds[numi++] = bisect_sl( thold, th, met, -acc_xb );
+			bds[numi++] = bisect_sl( thold, th, met, -tol_xb );
 			ind=1;
 		}
 		if (sl_th < SL && ind==1) {
-			bds[numi++] = bisect_sl( thold, th, met, -acc_xb );
+			bds[numi++] = bisect_sl( thold, th, met, -tol_xb );
 			ind=0;
 		}
 		thold = th;
@@ -385,11 +385,11 @@ int Clmbr::ci_af( METHOD met, double * bds )
 			th = th1;
 			sl_th = sl( th, met, false );
 			if (sl_th > SL && ind==0) {
-				bds[numi++] = bisect_sl( thold, th, met, -acc_xb );
+				bds[numi++] = bisect_sl( thold, th, met, -tol_xb );
 				ind=1;
 			}
 			if (sl_th < SL && ind==1) {
-				bds[numi++] = bisect_sl( thold, th, met, -acc_xb );
+				bds[numi++] = bisect_sl( thold, th, met, -tol_xb );
 				ind=0;
 			}
 			thold = th;
@@ -399,11 +399,11 @@ int Clmbr::ci_af( METHOD met, double * bds )
 			th = th2;
 			sl_th = sl(th,met,false);
 			if (sl_th > SL && ind==0) {
-				bds[numi++] = bisect_sl(thold,th,met,-acc_xb);
+				bds[numi++] = bisect_sl(thold,th,met,-tol_xb);
 				ind=1;
 			}
 			if (sl_th < SL && ind==1) {
-				bds[numi++] = bisect_sl(thold,th,met,-acc_xb);
+				bds[numi++] = bisect_sl(thold,th,met,-tol_xb);
 				ind=0;
 			}
 			thold = th;
@@ -412,11 +412,11 @@ int Clmbr::ci_af( METHOD met, double * bds )
 		th = xs[k+1];
 		sl_th = sl(th,met,false);
 		if (sl_th > SL && ind==0) {
-			bds[numi++] = bisect_sl(thold,th,met,-acc_xb);
+			bds[numi++] = bisect_sl(thold,th,met,-tol_xb);
 			ind=1;
 		}
 		if (sl_th < SL && ind==1) {
-			bds[numi++] = bisect_sl(thold,th,met,-acc_xb);
+			bds[numi++] = bisect_sl(thold,th,met,-tol_xb);
 			ind=0;
 		}
 		thold = th;
@@ -429,11 +429,11 @@ int Clmbr::ci_af( METHOD met, double * bds )
 	th = (xs[ns-1]+xs[ns-2])/2.;
 	sl_th = sl(th,met,false);
 	if (sl_th > SL && ind==0) {
-		bds[numi++] = bisect_sl(thold,xs[ns-2],met,-acc_xb);
+		bds[numi++] = bisect_sl(thold,xs[ns-2],met,-tol_xb);
 		ind=1;
 	}
 	if (sl_th < SL && ind==1) {
-		bds[numi++] = bisect_sl(thold,xs[ns-2],met,-acc_xb);
+		bds[numi++] = bisect_sl(thold,xs[ns-2],met,-tol_xb);
 		ind=0;
 	}
 

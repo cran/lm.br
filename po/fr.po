@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lm.br 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-27 08:40-0500\n"
+"POT-Creation-Date: 2015-04-07 20:12-0400\n"
 "PO-Revision-Date: 2013-09-20 20:09-0500\n"
 "Last-Translator: \n"
 "Language-Team: Marc Adams <lm.br.pkg@gmail.com>\n"
@@ -15,10 +15,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.5\n"
-
-#: Fm_fm.cpp:63
-msgid "'sF': invalid input"
-msgstr "'sF': valeurs fournies incorrectes"
 
 #: R_interface.cpp:5
 msgid "confidence level must be between 0 and 1"
@@ -92,9 +88,13 @@ msgid "-percent joint confidence region for  (theta, alpha)  by "
 msgstr ""
 "-pourcent région de confiance jointe pour  (theta, alpha)  par méthode  "
 
-#: cr.cpp:252
+#: cr.cpp:259
 msgid "'a_sl' initial point below critical SL"
 msgstr "'a_sl' point initial a SL moin le niveau critical"
+
+#: fm_Fm.cpp:60
+msgid "'sF': invalid input"
+msgstr "'sF': valeurs fournies incorrectes"
 
 #: geo.cpp:120 geo.cpp:132 geo.cpp:146 geo.cpp:312 geo.cpp:324 geo.cpp:338
 #: geo.cpp:418 geo.cpp:430 geo.cpp:455 geo.cpp:595 geo.cpp:607 geo.cpp:633
@@ -125,8 +125,8 @@ msgstr "gradient de la première ligne"
 msgid "slope of second line"
 msgstr "gradient de la deuxième ligne"
 
-#: pre_calc.cpp:62 pre_calc.cpp:67 pre_calc.cpp:161 pre_calc.cpp:166
-#: pre_calc.cpp:187 pre_calc.cpp:192 set_sy.cpp:36 set_sy.cpp:41
+#: pre_calc.cpp:63 pre_calc.cpp:68 pre_calc.cpp:162 pre_calc.cpp:167
+#: pre_calc.cpp:188 pre_calc.cpp:193 set_sy.cpp:36 set_sy.cpp:41
 #: set_theta0.cpp:117 set_theta0.cpp:120
 msgid "LAPACK routine 'dormqr' failed"
 msgstr "routine 'dormqr' de LAPACK a échoué"
@@ -169,10 +169,6 @@ msgstr "matrice 'weights' n'est pas positive-définie"
 msgid "weights matrix might be ill-conditioned for 'clr' method"
 msgstr "matrice 'weights' peut être mal formée pour la méthode 'clr'"
 
-#: set_acc.cpp:12
-msgid "invalid 'acc' value"
-msgstr "valeur de 'acc' incorrecte"
-
 #: set_alpha0.cpp:12
 msgid "invalid 'alpha0' value"
 msgstr "valeur de 'alpha0' incorrecte"
@@ -185,6 +181,10 @@ msgstr "élément incorrect dans le vecteur 'rWy'"
 msgid "invalid 'theta0' value"
 msgstr "valeur de 'theta0' incorrecte"
 
+#: set_tol.cpp:12
+msgid "invalid 'tol' value"
+msgstr "valeur de 'tol' incorrecte"
+
 #: set_x.cpp:22
 msgid "invalid 'x' value"
 msgstr "valeur de 'x' incorrecte"
@@ -193,15 +193,7 @@ msgstr "valeur de 'x' incorrecte"
 msgid "'x' values must be non-decreasing"
 msgstr "valeurs de 'x' doit être non-décroissantes"
 
-#: set_x.cpp:26
-msgid "consider a repeat predictor value instead of the values"
-msgstr "suggère une valeur 'x' répétée au lieu des valeurs"
-
-#: set_x.cpp:28
-msgid "predictor values might be too close for reliable computations"
-msgstr "valeurs de 'x' peut être trop proches pour calculs fiables"
-
-#: set_x.cpp:44
+#: set_x.cpp:49
 msgid "number of seperate 'x' values below minimum for changepoint inference"
 msgstr ""
 "nombre de valeurs distinctes de 'x' trop peut pour inférer le point de "
@@ -234,3 +226,9 @@ msgstr "pour "
 #: sl_mc.cpp:16 sl_mc.cpp:80
 msgid "target accuracy =  "
 msgstr "précision de cible =  "
+
+#~ msgid "consider a repeat predictor value instead of the values"
+#~ msgstr "suggère une valeur 'x' répétée au lieu des valeurs"
+
+#~ msgid "predictor values might be too close for reliable computations"
+#~ msgstr "valeurs de 'x' peut être trop proches pour calculs fiables"

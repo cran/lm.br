@@ -191,7 +191,7 @@ lm.br  <- function( formula, type ="LL", data, subset,
           { if ( is.infinite(par[1]) )  1  else  pmax( x1-par[1], 0 ) }
     }
 
-    if( is.infinite(par[1]) )  {  # can occur for models with alpha=0
+    if( is.infinite(par[1]) )  {  # could occur for models with alpha=0
       if( type=='LT' )
         { colnames(xb)[1] <- "  (Intercept)";  colnames(xb)[2] <- bnm }
       if( type=='TL' )

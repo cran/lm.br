@@ -64,7 +64,7 @@ double Clmbr::sl_geo2(double * err)
 	int  neval =0,  ier =0,  limit =100,  lenw = 4*limit,  last =0;
 	int*  iwork= Calloc( limit, int );
 
-	double  lower = -c,  upper = c,  epsabs = acc_sl_abs/2,  epsrel = acc_sl_rel/2,  
+	double  lower = -c,  upper = c,  epsabs = tol_sl_abs/2,  epsrel = tol_sl_rel/2,  
 				result =0,  abserr =0;
 	double *  work= Calloc( lenw, double );
 

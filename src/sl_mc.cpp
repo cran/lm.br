@@ -8,7 +8,7 @@
 double Clmbr::sl_mc(void)  const
 // calculate significance level by CLR, Monte Carlo evaluation method
 {
-	const double  acc= acc_sl_abs;
+	const double  acc= tol_sl_abs;
 	double  th0print = th0;   if(model_in  < 0 ) th0print = -th0;
 	Rcpp::Function Rflush("flush.console");
 
@@ -71,7 +71,7 @@ double Clmbr::sl_mc2(void)  const
 // calculate significance level by clr, Monte Carlo evaluation method
 // for changepoint = th0 and   alpha = alpha0 
 {
-	const double  acc= acc_sl_abs;
+	const double  acc= tol_sl_abs;
 	double th0print = th0;   if(model_in < 0) th0print = -th0;
 	Rcpp::Function Rflush("flush.console");
  

@@ -11,7 +11,7 @@
 
 
 
-void  Clmbr::sl3R(  int met,  double acc,
+void  Clmbr::sl3R(  int met,  double tol,
 	double theta_0 ) 
 { 
 	METHOD MET;
@@ -23,21 +23,21 @@ void  Clmbr::sl3R(  int met,  double acc,
 		}
 	}
 
-	const double tmp1 = acc_sl_abs, tmp2 = acc_sl_rel;
-	acc_sl_abs= acc;
-	acc_sl_rel= min(10*acc_sl_abs,0.01);
+	const double tmp1 = tol_sl_abs, tmp2 = tol_sl_rel;
+	tol_sl_abs= tol;
+	tol_sl_rel= min(10*tol_sl_abs,0.01);
 
 	if( model_in > 0 )  sl(theta_0, MET );  else  sl(-theta_0, MET );
 
-	acc_sl_abs= tmp1;
-	acc_sl_rel= tmp2;
+	tol_sl_abs= tmp1;
+	tol_sl_rel= tmp2;
 
 	return;
 }
 
 
 
-void  Clmbr::sl4R( int met,  double acc,
+void  Clmbr::sl4R( int met,  double tol,
 	double theta_0,  double alpha_0 ) 
 { 
 	if(Model==M3)  {
@@ -54,17 +54,17 @@ void  Clmbr::sl4R( int met,  double acc,
 		}
 	}
 
-	const double tmp1 = acc_sl_abs, tmp2 = acc_sl_rel;
-	acc_sl_abs= acc;
-	acc_sl_rel= min(10*acc_sl_abs,0.01);
+	const double tmp1 = tol_sl_abs, tmp2 = tol_sl_rel;
+	tol_sl_abs= tol;
+	tol_sl_rel= min(10*tol_sl_abs,0.01);
 
 	if( model_in  > 0 ) 
 		sl(theta_0, alpha_0, MET);
 	else
 		sl(-theta_0, alpha_0, MET);
 
-	acc_sl_abs= tmp1;
-	acc_sl_rel= tmp2;
+	tol_sl_abs= tmp1;
+	tol_sl_rel= tmp2;
 
 	return;
 }
@@ -72,7 +72,7 @@ void  Clmbr::sl4R( int met,  double acc,
 
 
 double  Clmbr::sl5R( int met,  int verboseR,  int valueR,
-	double acc,  double theta_0 ) 
+	double tol,  double theta_0 ) 
 { 
 	METHOD MET;
 	if(met==1)  MET=GEO;  else  {
@@ -87,9 +87,9 @@ double  Clmbr::sl5R( int met,  int verboseR,  int valueR,
 	const bool  value = static_cast<bool>( valueR );
 	if( !value )  stop( "dummy argument for dispatch, should be TRUE" );
 	
-	const double tmp1 = acc_sl_abs, tmp2 = acc_sl_rel;
-	acc_sl_abs= acc;
-	acc_sl_rel= min(10*acc_sl_abs,0.01);
+	const double tmp1 = tol_sl_abs, tmp2 = tol_sl_rel;
+	tol_sl_abs= tol;
+	tol_sl_rel= min(10*tol_sl_abs,0.01);
 
 	double result;
 	if( model_in  > 0 ) 
@@ -97,8 +97,8 @@ double  Clmbr::sl5R( int met,  int verboseR,  int valueR,
 	else
 		result= sl(-theta_0, MET, verbose);
 
-	acc_sl_abs= tmp1;
-	acc_sl_rel= tmp2;
+	tol_sl_abs= tmp1;
+	tol_sl_rel= tmp2;
 
 	return  result;
 }
@@ -107,7 +107,7 @@ double  Clmbr::sl5R( int met,  int verboseR,  int valueR,
 
 
 double  Clmbr::sl6R( int met,  int verboseR,  int valueR,
-	double acc,  double theta_0,  double alpha_0 ) 
+	double tol,  double theta_0,  double alpha_0 ) 
 { 
 	if(Model==M3)  {
 		Rcout << model_msg << endl << endl;
@@ -128,9 +128,9 @@ double  Clmbr::sl6R( int met,  int verboseR,  int valueR,
 	if( !value )  
 		stop( "dummy argument for dispatch, should be TRUE" );
 
-	const double tmp1 = acc_sl_abs, tmp2 = acc_sl_rel;
-	acc_sl_abs= acc;
-	acc_sl_rel= min(10*acc_sl_abs,0.01);
+	const double tmp1 = tol_sl_abs, tmp2 = tol_sl_rel;
+	tol_sl_abs= tol;
+	tol_sl_rel= min(10*tol_sl_abs,0.01);
 
 	double result;
 	if( model_in  > 0 ) 
@@ -138,8 +138,8 @@ double  Clmbr::sl6R( int met,  int verboseR,  int valueR,
 	else
 		result= sl(-theta_0, alpha_0, MET, verbose);
 
-	acc_sl_abs= tmp1;
-	acc_sl_rel= tmp2;
+	tol_sl_abs= tmp1;
+	tol_sl_rel= tmp2;
 
 	return  result;
 }

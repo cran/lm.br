@@ -150,11 +150,11 @@ int Clmbr::cr( METHOD met, double incr, bool verbose, double * bounds)
 
 				double th1, th2;
 				th1= floor( th1i );
-				while ( th1 < th1i + acc_xb )  th1 +=inc;
+				while ( th1 < th1i + tol_xb )  th1 +=inc;
 				if(k< ns-1) th2= min(xs[k+1],thb); else th2= thb;
 
 
-				for (th = th1; th < th2 - acc_xb; th += inc) {
+				for (th = th1; th < th2 - tol_xb; th += inc) {
 
 					if( fabs(th)<zero_eq) th=0.;
 
@@ -206,10 +206,10 @@ int Clmbr::cr( METHOD met, double incr, bool verbose, double * bounds)
 	}
 
 
-	if(verbose_progress)  Rcout << endl << endl;
+	if(verbose_progress)  Rcout << endl;
 
 	if(verbose)  {
-		Rcout << 100*(1-SL) << _("-percent joint confidence region for  (theta, alpha)  by ");
+		Rcout << endl << 100*(1-SL) << _("-percent joint confidence region for  (theta, alpha)  by ");
 		if(met==GEO)  Rcout << "CLR" << endl; else  Rcout << "AF" << endl;
 		Rcout << endl << setw(10) << "theta" << setw(16) << "min. alpha" << setw(15) 
 				<< "max. alpha" << endl << endl;
@@ -230,7 +230,14 @@ int Clmbr::cr( METHOD met, double incr, bool verbose, double * bounds)
 	}
 
 
-	if(bounds!=0)  for(i=0;i<N;i++)  for(int j=0;j<3;j++)  *(bounds+j*N + i) = *(bds+i*3+j);
+	if(bounds!=0)  {
+		for(i=0;i<N;i++)  if( model_in > 0 ) {
+			for(int j=0;j<3;j++)  *(bounds+j*N + i) = *(bds+i*3+j);
+		} else {
+			*(bounds + i) = -*(bds+(N-1-i)*3+0);
+			for(int j=1;j<3;j++)  *(bounds+j*N + i) = *(bds+(N-1-i)*3+j);
+		}
+	}
 
 	Free( th_bds );  Free( bds );
 	return N;
@@ -258,7 +265,7 @@ double Clmbr::a_sl( METHOD met, double th, int high_low)
 			guess2 = guess;  
 			guess += incr; 
 		}
-		const double a_geo =bisect(guess,guess2,&Clmbr::sl_a,1,SL,-acc_yb);
+		const double a_geo =bisect(guess,guess2,&Clmbr::sl_a,1,SL,-tol_yb);
 		return a_geo;
 	}
 }
@@ -360,7 +367,7 @@ double Clmbr::ahigh( METHOD met, double th )
 
 		if(tsl2 < SL) {
 
-			while( fabs(incr) > acc_yb/2 ) {
+			while( fabs(incr) > tol_yb/2 ) {
 
 				while (tsl2 > tsl1) {
 					tsl1 = tsl2;
@@ -387,7 +394,7 @@ double Clmbr::ahigh( METHOD met, double th )
 double Clmbr::sl_a( double alpha, int k )
 // wrapper for use in the bisection routine
 // return sl_geo2(th0,alpha)
-// assume th0 preset and use default accuracy
+// assume th0 preset and use default tolerance
 {
 	set_alpha0(alpha, GEO2);
 	return sl_geo2();

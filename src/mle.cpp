@@ -123,8 +123,8 @@ double  Clmbr::mle(  bool verbose,  double *  max_gqysq,  double *  par  )  cons
 //  find 'theta' value for minimum of 'ff' =(Q*f)^2 to check for singular x-matrix
 	if( par != NULL )  {
 		double  ffmin = Inf,  thfmin = xs[1];
-		double  lo_limit = xs[0]+acc_xb;
-		if( Model==M2 )  lo_limit = xs[0]-acc_xb-1;
+		double  lo_limit = xs[0]+tol_xb;
+		if( Model==M2 )  lo_limit = xs[0]-tol_xb-1;
 
 		for( int k = k1+1; k < ns; k++ )  {
 
@@ -133,19 +133,19 @@ double  Clmbr::mle(  bool verbose,  double *  max_gqysq,  double *  par  )  cons
 			if( rad >= 0 ) {
 				const double  r = sqrt(rad),  th1 = (qx1[k]-r)/q11[k],  th2 = (qx1[k]-r)/q11[k];
 				if( k > 0 )  {
-					if( xs[k-1] <= th1  &&  th1 <= xs[k]  &&  lo_limit+acc_xb < th1  &&  th1 < xs[ns-1]-acc_xb ) { thfmin=th1; break; }
-					if( xs[k-1] <= th2  &&  th2 <= xs[k]  &&  lo_limit+acc_xb < th2  &&  th2 < xs[ns-1]-acc_xb ) { thfmin=th2; break; }
+					if( xs[k-1] <= th1  &&  th1 <= xs[k]  &&  lo_limit+tol_xb < th1  &&  th1 < xs[ns-1]-tol_xb ) { thfmin=th1; break; }
+					if( xs[k-1] <= th2  &&  th2 <= xs[k]  &&  lo_limit+tol_xb < th2  &&  th2 < xs[ns-1]-tol_xb ) { thfmin=th2; break; }
 				}  else  {
-					if( -Inf < th1  &&  th1 <= xs[k]  &&  th1 < xs[ns-1]-acc_xb ) { thfmin=th1; break; }
-					if( -Inf < th2  &&  th2 <= xs[k]  &&  th2 < xs[ns-1]-acc_xb ) { thfmin=th2; break; }
+					if( -Inf < th1  &&  th1 <= xs[k]  &&  th1 < xs[ns-1]-tol_xb ) { thfmin=th1; break; }
+					if( -Inf < th2  &&  th2 <= xs[k]  &&  th2 < xs[ns-1]-tol_xb ) { thfmin=th2; break; }
 				}
 			}
 
 			if( k > 0 )  {
-				if( xs[k-1] <= Df0  &&  Df0 <= xs[k]  &&  lo_limit+acc_xb < Df0  &&  Df0 < xs[ns-1]-acc_xb )
+				if( xs[k-1] <= Df0  &&  Df0 <= xs[k]  &&  lo_limit+tol_xb < Df0  &&  Df0 < xs[ns-1]-tol_xb )
 					if( ff(Df0,k) < ffmin )  { ffmin = ff(Df0,k);  thfmin = Df0; }
 			}  else  {
-				if( -Inf < Df0  &&  Df0 <= xs[k]  &&  Df0 < xs[ns-1]-acc_xb )
+				if( -Inf < Df0  &&  Df0 <= xs[k]  &&  Df0 < xs[ns-1]-tol_xb )
 					if( ff(Df0,k) < ffmin )  { ffmin = ff(Df0,k);  thfmin = Df0; }
 			}
 
@@ -158,13 +158,13 @@ double  Clmbr::mle(  bool verbose,  double *  max_gqysq,  double *  par  )  cons
 
 
 	if (verbose) {
-		Rcout << endl << _("maximum-likelihood estimates of parameters:") << endl << endl;
+		Rcout << _("maximum-likelihood estimates of parameters:") << endl;
 		Rcout << setw(20) << "         theta =" << setw(12) << thmle*reflect << "     ( " << _("x-coordinate of changepoint") << " )" << endl;
 		Rcout << setw(20) << "         alpha =" << setw(12) << alphamle << "     ( ";
 		if( m1==n )  Rcout << _("y-coordinate of changepoint");  else  Rcout << _("coefficient of '1'-vector");  Rcout << " )" << endl;
 		Rcout << setw(20) << "          beta =" << setw(12) << betamle << "     ( " << _("slope of first line") << " )" << endl;
 		Rcout << setw(20) << "    beta-prime =" << setw(12) << betapmle << "     ( " << _("slope of second line") << " )" << endl;
-		Rcout << setw(20) << "      variance =" << setw(12) << vmle << endl << endl;
+		Rcout << setw(20) << "      variance =" << setw(12) << vmle << endl;
 	}
 
 

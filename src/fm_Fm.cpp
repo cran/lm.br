@@ -4,26 +4,6 @@
 
 
 
-
-double Clmbr::F( int k, double arg )  const
-// calculate the F() function defined in K,S&Z eq.(14)
-{
-
-	double Fx;
-	if (arg < -1. + zero_eq)
-		Fx = 0.;
-	else
-		if (arg > 1. - zero_eq)
-			Fx = 1.;
-		else
-			Fx = Rf_pt( arg*sqrt(k/(1-arg*arg)), k, 1, 0) ;
-
-	return Fx;
-}
-
-
-
-
 double Clmbr::get_C( int k )  const
 {
 	int i = 0;
@@ -44,7 +24,6 @@ double Clmbr::get_C( int k )  const
 
 
 
-
 double Clmbr::fk( int k, double arg )  const
 // calculate the f() function defined in K,S&Z eq.(13)
 {
@@ -53,6 +32,24 @@ double Clmbr::fk( int k, double arg )  const
 	return gv;
 }
 
+
+
+double Clmbr::F( int k, double arg )  const
+// calculate the F() function defined in K,S&Z eq.(14)
+// use its identity with the t-distribution
+{
+
+	double Fx;
+	if (arg < -1. + zero_eq)
+		Fx = 0.;
+	else
+		if (arg > 1. - zero_eq)
+			Fx = 1.;
+		else
+			Fx = Rf_pt( arg*sqrt(k/(1-arg*arg)), k, 1, 0) ;
+
+	return Fx;
+}
 
 
 

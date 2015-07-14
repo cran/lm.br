@@ -5,8 +5,9 @@
 
 
 void  Clmbr::pre_calc( void )
-// transform to a canoncial model,  precalculate working variables and vectors 
-// that depend only on 'x' values and 'Sigma' matrix
+// Transform to a canoncial model,  precalculate working variables and vectors 
+// that depend only on 'x' values and 'Sigma' matrix.
+// 'set_theta0' and 'set_alpha0' precalculate other quantities.
 {
 	int i,j;
 

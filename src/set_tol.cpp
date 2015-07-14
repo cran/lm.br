@@ -6,37 +6,37 @@
 
 
 
-void  Clmbr::set_acc( double acc )
+void  Clmbr::set_tol( double tol )
 // set accuracy and scale parameters
 {
-	if ( ISNAN(acc) || acc<=0 || acc>=1 )  stop( _("invalid 'acc' value") );
+	if ( ISNAN(tol) || tol<=0 || tol>=1 )  stop( _("invalid 'tol' value") );
 	
 
 	subints = 5;	// average number of subintervals per data interval for grid searches
 
-	acc_rho = 0.0001;		//  tolerance for finding 'rho' values by 'bisect' or 'rho_inv' 
+	tol_rho = 0.0001;		//  tolerance for finding 'rho' values by 'bisect' or 'rho_inv' 
 
-	acc_sl_abs = acc;					// maximum absolute error in significance level estimates
-	acc_sl_rel = min( 10*acc, 0.01 );	// maximum relative error in significance level estimates
+	tol_sl_abs = tol;					// maximum absolute error in significance level estimates
+	tol_sl_rel = min( 10*tol, 0.01 );	// maximum relative error in significance level estimates
 
 
 	int i;
 
 // maximum error in x- boundaries
-	acc_xb = (xs[ns-1] - xs[0])*acc_sl_rel/64.;	
-	i=1;  while( acc_xb < ldexp(1.,-i) )  i++;  acc_xb = ldexp(1.,-i);
+	tol_xb = (xs[ns-1] - xs[0])*tol_sl_rel/64.;	
+	i=1;  while( tol_xb < ldexp(1.,-i) )  i++;  tol_xb = ldexp(1.,-i);
 
 
 // maximum error in y- boundaries
 	double  maxY= -Inf,  minY= Inf;
 	for(i=0;i<n;i++)  {  if( (*py)[i] > maxY )  maxY= (*py)[i];  if( (*py)[i] < minY )  minY= (*py)[i];  }
 	const double dY= maxY - minY;
-	acc_yb = dY*acc_sl_rel/64.;	
-	i=1;  while( acc_yb < ldexp(1.,-i) )  i++;  acc_yb = ldexp(1.,-i);
+	tol_yb = dY*tol_sl_rel/64.;	
+	i=1;  while( tol_yb < ldexp(1.,-i) )  i++;  tol_yb = ldexp(1.,-i);
 
 
-// accuracy for integration limits
-	inc_x = acc_xb;
+// precision for integration limits
+	inc_x = tol_xb;
 	for( i= max( k1, 0 );  i < ns-2;  i++ )  { 
 		double  inc= ( xs[i+1] - xs[i] )/subints;  
 		if( inc < inc_x )  inc_x= inc; 
@@ -59,7 +59,7 @@ void  Clmbr::set_acc( double acc )
 	i=1;  while( inc_y < ldexp(1.,-i) )  i++;  inc_y = ldexp(1.,-i);
 
 
-// output formatting
+// output digits and minimum increment
 	const int  digits= 6;
 	Rcout << setprecision( digits );
 	rel_print_eps =  pow( 10., -(digits-1) );

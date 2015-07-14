@@ -5,19 +5,19 @@
 \title{Significance Level for Changepoint}
 
 \description{
-  Significance level of a postulate value for the changepoint's x-coordinate or (x,y)-coordinates.
+  Significance level of a postulate value for the changepoint's x- or (x,y)-coordinates.
 }
 
 \usage{
-\S4method{sl}{Cpp_Clmbr}( theta0,  method ="CLR", accuracy =0.001, output ="T" )
-sl( theta0, alpha0,  method ="CLR", accuracy =0.001, output ="T" )
+\S4method{sl}{Cpp_Clmbr}( theta0,  method ="CLR", tolerance =0.001, output ="T" )
+sl( theta0, alpha0,  method ="CLR", tolerance =0.001, output ="T" )
 }
 
 \arguments{
   \item{theta0}{postulate value for 'theta', the changepoint's x-coordinate.}
   \item{alpha0}{postulate value for 'alpha', the changepoint's y-coordinate.}
   \item{method}{"CLR", "MC" or "AF" which stand for conditional likelihood-ratio, conditional likelihood-ratio by Monte Carlo or approximate-F, details below.}
-  \item{accuracy}{maximum absolute error in numerical integration for the "CLR" method, or in Monte Carlo evaluation for the "MC" method, not referenced for the "AF" method.}
+  \item{tolerance}{maximum absolute error in numerical integration for the "CLR" method or in Monte-Carlo evaluation for the "MC" method, not referenced for the "AF" method.}
   \item{output}{"T", "V" or "B" which stand for text, value or both.}
 }
 
@@ -32,7 +32,7 @@ Method "AF" estimates the distribution of the likelihood-ratio statistic by the 
 }
 
 \note{
-The 'accuracy' error-limit does not include the slight over-estimate that is inherent in the "CLR" method, nor the approximation inherent in the "AF" method.
+The 'tolerance' error-limit does not include the slight over-estimate that is inherent in the "CLR" method, nor the approximation inherent in the "AF" method.
 }
 
 \value{

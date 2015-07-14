@@ -14,7 +14,7 @@
     if( method=="AF" )  met <- 2  else
       stop( "'method' must be \"CLR\" or \"AF\"" )
   }
-  if(missing(output) && .Device=="null device")  output <- "T"
+#  if(missing(output) && .Device=="null device")  output <- "T"
   output <- toupper(output)
   if( output=="T" )
     (z$CppObj)$cr3( CL, met, incr )
@@ -30,7 +30,7 @@
           "% conf. region for changepoint by ", method, sep="")
         if( (z$xint && length(z$coef)==4) ||
               (!z$xint && length(z$coef)==3) )  {
-#  univariate model
+#  simple model
           n <- length(z$x1)
           x <- y <- matrix( NA, max(n,nbd), 3 )
           x[1:n,1] <- z$x1
@@ -41,7 +41,7 @@
             type=c('p','l','l'), pch=4, lty='solid', col='black',
             main=title, xlab=z$x1nm, ylab=z$ynm )
         } else {
-#  multivariate
+#  multiple model
           x <- y <- matrix( NA, nbd, 2 )
           x[,1:2] <- bounds[,1]
           y[,1:2] <- bounds[,2:3]
@@ -55,3 +55,4 @@
     }
   }
 }
+

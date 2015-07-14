@@ -28,7 +28,7 @@ private:
 
 	double ah, old_th, prev_th, a_low, a_high, rel_print_eps;
 	double SL, prev_SL, cFex, cCHIex, cF, cCHI, x_vu_ex, x_vk_ex, x_vu, x_vk;
-	double acc_rho, acc_sl_abs, acc_sl_rel, acc_xb, acc_yb, inc_x, inc_y, xinc;
+	double tol_rho, tol_sl_abs, tol_sl_rel, tol_xb, tol_yb, inc_x, inc_y, xinc;
 
 	double *x_in, *y_in, *w_in;
 	double *rS, *irS, *Q, *tau;
@@ -64,7 +64,7 @@ private:
 	void set_theta0( double th_0, METHOD met =INIT );
 	void set_alpha0( double a_0, METHOD met =INIT );
 	void set_SL( double cSL =0.05);
-	void set_acc( double acc =0.001);
+	void set_tol( double tol =0.001);
 
 // gamma and f functions
 	Vector<double>  gam(double th, int data_interval) const;
@@ -86,15 +86,16 @@ private:
 	double dgsq(double th, int data_interval) const;
 	double rho_inv(double s, int data_interval, int hi_lo =1) const;
 
-// sl computing functions
-	double sl_af(int mode =0) const;
-	double sl_af2(void) const;
-	double sl_geo(double *err=0);
-	double sl_geo2(double *err=0);
-	double prden(double xi, double *err);
-	double sl_mc(void) const;
-	double sl_mc2(void) const;
-	bool m_ge_w(double wsq, const Vector<double> &s) const;
+//in file 'fm_Fm'
+	double get_C(int k) const;
+	double fk(int k, double arg) const;
+	double F(int k, double arg) const;
+	double sF(int k, double arg) const;
+
+//in file 'bisect'
+	double bisect(double x1, double x2, double (Clmbr::*fn)(double,int), int k, double value, double crit);
+	double bisect(double x1, double x2, double (Clmbr::*fn)(double,int) const, int k, double value, double crit) const;
+	double bisect_sl(double x1, double x2, METHOD met, double crit);
 
 //in files  'geo'  and  'geo_ex'
 	double geo(double th2, double *err) const;
@@ -113,16 +114,15 @@ private:
 	double Emupr(double theta, int data_interval) const;
 	double Emupr_vk(double theta, int data_interval) const;
 
-//in file 'Fm_fm'
-	double F(int k, double arg) const;
-	double fk(int k, double arg) const;
-	double get_C(int k) const;
-	double sF(int k, double arg) const;
-
-//in file 'bisect'
-	double bisect(double x1, double x2, double (Clmbr::*fn)(double,int), int k, double value, double crit);
-	double bisect(double x1, double x2, double (Clmbr::*fn)(double,int) const, int k, double value, double crit) const;
-	double bisect_sl(double x1, double x2, METHOD met, double crit);
+// sl computing functions
+	double sl_af(int mode =0) const;
+	double sl_af2(void) const;
+	double sl_geo(double *err=0);
+	double sl_geo2(double *err=0);
+	double prden(double xi, double *err);
+	double sl_mc(void) const;
+	double sl_mc2(void) const;
+	bool m_ge_w(double wsq, const Vector<double> &s) const;
 
 //'ci' and 'cr' sub-subroutines
 	int ci_geo( METHOD met, double increments, double *bounds =0);
@@ -150,11 +150,11 @@ public:
 
 
 // interface functions
-	void sl3R( int met, double acc, double theta0 );
-	void sl4R( int met, double acc, double theta0, double alpha0 );
-	double sl5R( int met, int verboseR, int valueR, double acc, 
+	void sl3R( int met, double tol, double theta0 );
+	void sl4R( int met, double tol, double theta0, double alpha0 );
+	double sl5R( int met, int verboseR, int valueR, double tol, 
 				double theta0 );
-	double sl6R( int met, int verboseR, int valueR, double acc, 
+	double sl6R( int met, int verboseR, int valueR, double tol, 
 				double theta0, double alpha0 ); 
 	void ciR( double CL, int met );
 	void cr3R( double CL, int met, double incr );

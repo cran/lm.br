@@ -6,15 +6,15 @@
 
 
 .sl <- function( z, theta0, alpha0 =NULL, method ="clr",
-              accuracy =0.001, output ="T" )  {
+              tol =0.001, output ="T" )  {
 # overload by if-else statements
   if( !is.null(alpha0) && !is.numeric(alpha0) )  {
     if( is.numeric(method) ) {
-      if( !missing(accuracy) )  {
-        if( is.character(accuracy) )  output <- accuracy
+      if( !missing(tol) )  {
+        if( is.character(tol) )  output <- tol
           else  stop( "'output' must be \"T\", \"V\" or \"B\"" )
       }
-      accuracy <- method
+      tol <- method
     }
     method <- alpha0
     alpha0 <- NULL
@@ -46,16 +46,16 @@
     result <- double(1)
     result <- if( is.null(alpha0) )
         (z$CppObj)$sl5( met, as.integer(verbose),
-          as.integer(value), accuracy, theta0 )
+          as.integer(value), tol, theta0 )
       else
         (z$CppObj)$sl6( met, as.integer(verbose),
-          as.integer(value), accuracy, theta0, alpha0 )
+          as.integer(value), tol, theta0, alpha0 )
     return( result )
   }  else  {
     if( is.null(alpha0) | !is.numeric(alpha0) )
-      (z$CppObj)$sl3( met, accuracy, theta0 )
+      (z$CppObj)$sl3( met, tol, theta0 )
     else
-      (z$CppObj)$sl4( met, accuracy, theta0, alpha0 )
+      (z$CppObj)$sl4( met, tol, theta0, alpha0 )
   }
 }
 

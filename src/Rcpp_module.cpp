@@ -15,10 +15,10 @@ RCPP_MODULE(Clmbr){
 	    .constructor< NumericVector, NumericMatrix, NumericMatrix, int, int, int >()
 
 // expose methods
-		.method( "sl3", &Clmbr::sl3R , "SL for th0 by specified method, accuracy" )
-		.method( "sl4", &Clmbr::sl4R , "SL for (th0,a0) by specified method, accuracy" )
-		.method( "sl5", &Clmbr::sl5R , "SL for th0 by specified method, accuracy and output flag" )
-		.method( "sl6", &Clmbr::sl6R , "SL for (th0,a0) by specified method, accuracy and output flag" )
+		.method( "sl3", &Clmbr::sl3R , "SL for th0 by specified method, tolerance" )
+		.method( "sl4", &Clmbr::sl4R , "SL for (th0,a0) by specified method, tolerance" )
+		.method( "sl5", &Clmbr::sl5R , "SL for th0 by specified method, tolerance and output flag" )
+		.method( "sl6", &Clmbr::sl6R , "SL for (th0,a0) by specified method, tolerance and output flag" )
 		.method( "ci", &Clmbr::ciR , "confidence interval for theta by specified method" )
 		.method( "cr3", &Clmbr::cr3R ,
 			"confidence region for (theta,alpha) by specified method and increment" )

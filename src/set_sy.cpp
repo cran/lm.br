@@ -68,7 +68,7 @@ void  Clmbr::set_sy( double * irsy,  METHOD met )
 		set_theta0( th0i, met );
 		set_alpha0( a0i, met );
 		set_SL();
-		set_acc();
+		set_tol();
 	}
 
 	return;

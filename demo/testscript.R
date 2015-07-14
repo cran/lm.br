@@ -4,7 +4,7 @@
 #  'testrun' generates arbitrary models of all types supported by 'lm.br'.
 #  Then 'simtest' generates random observations according to each model.
 #  The inferences that 'lm.br' makes from these observations are compared 
-#  with the underlying, "unknown," true model.  
+#  with the underlying "unknown" true model.  
 #
 #  A complete run takes 10-20 hours, depending on your computer system.
 #
@@ -33,11 +33,13 @@ testrun  <-  function( )  {
 
 # record coverage frequencies in a local disk file for summary
   cfqName <- tempfile( pat="cfq", fileext=".txt" )
-  warning( "Coverage frequencies in tempfile  ", cfqName, "\n")
+  warning( "log stored in tempfile  ", cfqName, "\n")
   cfqs <- file( cfqName, "wt")
   cat("Test no., sl(theta), sl(theta,'AF'),  sl(theta,alpha), sl(theta,alpha,'AF') \n\n" , file= cfqs)
   close( cfqs )
 
+# results are reproducible by setting the seed for the pseudo-random number generator
+# omit this statement for fresh results each run
   set.seed(1234)
 
 ## how many arbitrary models for each type of model
@@ -196,7 +198,7 @@ testrun  <-  function( )  {
     if(!xint)  cat("  'alpha' known =0,")
     if(vk)  cat("  'var' known =1,")
     cat("\n  ")
-    if(mvx) cat("multivariate, ")
+    if(mvx) cat("multiple, ")
     if(wtype==1) cat("no weights")
     if(wtype==2) cat("vector weights")
     if(wtype==3) cat("matrix weights")
@@ -256,17 +258,17 @@ testrun  <-  function( )  {
     unlink( rWy2name )
   }
 
-  tcurrent <- Sys.time()
-  dtime <- round( 
-    as.numeric( difftime(tcurrent,tstart,units="mins")), 0)
-  cat( "\nTests of 'lm.br' completed successfully.  Elapsed ",dtime,"min.\n\n" )
-
-  cat("Summary of coverage frequencies:\n")
+  cat("\n******  Summary of coverage frequencies:  ******\n\n")
   cfqs <- file( cfqName, "r")
   cfL <- readLines( cfqs )
   close( cfqs )
   for(i in 1:length(cfL)) cat( cfL[i], "\n")
-  cat("\n")
+  cat("\n******  End of summary  ******\n")
+
+  tcurrent <- Sys.time()
+  dtime <- round( 
+    as.numeric( difftime(tcurrent,tstart,units="mins")), 0)
+  cat( "\nTests of 'lm.br' completed successfully.  Elapsed ",dtime,"min.\n\n" )
 }
 
 

@@ -203,9 +203,9 @@ double Clmbr::rho_inv( double s,  int k,  int hi_lo )  const
 					if(  rad <= 0.  )   {    
 						const double  th1 = -b/a;   
 						if( k > 0 )  {
-							if (xs[k-1] <= th1  &&  th1 <= xs[k] )  if( fabs( rho(th1,k) - s ) < acc_rho )  return th1;
+							if (xs[k-1] <= th1  &&  th1 <= xs[k] )  if( fabs( rho(th1,k) - s ) < tol_rho )  return th1;
 						}  else  {
-							if ( th1 <= xs[k] )  if( fabs( rho(th1,k) - s ) < acc_rho )  return th1;
+							if ( th1 <= xs[k] )  if( fabs( rho(th1,k) - s ) < tol_rho )  return th1;
 						}
 
 					}  else  {
@@ -214,11 +214,11 @@ double Clmbr::rho_inv( double s,  int k,  int hi_lo )  const
 
 						bool  i1 = false,  i2 = false;
 						if( k > 0 ) {
-							if (xs[k-1] <= th1  &&  th1 <= xs[k] )  if( fabs( rho(th1,k) - s ) < acc_rho )  i1 = true;
-							if (xs[k-1] <= th2  &&  th2 <= xs[k] )  if( fabs( rho(th2,k) - s ) < acc_rho )  i2 = true;
+							if (xs[k-1] <= th1  &&  th1 <= xs[k] )  if( fabs( rho(th1,k) - s ) < tol_rho )  i1 = true;
+							if (xs[k-1] <= th2  &&  th2 <= xs[k] )  if( fabs( rho(th2,k) - s ) < tol_rho )  i2 = true;
 						}  else  {
-							if ( th1 <= xs[k] )  if( fabs( rho(th1,k) - s ) < acc_rho )  i1 = true;
-							if ( th2 <= xs[k] )  if( fabs( rho(th2,k) - s ) < acc_rho )  i2 = true;
+							if ( th1 <= xs[k] )  if( fabs( rho(th1,k) - s ) < tol_rho )  i1 = true;
+							if ( th2 <= xs[k] )  if( fabs( rho(th2,k) - s ) < tol_rho )  i2 = true;
 						}
 						if (i1 && i2) { if (hi_lo < 0) return min(th1,th2);  else  return max(th1,th2); }
 						if (i1) return th1;
@@ -242,7 +242,7 @@ double Clmbr::rho_inv( double s,  int k,  int hi_lo )  const
 				ra = rho(tha,k);
 				while( (ra-s)*(rb-s) < 0. ) { tha *= 2; ra= rho(tha,k); }
 			}
-			return  bisect( tha, thb, &Clmbr::rho, k, s, acc_rho );
+			return  bisect( tha, thb, &Clmbr::rho, k, s, tol_rho );
 		}
 	}
 

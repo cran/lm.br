@@ -22,7 +22,7 @@ Regression}
 \begin{abstract}
 The \textsf{R} package \texttt{lm.br} delivers exact tests and
 exact confidence regions for a changepoint in linear or
-multivariate linear regression.  This package implements the
+multiple linear regression.  This package implements the
 likelihood theory of conditional inference.  Examples 
 demonstrate its use and show some properties 
 of the broken-line models.
@@ -46,7 +46,7 @@ denoting $a_{-}=min(a,0)$ and $a_{+}=max(a,0)$, where
 $e \sim N(0,\sigma^{2}\Sigma)$.  Parameters $\theta$, $\alpha$, $\beta$, 
 $\beta{}'$, $\sigma$ are unknown but $\Sigma$ is known.  
 Model (2) is a threshold model, while model (3) would apply for 
-a known threshold level.  Inferences about a parameter use
+a known threshold level.  Inference about a parameter uses
 the assumed model and resulting distribution of a test statistic.\\
 
 A test statistic $D$
@@ -80,7 +80,7 @@ a formula, which \texttt{lm.br} implements, to rapidly evaluate these tests.\\
 \texttt{lm.br} extends this theory.  Their method derives an
 exact significance test for $(\theta, \alpha)$ in model (1).  The
 theory adapts to the case  $\sigma$  known, which is useful for 
-the Normal approximations of binary random variables.  And these
+the Normal approximations of binary random variables \citep[eq.2.28]{cox+snell:1989}.  And these
 tests simplify for a postulate changepoint value
 outside the range of  $x$-values, 
 giving exact significance levels for the hypothesis of a single 
@@ -91,7 +91,7 @@ nonlinear regression.  The AF method
 estimates the distribution of a likelihood-ratio statistic by its
 asymptotic $\chi^{2}$ distribution with partial conditioning on a
 sufficient statistic for the variance.  See \citet[sec. 24.6]{draper+smith:1998}.
-Simulations and examples demonstrate all the theory.
+Simulations and examples cover all the above theory.
 
 \section{Simulation Tests}
 
@@ -138,12 +138,12 @@ or  n= 30  or  n= 100  and  $\theta = x_{10} + (x_{20}-x_{10})U$.
 For each model, the program generated
 one million sets of random  $y_i = \alpha+\beta(x_i-\theta)_{-
 }+\beta{}'(x_i-\theta)_{+}+\sigma N(0,1)$  and counted how often
-$SL(\theta) > .05$.  Coverage frequencies should be accurate to
+$SL(\theta) > .05$.  These coverage frequencies should be accurate to
 $\pm$0.05\%.
 
 \section{Examples}
 \subsection{Broken Line Regression}
-As an example, a broken-line model could fit drinking-and-driving survey 
+A broken-line model could fit drinking-and-driving survey 
 results.
 Yearly surveys, taken in different months over the years, were adjusted by a seasonal index based on monthly
 surveys for a similar question \citep{tirf:1998-2007,camh:2003}.
@@ -152,7 +152,7 @@ driven within two hours after one drink, while the monthly
 surveys asked if in the past 30 days they had driven within one
 hour after two drinks.  Figure \ref{fig:cr} shows the survey results without
 and with seasonal adjustment, and the exact 90\% confidence region
-for the changepoint if the adjustment were valid.
+for a changepoint if the adjustment were valid.
 
 \begin{figure}[htbp]
 \begin{center}
@@ -194,7 +194,7 @@ region for a changepoint $(\theta,\alpha)$ by CLR.}
 \end{figure}
 
 
-The data input, and commands to get confidence intervals, are
+Data input, and commands to get confidence intervals for the changepoint, are
 
 <<>>=
 log_odds <-  c( -1.194, -2.023, -2.285, -1.815, -1.673, 
@@ -224,12 +224,12 @@ on these intervals is still exactly 95\% by CLR, as the simulation
 tests show.)  The inference assumes that any line slope is possible, extending 
 to an instantaneous drop near December 1998 in this example. 
 
-\subsection{Multivariate Regression}
-\texttt{lm.br} can test for a changepoint in multivariate
+\subsection{Multiple Regression}
+\texttt{lm.br} can test for a changepoint in multiple
 linear regression.  \texttt{lm.br}  tests for a change in one coefficient
 of the regression model, assuming continuity.  It does
-not test for an arbitrary structural change that might involve
-multiple parameters or discontinuity.\\
+not test for an arbitrary structural change that might include changes of
+two or more coefficients or discontinuity.\\
 
 \citet{liu+wu+zidek:1997} suggested a changepoint for the 
 coefficient of car weight in a linear fit of miles-per-gallon 
@@ -241,12 +241,13 @@ likelihood-ratio inference also shows evidence for a changepoint:
 lm.br( mpg ~ wt + hp, data = mtcars )
 @
 
-\texttt{lm.br} applies a canonical transform for multivariate regression 
-\citep{siegmund+zhang:1994}.  One way to see how this method works is formulaic.  The composite likelihood-ratio statistic uses optimal values for unknown parameters.  A canonical model lets these optimal coefficients of linear terms reduce their correspondent errors to zero always.  Thus they have no effect on inference, so the algebra can omit them.  This elimination reduces a multivariate model to a univariate model.  See
+For multiple regression, 
+\texttt{lm.br} applies an orthogonal transformation to a canonical model  
+\citep{siegmund+zhang:1994}.  One way to see how this method works is formulaic.  The composite likelihood-ratio statistic uses optimal values for unknown parameters.  A canonical model lets these optimal coefficients of linear terms reduce their correspondent errors to zero always.  Thus they have no effect on inference, so the algebra can omit them.  This elimination reduces a multiple-predictor model to a single-predictor model.  See
 \citet[ch. 6]{hoffman+kunze:1971}, \citet[sec. 7.1]{lehmann:2005}.
 
 \section{Summary}
-If a broken line with Normal errors represents the relationship between a factor and responses, then \texttt{lm.br} solves the inference step for the changepoint.  This package uses the technique of conditional inference to allow for the other, unknown terms of the model.  
+If a broken line with Normal errors represents the relationship between a factor and responses, then \texttt{lm.br} solves the inference step for the changepoint.  This package uses the technique of conditional inference to allow for the other, unknown terms in the model.  
 Fitting a broken line can reveal the plausible interval for a changepoint, although practical cause-effect relations usually have 
 a smooth transition.  Any statistical analysis should examine the fit of the model and the error distribution with graphs and significance tests, 
 interpret results, and consider adjustments to the model or alternate models.
