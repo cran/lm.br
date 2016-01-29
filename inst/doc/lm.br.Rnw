@@ -59,13 +59,13 @@ $SL(p_{0})  = Pr [ D(p_{0}) > D(p_{0})_{obs} ]$, based on the
 model.  The set of postulate values such that  $SL > \alpha$
 is a $100(1-\alpha)\%$ confidence region for the true parameter value.\\
 
-Conditional inference incorporates sufficient statistics to
+Conditional inference incorporates sufficient statistics that
 account for the other, unknown parameters.  This refinement
 determines the exact distribution of a test statistic, even for
 small data sets.  Student's $t$, for example, is the
 distribution of a sample mean conditional on a sufficient
 statistic for the variance.  See 
-\citet[ch.15]{kalbfleisch:1985}, \citet[ex. 5.1, 5.5]{cox+hinkley:1974}.\\
+\citet[ch. 15]{kalbfleisch:1985}, \citet[ex. 5.1, 5.5]{cox+hinkley:1974}.\\
 
 The likelihood-ratio is an optimal test statistic.  
 \citet{knowles+siegmund+zhang:1991} derived the conditional 
@@ -75,15 +75,15 @@ applied these tests to get exact confidence intervals for the
 changepoint  $\theta$  in models (1) and (2), and exact confidence
 regions for the two-parameter changepoint  $(\theta, \alpha)$  
 in model (2).  \citet{knowles+siegmund+zhang:1991} also developed 
-a formula, which \texttt{lm.br} implements, to rapidly evaluate these tests.\\
+a formula, which \texttt{lm.br} implements, to evaluate these tests rapidly.\\
 
 \texttt{lm.br} extends this theory.  Their method derives an
 exact significance test for $(\theta, \alpha)$ in model (1).  The
 theory adapts to the case  $\sigma$  known, which is useful for 
-the Normal approximations of binary random variables \citep[eq.2.28]{cox+snell:1989}.  And these
+the Normal approximation of a binary random variable \citep[eq. 2.28]{cox+snell:1989}.  And these
 tests simplify for a postulate changepoint value
 outside the range of  $x$-values, 
-giving exact significance levels for the hypothesis of a single 
+giving an exact significance level for the null hypothesis of a single 
 line versus a broken line \citep{knowles+siegmund:1989}.\\
 
 For comparisons, Approximate-F (AF) is another inference method that is common in
@@ -91,7 +91,7 @@ nonlinear regression.  The AF method
 estimates the distribution of a likelihood-ratio statistic by its
 asymptotic $\chi^{2}$ distribution with partial conditioning on a
 sufficient statistic for the variance.  See \citet[sec. 24.6]{draper+smith:1998}.
-Simulations and examples cover all the above theory.
+Simulations and examples cover all of the above theory.
 
 \section{Simulation Tests}
 

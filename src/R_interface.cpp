@@ -111,7 +111,7 @@ double  Clmbr::sl6R( int met,  int verboseR,  int valueR,
 { 
 	if(Model==M3)  {
 		Rcout << model_msg << endl << endl;
-		return  NaN;
+		return  NA;
 	}  
 
 	METHOD MET;

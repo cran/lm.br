@@ -19,15 +19,14 @@ void  Clmbr::set_theta0( double th_0,  METHOD met )
 		if( k_0 < ns )   if ( fabs( xs[k_0] - th_0 ) < zero_eq )  { th0 = xs[k_0];  k_0++; }
 		k0 = k_0;
 
+		double  max_gqysq, wsq;
+		mle( false, &max_gqysq );
+		if (variance_unknown)  wsq = max_gqysq/qysq;  else  wsq = max_gqysq;
+		w = sqrt( max( 0., wsq ) );
+
 
 //  'th0ex' = true  if 'th0' is exterior to  'x'  values 
 		if ( (Model==M1 && th0<=xs[0]) || xs[ns-1]<=th0 )  th0ex = true;  else  th0ex = false;
-
-
-		double  wsq,  max_gy;
-		mle( false, &max_gy );
-		if (variance_unknown)  wsq = max_gy/qysq;  else  wsq = max_gy;
-		w = sqrt( max( 0., wsq ) );
 
 
 		if (th0ex) { //2

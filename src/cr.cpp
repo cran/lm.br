@@ -221,7 +221,7 @@ int Clmbr::cr( METHOD met, double incr, bool verbose, double * bounds)
 			}
 		}  else  {
 			for(i=N-1;i>=0;i--)  {
-				Rcout << setw(10) << -*(bds+i*3+0) << "," << setw(14) << *(bds+i*3+1)
+				Rcout << setw(10) << *(bds+i*3+0)*(-1.) << "," << setw(14) << *(bds+i*3+1)
 					<< "," << setw(14) << *(bds+i*3+2) << endl;
 				for(int j=0;j<numr;j++)  if( *(bds+i*3+0) == th_bds[2*j] )  Rcout << endl;
 			}
@@ -231,11 +231,13 @@ int Clmbr::cr( METHOD met, double incr, bool verbose, double * bounds)
 
 
 	if(bounds!=0)  {
-		for(i=0;i<N;i++)  if( model_in > 0 ) {
-			for(int j=0;j<3;j++)  *(bounds+j*N + i) = *(bds+i*3+j);
-		} else {
-			*(bounds + i) = -*(bds+(N-1-i)*3+0);
-			for(int j=1;j<3;j++)  *(bounds+j*N + i) = *(bds+(N-1-i)*3+j);
+		for(i=0;i<N;i++) {
+			if( model_in > 0 ) {
+				for(int j=0;j<3;j++)  *(bounds+j*N + i) = *(bds+i*3+j);
+			} else {
+				*(bounds + i) = *(bds+(N-1-i)*3+0)*(-1.);
+				for(int j=1;j<3;j++)  *(bounds+j*N + i) = *(bds+(N-1-i)*3+j);
+			}
 		}
 	}
 

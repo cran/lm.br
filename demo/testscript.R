@@ -21,7 +21,7 @@ testrun  <-  function( )  {
   cat("functions 'sl', 'ci', 'cr'.  A complete run takes 10-20 hours.\n\n\n")
 
 # if  'track'=TRUE  this script keeps an ongoing log of input in local
-# disk files, which is useful for debugging if the program hangs
+# disk files, for debugging if the program hangs
 
   track <- FALSE
 
@@ -31,15 +31,16 @@ testrun  <-  function( )  {
     rWy2name <- tempfile( pat="rWy2", fileext=".txt" )
   }
 
-# record coverage frequencies in a local disk file for summary
+# keep a log of coverage frequencies in a local disk file
   cfqName <- tempfile( pat="cfq", fileext=".txt" )
   warning( "log stored in tempfile  ", cfqName, "\n")
   cfqs <- file( cfqName, "wt")
   cat("Test no., sl(theta), sl(theta,'AF'),  sl(theta,alpha), sl(theta,alpha,'AF') \n\n" , file= cfqs)
   close( cfqs )
 
-# results are reproducible by setting the seed for the pseudo-random number generator
-# omit this statement for fresh results each run
+# results are reproducible by setting the seed 
+# for the pseudo-random number generator
+# omit this statement if you want new results each run
   set.seed(1234)
 
 ## how many arbitrary models for each type of model

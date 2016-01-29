@@ -157,7 +157,7 @@ lm.br( log_odds ~ group, 'TL', w= variances, inv= TRUE, var.known= TRUE )
 y <- c( 1.55, 3.2, 6.3, 4.8, 4.3, 4.0, 3.5, 1.8 )
 x <- 1:8
 eg <- lm.br( y ~ x )
-\donttest{eg$cr()}
-eg$cr( method = 'aF' )
+\donttest{eg$cr( output='t' )}
+eg$cr( method = 'aF', output='t' )
 }
 

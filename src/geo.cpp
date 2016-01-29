@@ -47,7 +47,7 @@ double Clmbr::geo_vu_D( double th2, double * err)  const
 	double  pr =  F( m-2, -arg );
 
 
-//   ki  is the first data-interval where  Omega != 0  after  th0 ,   kj  is the interval with outside boundary  th2
+//   ki  is the first data-interval where  tau != 0  after  th0 ,   kj  is the interval with outside boundary  th2
 	int  ki, kj, kinc;
 	if( th2 > th0 )   { ki= k0+1;  kj= ns-2;  kinc= 1;}   else   {ki= k0-1;  kj= k1+1;  kinc= -1;}
 	if( th2 < th0 && k0 > 0 )  if( th0==xs[k0-1] )  ki= k0-2;
@@ -165,7 +165,7 @@ double Clmbr::geo_vu_ND( double th2, double * err)  const
 	const double  rad= sqrt((1-w*w)*(1-z*z)),  rU= z*w + rad,  rZ= z/w;
 
 
-//   ki  is the first data-interval where  Omega != 0  after  th0 ,   kj  is the interval with outside boundary  th2
+//   ki  is the first data-interval where  tau != 0  after  th0 ,   kj  is the interval with outside boundary  th2
 	int  ki, kj, kinc;
 	if( th2 > th0 )   ki= k0+1,  kj= ns-2,  kinc= 1;   else   ki= k0-1,  kj= k1+1,  kinc= -1;
 	if( th2 < th0 && k0 > 0 )  if( th0==xs[k0-1] )  ki= k0-2;
@@ -360,7 +360,7 @@ double  Clmbr::geo_vk_D(  double th2,  double * err )  const
 	double  pr = Rf_pnorm5(-arg ,0,1,1,0);
 
 
-//   ki  is the first data-interval where  Omega != 0  after  th0 ,   kj  is the interval with outside boundary  th2
+//   ki  is the first data-interval where  tau != 0  after  th0 ,   kj  is the interval with outside boundary  th2
 	int  ki, kj, kinc;
 	if( th2 > th0 )   ki= k0+1,  kj= ns-2,  kinc= 1;   else   ki= k0-1,  kj= k1+1,  kinc= -1;
 	if( th2 < th0 && k0 > 0 )  if( th0==xs[k0-1] )  ki= k0-2;
@@ -472,7 +472,7 @@ double Clmbr::geo_vk_ND( double th2, double * err)  const
 {
 	if ( fabs(th0-th2) < zero_eq )  return 0.;
 
-//   ki  is the first data-interval where  Omega != 0  after  th0 ,   kj  is the interval with outside boundary  th2
+//   ki  is the first data-interval where  tau != 0  after  th0 ,   kj  is the interval with outside boundary  th2
 	int  ki, kj, kinc;
 	if( th2 > th0 )   ki= k0+1,  kj= ns-2,  kinc= 1;   else   ki= k0-1,  kj= k1+1,  kinc= -1;
 	if( th2 < th0 && k0 > 0 )  if( th0==xs[k0-1] )  ki= k0-2;

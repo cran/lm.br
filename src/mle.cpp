@@ -100,18 +100,18 @@ double  Clmbr::mle(  bool verbose,  double *  max_gqysq,  double *  par  )  cons
 
 	if(line) {
 		if(Model==M1) {
-			thmle= NaN;
-			alphamle= NaN;
+			thmle= NA;
+			alphamle= NA;
 			const double  slope= ( (*py)[ n-1 ] - (*py)[ 0 ] )/( (*px)[n-1]-(*px)[0] );
 			betamle = betapmle = slope;
 		}
 		if(Model==M2) {
-			thmle= NaN;
+			thmle= NA;
 			alphamle= (*py)[0];
 			betamle = betapmle = 0.;
 		}
 		if(Model==M3) {
-			thmle= NaN;
+			thmle= NA;
 			alphamle= 0.;
 			betamle = betapmle = 0.;
 		}

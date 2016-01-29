@@ -26,9 +26,9 @@ Knowles, Siegmund and Zhang (1991) reduced the conditional likelihood-ratio sign
 
 The default method "CLR" evaluates this probability using a geometric-expectation formula that Knowles et al. also derived. This formula slightly over-estimates, but the error is negligible for significance levels below 0.20.
 
-Method "MC" evaluates the probability expression directly by Monte Carlo simulation, which avoids the over-estimate of the "CLR" method.
+Method "MC" evaluates that probability expression directly by Monte Carlo simulation, which avoids the over-estimate of the "CLR" method.
 
-Method "AF" estimates the distribution of the likelihood-ratio statistic by the related F-distribution (or chi-squared if variance known) that would be exact for a linear model.  This method is not exact, but it is common for non-linear regression.
+Method "AF" estimates the distribution of the likelihood-ratio statistic by the related F-distribution (or chi-squared if variance is known) which would be exact for a linear model.  This method is not exact, but it is common for non-linear regression.
 }
 
 \note{

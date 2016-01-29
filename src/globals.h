@@ -1,5 +1,5 @@
 //
-//  "includes" and global variable definitions for class Clmbr
+//  'includes' and global variable definitions for class Clmbr
 
 
 #if !defined  CLMBR_G_H__		// prevents compiler from repeating this code in other files
@@ -8,14 +8,14 @@
 
 #include <iomanip>				// for 'setw'
 #include <algorithm>			// for 'min', 'max'
-#include <math.h>				// for 'sqrt', 'log', 'cos' 
-#include <time.h>
+#include <cmath>				// for 'sqrt', 'log', 'cos' 
+#include <ctime>
 
-extern "C" {
+
 #include <R.h>
 #include <R_ext/Applic.h>		// for 'Rdqags' and 'Rdqagi'
 #include <R_ext/Lapack.h>
-}
+
 
 #include <Rcpp.h>
 
@@ -43,6 +43,7 @@ enum  METHOD { GEO, GEO2, AF, AF2, MC, INIT };
 const double zero_eq = ldexp( 1., -40 );
 const double Inf = R_PosInf;
 const double NaN = R_NaN;
+const double NA = NA_REAL;
 const double pi = M_PI;
 
 

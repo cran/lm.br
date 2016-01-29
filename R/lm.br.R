@@ -179,7 +179,7 @@ lm.br  <- function( formula, type ="LL", data, subset,
 
 # output
     par <- obj$param()
-    if( is.nan( par[1] ) )  {   # case of perfect line
+    if( is.na( par[1] ) )  {   # case of perfect line
       xb <- x
       if(xint) colnames(xb)[1] <- "  alpha"
       for(i in 1:nx) if( is.na(z$coef[i+1]) ) xb[,i] <- 0
@@ -236,7 +236,7 @@ lm.br  <- function( formula, type ="LL", data, subset,
 
 
 #  output list
-    p <-  if( is.nan( par[1] ) )  z$rank  else  z$rank + 1
+    p <-  if( is.na( par[1] ) )  z$rank  else  z$rank + 1
     z$no_of_parameters <- p
     z$df.residual <- nrow(x_) - p
     z$xint <- xint
