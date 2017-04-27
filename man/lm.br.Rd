@@ -86,7 +86,7 @@ The returned object also lists 'coefficients', 'fitted.values' and 'residuals', 
 
 
 \note{
-Data can include more than one 'y' value for the same 'x' value.  The 'weights' matrix must be positive-definite.  
+Data can include more than one 'y' value for a repeat 'x' value.  
 If variance is known, then  'var' = 1  and  'weights'  is the inverse of the variances
 vector or variance-covariance matrix.
 }
@@ -154,7 +154,7 @@ lm.br( log_odds ~ group, 'TL', w= variances, inv= TRUE, var.known= TRUE )
 
 #  An example that shows different confidence regions from inference by
 #  conditional likelihood-ratio (CLR)  versus  approximate-F (AF).
-y <- c( 1.55, 3.2, 6.3, 4.8, 4.3, 4.0, 3.5, 1.8 )
+y <- c( 1.6, 3.2, 6.3, 4.8, 4.3, 4.0, 3.5, 1.8 )
 x <- 1:8
 eg <- lm.br( y ~ x )
 \donttest{eg$cr( output='t' )}

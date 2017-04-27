@@ -10,7 +10,7 @@
 
 \usage{
 \S4method{sl}{Cpp_Clmbr}( theta0,  method ="CLR", tolerance =0.001, output ="T" )
-sl( theta0, alpha0,  method ="CLR", tolerance =0.001, output ="T" )
+\S4method{sl}{Cpp_Clmbr}( theta0, alpha0,  method ="CLR", tolerance =0.001, output ="T" )
 }
 
 \arguments{

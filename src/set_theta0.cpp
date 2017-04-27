@@ -61,7 +61,7 @@ void  Clmbr::set_theta0( double th_0,  METHOD met )
 					f0x[k] = qf0*pqx[k];  
 
 // calculate B[k]
-					if( ck[k] == 0 )  B[k]= 1.;  else  { //5
+					if( ck[k] < ldexp(2.,-48) )  B[k]= 1.;  else  { //5
 
 						if( ( xs[ns-2] <= th0 && th0 < xs[ns-1] )  ||
 								( Model==M1 && xs[0]<th0 && th0<=xs[1] )  ||  
