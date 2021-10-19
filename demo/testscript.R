@@ -33,7 +33,7 @@ testrun  <-  function( )  {
 
 # keep a log of coverage frequencies in a local disk file
   cfqName <- tempfile( pat="cfq", fileext=".txt" )
-  warning( "log stored in tempfile  ", cfqName, "\n")
+  warning( "log stored in tempfile  ", cfqName, "  until you quit R\n")
   cfqs <- file( cfqName, "wt")
   cat("Test no., sl(theta), sl(theta,'AF'),  sl(theta,alpha), sl(theta,alpha,'AF') \n\n" , file= cfqs)
   close( cfqs )

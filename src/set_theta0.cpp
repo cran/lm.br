@@ -112,10 +112,10 @@ void  Clmbr::set_theta0( double th_0,  METHOD met )
 		{
 			const char  side = 'L',  tp = 'N';
 			lwork= -1;
-			F77_CALL(dormqr)( &side, &tp, &m, &nCm, &ng, M, &m, tau_, Cm, &m, tmp, &lwork, &info );
+			F77_CALL(dormqr)( &side, &tp, &m, &nCm, &ng, M, &m, tau_, Cm, &m, tmp, &lwork, &info  FCONE FCONE);
 			if( info )  stop( _("LAPACK routine 'dormqr' failed") );  else  lwork= *tmp; 
 			double*  work= Calloc( lwork, double );
-			F77_CALL(dormqr)( &side, &tp, &m, &nCm, &ng, M, &m, tau_, Cm, &m, work, &lwork, &info );
+			F77_CALL(dormqr)( &side, &tp, &m, &nCm, &ng, M, &m, tau_, Cm, &m, work, &lwork, &info  FCONE FCONE);
 			if( info )  stop( _("LAPACK routine 'dormqr' failed") );
 			Free( work );
 		}

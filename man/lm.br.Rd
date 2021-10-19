@@ -24,24 +24,24 @@ lm.br(formula, type ="LL", data, subset, weights, inverse =FALSE,
 
 
 \arguments{
-  \item{formula}{a formula expression as for regression models, of
-the form \code{response ~ predictors}; see \code{\link{formula}}.}
+  \item{formula}{a formula expression of
+the form \code{response ~ predictors}, the same as for regression models; see \code{\link{formula}}}
   \item{type}{ "LL", "LT" or "TL" which stand for line-line,
-line-threshold or threshold-line, defined below.}
+line-threshold or threshold-line, defined below}
   \item{data}{an optional data-frame that assigns values in
-\code{formula}.}
-  \item{subset}{expression saying which subset of the data to use.}
-  \item{weights}{vector or matrix.}
+\code{formula}}
+  \item{subset}{expression saying which subset of the data to use}
+  \item{weights}{vector or matrix}
   \item{inverse}{if TRUE then 'weights' specifies the inverse of the
-weights vector or matrix, as for a covariance matrix.}
+weights vector or matrix, as for a covariance matrix}
   \item{var.known}{is the variance known?}
-  \item{na.action}{a function to filter missing data.}
+  \item{na.action}{a function to filter missing data}
   \item{contrasts}{an optional list; see 'contrasts.arg' in
-\code{\link{model.matrix}}.}
+\code{\link{model.matrix}}}
   \item{offset}{a constant vector to be subtracted from the
-responses vector.}
+responses vector}
   \item{\dots}{ other arguments to \code{\link{lm.fit}} or
-\code{\link{lm.wfit}}.}
+\code{\link{lm.wfit}}}
 }
 
 

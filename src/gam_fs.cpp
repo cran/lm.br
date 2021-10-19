@@ -7,7 +7,7 @@
 Vector<double> Clmbr::gam( double th, int k )  const
 // calculate gamma
 {
-	if ( (Model==M2 && (!R_FINITE(th) && !ISNAN(th)) ) || (Model==M1 && th <=xs[0]) || xs[ns-1] <= th) return *nan_m; else
+	if ( (Model==M1 && th <=xs[0]) || xs[ns-1] <= th) return *nan_m; else
 		if (xs[ns-2] <= th  &&  th < xs[ns-1]) return *puqen; else
 			if (Model==M1  &&  (xs[0] < th  &&  th <= xs[1]) ) return *puqe1; else
 				if (Model==M2  &&  th <= xs[0])  return *puqx;  else

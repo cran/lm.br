@@ -58,12 +58,12 @@ void  Clmbr::pre_calc( void )
 		{
 			lwork= -1;
 
-			F77_CALL(dormqr)( &side, &tp, &n, &nC0, &xrank, Q, &n, tau, C0, &n, tmp, &lwork, &info );
+			F77_CALL(dormqr)( &side, &tp, &n, &nC0, &xrank, Q, &n, tau, C0, &n, tmp, &lwork, &info  FCONE FCONE);
 
 			if( info )  stop( _("LAPACK routine 'dormqr' failed") );  else  lwork= *tmp;
 			double *  work= Calloc( lwork, double );
 
-			F77_CALL(dormqr)( &side, &tp, &n, &nC0, &xrank, Q, &n, tau, C0, &n, work, &lwork, &info );
+			F77_CALL(dormqr)( &side, &tp, &n, &nC0, &xrank, Q, &n, tau, C0, &n, work, &lwork, &info  FCONE FCONE);
 
 			if( info )  stop( _("LAPACK routine 'dormqr' failed") );
 			Free( work );
@@ -157,12 +157,12 @@ void  Clmbr::pre_calc( void )
 		{
 			lwork= -1;
 
-			F77_CALL(dormqr)( &side, &tp, &n, &nC1, &xrank, Q, &n, tau, C1, &n, tmp, &lwork, &info );
+			F77_CALL(dormqr)( &side, &tp, &n, &nC1, &xrank, Q, &n, tau, C1, &n, tmp, &lwork, &info  FCONE FCONE);
 
 			if( info )  stop( _("LAPACK routine 'dormqr' failed") );  else  lwork= *tmp; 
 			double *  work= Calloc( lwork, double );
 
-			F77_CALL(dormqr)( &side, &tp, &n, &nC1, &xrank, Q, &n, tau, C1, &n, work, &lwork, &info );
+			F77_CALL(dormqr)( &side, &tp, &n, &nC1, &xrank, Q, &n, tau, C1, &n, work, &lwork, &info  FCONE FCONE);
 
 			if( info )  stop( _("LAPACK routine 'dormqr' failed") );
 			Free( work );
@@ -183,12 +183,12 @@ void  Clmbr::pre_calc( void )
 		{
 			lwork= -1;
 
-			F77_CALL(dormqr)( &side, &tp, &n, &nC1, &xrank, Q, &n, tau, Cx, &n, tmp, &lwork, &info );
+			F77_CALL(dormqr)( &side, &tp, &n, &nC1, &xrank, Q, &n, tau, Cx, &n, tmp, &lwork, &info  FCONE FCONE);
 
 			if( info )  stop( _("LAPACK routine 'dormqr' failed") );  else  lwork= *tmp; 
 			double *  work= Calloc( lwork, double );
 
-			F77_CALL(dormqr)( &side, &tp, &n, &nC1, &xrank, Q, &n, tau, Cx, &n, work, &lwork, &info );
+			F77_CALL(dormqr)( &side, &tp, &n, &nC1, &xrank, Q, &n, tau, Cx, &n, work, &lwork, &info  FCONE FCONE);
 
 			if( info )  stop( _("LAPACK routine 'dormqr' failed") );
 			Free( work );

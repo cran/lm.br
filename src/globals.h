@@ -6,15 +6,19 @@
 #define  CLMBR_G_H__
 
 
-#include <iomanip>				// for 'setw'
+#include <iomanip>			// for 'setw'
 #include <algorithm>			// for 'min', 'max'
-#include <cmath>				// for 'sqrt', 'log', 'cos' 
+#include <cmath>			// for 'sqrt', 'log', 'cos' 
 #include <ctime>
 
 
+#define USE_FC_LEN_T
 #include <R.h>
 #include <R_ext/Applic.h>		// for 'Rdqags' and 'Rdqagi'
 #include <R_ext/Lapack.h>
+#ifndef FCONE
+# define FCONE
+#endif
 
 
 #include <Rcpp.h>

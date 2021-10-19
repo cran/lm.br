@@ -69,14 +69,14 @@ void Clmbr::set_Sigma( void )
 					*(irS + j*n + i) = *(w_in + (n-1-j)*n + n-1-i);
 
 			F77_CALL(dsyevr)( &job, &range, &uplo, &n, irS, &n, &dd, &dd, &id, &id, &tol,
-								&ne, D, Q_, &n, isuppZ, tmp, &lwork, itmp, &liwork, &info );
+								&ne, D, Q_, &n, isuppZ, tmp, &lwork, itmp, &liwork, &info FCONE FCONE FCONE);
 
 			if( info )  stop( _("LAPACK routine 'dsyevr' failed") );  else  { lwork= *tmp; liwork= *itmp; }
 			double *  work= Calloc( lwork, double );
 			int*  iwork= Calloc( liwork, int );
 
 			F77_CALL(dsyevr)( &job, &range, &uplo, &n, irS, &n, &dd, &dd, &id, &id, &tol,
-								&ne, D, Q_, &n, isuppZ, work, &lwork, iwork, &liwork, &info );
+								&ne, D, Q_, &n, isuppZ, work, &lwork, iwork, &liwork, &info FCONE FCONE FCONE);
 
 			if( info || ne < n )  stop( _("LAPACK routine 'dsyevr' failed") );
 			Free( isuppZ );  Free( work );  Free( iwork );
