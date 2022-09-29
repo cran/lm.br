@@ -30,7 +30,7 @@ print.lm.br  <-
 
 # print coefficients unless 'sety' has been called
     par <- x$CppObj$param()
-    if( !par[6] )  {
+    if( !par[7] )  {
       cat( "Changepoint and coefficients:\n" )
       print.default( round(x$coef, 5) )
     }

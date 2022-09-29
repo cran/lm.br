@@ -1,8 +1,8 @@
 Package: lm.br
 Type: Package
 Title: Linear Model with Breakpoint
-Version: 2.9.4
-Date: 2021-10-18
+Version: 2.9.5
+Date: 2022-09-29
 Authors@R: c( person("Marc", "Adams", role= c("aut", "cre"), email= "lm.br.pkg@gmail.com"),
   person("authors of R function 'lm'", role = "ctb", comment = "general interface"),
   person("authors of 'lm.gls'", role = "ctb", comment = "interface and R code for covariate weights"),
@@ -15,11 +15,9 @@ Description: Exact significance tests for a changepoint in linear or multiple li
   Confidence regions with exact coverage probabilities for the changepoint.  Based on 
   Knowles, Siegmund and Zhang (1991) <doi:10.1093/biomet/78.1.15>.
 License: GPL (>= 2)
-Depends: R(>= 4.0.0), Rcpp (>= 0.11.0)
+Depends: R(>= 3.0.1), Rcpp (>= 0.11.0)
 Imports: stats, methods, graphics, datasets
 LinkingTo: Rcpp
-NeedsCompilation: yes
-Packaged: 2021-10-18 21:09:43 UTC; rforge
 Author: Marc Adams [aut, cre],
   authors of R function 'lm' [ctb] (general interface),
   authors of 'lm.gls' [ctb] (interface and R code for covariate weights),
@@ -27,6 +25,8 @@ Author: Marc Adams [aut, cre],
 Maintainer: Marc Adams <lm.br.pkg@gmail.com>
 Repository: CRAN
 Repository/R-Forge/Project: blmr
-Repository/R-Forge/Revision: 69
-Repository/R-Forge/DateTimeStamp: 2021-10-18 21:01:18
-Date/Publication: 2021-10-19 04:30:02 UTC
+Repository/R-Forge/Revision: 75
+Repository/R-Forge/DateTimeStamp: 2022-09-29 15:36:47
+Date/Publication: 2022-09-29 19:10:02 UTC
+NeedsCompilation: yes
+Packaged: 2022-09-29 15:53:51 UTC; rforge

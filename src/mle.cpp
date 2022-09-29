@@ -53,7 +53,7 @@ double  Clmbr::mle(  bool verbose,  double *  max_gqysq,  double *  par  )  cons
 
 
 // calculate  alphamle, betamle, betapmle, vmle
-	double alphamle, betamle, betapmle, vmle;
+	double  alphamle= 0.,  betamle= 0.,  betapmle= 0.,  vmle= 0.;
 
 	if (Model==M1) {
 		const double  bmle = *psy*gsm(thmle,kmle);
@@ -153,7 +153,7 @@ double  Clmbr::mle(  bool verbose,  double *  max_gqysq,  double *  par  )  cons
 			if( k < ns-1 )  if( ff(xs[k],k) < ffmin )  { ffmin = ff(xs[k],k);  thfmin = xs[k]; }
 		}
 
-		*par= thmle*reflect,  *(par+1)= alphamle,  *(par+2)= betamle,  *(par+3)= betapmle,  *(par+4)= thfmin*reflect;
+		*par= thmle*reflect,  *(par+1)= alphamle,  *(par+2)= betamle,  *(par+3)= betapmle,  *(par+4)= vmle,  *(par+5)= thfmin*reflect;
 	}
 
 

@@ -20,6 +20,7 @@ RCPP_MODULE(Clmbr){
 		.method( "sl5", &Clmbr::sl5R , "SL for th0 by specified method, tolerance and output flag" )
 		.method( "sl6", &Clmbr::sl6R , "SL for (th0,a0) by specified method, tolerance and output flag" )
 		.method( "ci", &Clmbr::ciR , "confidence interval for theta by specified method" )
+		.method( "ci2", &Clmbr::ci2R , "confidence interval for theta by specified method and output flag" )
 		.method( "cr3", &Clmbr::cr3R ,
 			"confidence region for (theta,alpha) by specified method and increment" )
 		.method( "cr4", &Clmbr::cr4R , 

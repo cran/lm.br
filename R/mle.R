@@ -5,14 +5,7 @@
 # the corresponding function of the C++ object
 
 
-.ci <- function( z, CL =0.95, method ="clr", output ="T" )  {
-
-  method <- toupper(method)
-  met <- integer(1)
-  if( method=="CLR" )  met <- 1  else  {
-    if( method=="AF" )  met <- 2  else
-      stop( "'method' must be \"CLR\" or \"AF\"" )
-  }  
+.mle <- function( z, output ="T" )  {
 
   value <- verbose <- logical(1)
   output <- toupper(output)
@@ -30,11 +23,14 @@
     }
   }
 
+  if(verbose) {
+    (z$CppObj)$mle( )
+  }
+  
   if(value) {
-    bounds <- (z$CppObj)$ci2( CL, met, as.integer(verbose) )
-    return( bounds )
-  }  else  {
-    (z$CppObj)$ci( CL, met )
+    par <- (z$CppObj)$param()
+    mles <- c( par[1], par[2], par[3], par[4], par[5] )  
+    return( mles )
   }
   
 }

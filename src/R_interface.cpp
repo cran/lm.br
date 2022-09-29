@@ -159,10 +159,46 @@ void  Clmbr::ciR( double CL,  int met)
 
 	const double tmp = SL;
 	set_SL(1.-CL);
+	
 	ci(MET); 
+	
 	set_SL(tmp);
 
 	return; 
+}
+
+
+
+NumericVector  Clmbr::ci2R( double CL,  int met,  int verboseR ) 
+{ 
+	if(CL <=0. || CL >=1.)  stop( CLmsg );
+
+	METHOD  MET;
+	if(met==1)  MET=GEO;  else  {
+		if(met==2)  MET=AF;  else  { 
+			stop( methods2msg );
+		}
+	}
+
+	const bool  verbose = static_cast<bool>( verboseR );
+
+	const int  max_segments = 20;
+	double*  Btmp= Calloc( max_segments*2, double );
+	
+	const double tmp = SL;
+	set_SL(1.-CL);
+
+	const int  nsegments = ci( MET, -1., verbose, Btmp ); 
+	
+	set_SL(tmp);
+	
+	NumericVector  bds( nsegments*2 );
+	for(int i=0; i < nsegments*2; i++)  {
+		bds(i) = *(Btmp + i);
+	}
+	Free( Btmp );
+	
+	return  bds; 
 }
 
 
@@ -259,18 +295,18 @@ NumericVector  Clmbr::PARAM( void )  const
 // function to pass parameter values to R-code
 // internal, not meant for the user
 { 
-	double  *const  pdummy =NULL,  *par= Calloc( 5, double );
+	double  *const  pdummy =NULL,  *par= Calloc( 6, double );
 
 	mle( false, pdummy, par ); 
 
 	const double  th= par[0],  a= par[1],  b= par[2],  
-			bp= par[3],  thfmin= par[4];
+			bp= par[3],  v= par[4],  thfmin= par[5];
 
 	Free( par );
 
 	const double  syc = static_cast<double>( sety_called );
 
-	return  NumericVector::create( th, a, b, bp, thfmin, syc ); 
+	return  NumericVector::create( th, a, b, bp, v, thfmin, syc ); 
 }
 
 

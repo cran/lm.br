@@ -157,6 +157,7 @@ public:
 	double sl6R( int met, int verboseR, int valueR, double tol, 
 				double theta0, double alpha0 ); 
 	void ciR( double CL, int met );
+	NumericVector ci2R( double CL, int met, int verboseR );
 	void cr3R( double CL, int met, double incr );
 	NumericMatrix cr4R( double CL, int met, double incr, int verboseR );
 	void MLE(void) const;

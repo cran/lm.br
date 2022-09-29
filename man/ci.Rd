@@ -9,16 +9,21 @@
 }
 
 \usage{
-\S4method{ci}{Cpp_Clmbr}(  CL =0.95, method ="CLR" )
+\S4method{ci}{Cpp_Clmbr}(  CL =0.95, method ="CLR", output ="T" )
 }
 
 \arguments{
   \item{CL}{confidence level, between 0 and 1.}
   \item{method}{"CLR" or "AF" which stand for conditional likelihood-ratio or approximate-F, see \code{\link{sl}} for details.}
+  \item{output}{"T", "V" or "B" which stand for text, value or both.}
 }
 
 \details{
 This subroutine scans to determine the postulate values of 'theta' that have significance level greater than 1-CL.
+}
+
+\value{
+'ci' prints-out the confidence interval for 'theta' but does not return a value if 'output' is "T".  'sl' returns a numeric vector of boudaries for the contiguous segments of the confidence interval if 'output' is "V" or "B".
 }
 
 \examples{
@@ -29,5 +34,6 @@ sc <- lm.br( y ~ x )
 sc$ci()
 sc $ ci( 0.90 )
 sc $ ci( .99, 'af' )
+sc $ ci( out= 'v' )
 }
 

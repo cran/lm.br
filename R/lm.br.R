@@ -148,7 +148,7 @@ lm.br  <- function( formula, type ="LL", data, subset,
       obj <- new( Cpp_Clmbr, y_, x_, w_, model_num, 
             as.integer(inverse), as.integer(var.known) )
 
-      thQfmin <- obj$param()[5]
+      thQfmin <- obj$param()[6]
       xb[ ,x1c] <- if( type=='TL' )  0  else
           { if( is.infinite(thQfmin) )  -1  else  pmin(x1 - thQfmin, 0 ) }
       xb[ ,x1c+1] <- if( type=='LT' )  0  else
@@ -230,7 +230,8 @@ lm.br  <- function( formula, type ="LL", data, subset,
 
     z$sl <- function(...)  .sl( z, ... ) 
 
-    z$mle <- function( )  (z$CppObj)$mle( )
+#    z$mle <- function( )  (z$CppObj)$mle( )
+    z$mle <- function(...)  .mle( z, ... )
 
     z$sety <- function( rWy )  .sety( z, rWy )
 

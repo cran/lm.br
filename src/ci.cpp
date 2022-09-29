@@ -21,7 +21,7 @@ int Clmbr::ci( METHOD met, double incr, bool verbose, double * bounds)
 
 
 	double  inc;
-	if( incr == -1 )  inc= xinc;  else  inc= incr;
+	if( incr == -1. )  inc= xinc;  else  inc= incr;
 
 
 	if(trivial) {
