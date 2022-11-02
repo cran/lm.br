@@ -1,8 +1,8 @@
 Package: lm.br
 Type: Package
 Title: Linear Model with Breakpoint
-Version: 2.9.5
-Date: 2022-09-29
+Version: 2.9.6
+Date: 2022-11-02
 Authors@R: c( person("Marc", "Adams", role= c("aut", "cre"), email= "lm.br.pkg@gmail.com"),
   person("authors of R function 'lm'", role = "ctb", comment = "general interface"),
   person("authors of 'lm.gls'", role = "ctb", comment = "interface and R code for covariate weights"),
@@ -18,15 +18,12 @@ License: GPL (>= 2)
 Depends: R(>= 3.0.1), Rcpp (>= 0.11.0)
 Imports: stats, methods, graphics, datasets
 LinkingTo: Rcpp
+NeedsCompilation: yes
+Packaged: 2022-11-02 22:01:27 UTC; marc
 Author: Marc Adams [aut, cre],
   authors of R function 'lm' [ctb] (general interface),
   authors of 'lm.gls' [ctb] (interface and R code for covariate weights),
   U.S. NIST [ctb] (C++ code for TNT::Vector template)
 Maintainer: Marc Adams <lm.br.pkg@gmail.com>
 Repository: CRAN
-Repository/R-Forge/Project: blmr
-Repository/R-Forge/Revision: 75
-Repository/R-Forge/DateTimeStamp: 2022-09-29 15:36:47
-Date/Publication: 2022-09-29 19:10:02 UTC
-NeedsCompilation: yes
-Packaged: 2022-09-29 15:53:51 UTC; rforge
+Date/Publication: 2022-11-02 22:37:46 UTC

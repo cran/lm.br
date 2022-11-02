@@ -1,4 +1,4 @@
-bcd32e146cf04e93a963b7f6d2c1ce3f *DESCRIPTION
+95df804096d7c697458cb0470e7275e7 *DESCRIPTION
 3118f77d1906d25454a9203ceb811aa3 *NAMESPACE
 a52462aac16ad8fa669239bbde3e50d9 *R/ci.R
 6359fc26e85ddba70826c06000e5ab77 *R/cr.R
@@ -14,7 +14,7 @@ d987cf2aaa6ac315725f31f248fc7e03 *R/onAttach.R
 d9c70d330db9de3855cfcd31548ea5a1 *demo/testscript.R
 e13d240f0cb030c515fb99f4e309fadc *inst/doc/lm.br.R
 5771350334d17fb9593fdf6eaf08647c *inst/doc/lm.br.Rnw
-d48b9e60b8dd72ab3cc780f791680cc7 *inst/doc/lm.br.pdf
+94fd0f3da2ea10ea200ae981f92746fd *inst/doc/lm.br.pdf
 e4bd23fb4d39f865360892b0dce67a45 *inst/po/en@quot/LC_MESSAGES/R-lm.br.mo
 567816761286514496ae01cb56b9c145 *inst/po/en@quot/LC_MESSAGES/lm.br.mo
 e7a7ae4966b0246e8752b305383ab3bc *inst/po/fr/LC_MESSAGES/R-lm.br.mo
