@@ -21,7 +21,7 @@ double Clmbr::bisect( double a, double b, double (Clmbr::*fn)(double,int), int k
 		if(f1*fx<=0 && f1!=fx) { x2= xmean; f2= fx; }  else  { x1= xmean; f1= fx; } 
 		iteration++;
 	}
-	if(iteration==bis_it_limit)  Rf_warning( _("'bisect' failed to reach tolerance after maximum number of iterations") );
+	if(iteration==bis_it_limit)  warning( "%s", _("'bisect' failed to reach tolerance after maximum number of iterations") );
 	if (crit<0) { if (f1 <= 0) return x1; else return x2; }
 		else  { if (f1 >= 0) return x1; else return x2; }
 }
@@ -41,7 +41,7 @@ double Clmbr::bisect( double a, double b, double (Clmbr::*fn)(double,int) const,
 		iteration++;
 	}
 	if(iteration==bis_it_limit)  
-		Rf_warning( _("'bisect' const  failed to reach tolerance after maximum number of iterations") );
+		Rf_warning( "%s", _("'bisect' const  failed to reach tolerance after maximum number of iterations") );
 	if (crit<0) { if (f1 <= 0) return x1; else return x2; }
 		else  { if (f1 >= 0) return x1; else return x2; }
 }
@@ -65,7 +65,7 @@ double Clmbr::bisect_sl( double a, double b, METHOD met, double crit)
 		iteration++;
 	}
 	if(iteration==bis_it_limit)  
-		Rf_warning( _("'bisect_sl' failed to reach tolerance after maximum number of iterations") );
+		Rf_warning( "%s", _("'bisect_sl' failed to reach tolerance after maximum number of iterations") );
 	if (crit<0) { if (f1 <= 0) return x1; else return x2; }
 		else  { if (f1 >= 0) return x1; else return x2; }
 }

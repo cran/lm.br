@@ -91,7 +91,7 @@ double Clmbr::sl_mc2(void)  const
 
 	bool shortcut= true;
 	const int  N = 10000000;
-	int  it,  count= 0;
+	int  it= 0;   //,  count= 0;
 	const double  tstart = time( NULL );
 	double  pstart= tstart,  sum=0.,  sumsqs=0.;
 
@@ -127,7 +127,7 @@ double Clmbr::sl_mc2(void)  const
 
 		const Vector<double>  &rs = s;
 		if ( m_ge_w(testw, rs) )  {
-			count++;
+//			count++;
 			double den;
 			if (variance_unknown) {if (th0ex) den =fk(m,xi); else  den =fk(m-1,xi);} 
 					else  den = Rf_dnorm4(lambda*xi, 0,1,0) ;

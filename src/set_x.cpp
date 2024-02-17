@@ -13,7 +13,7 @@ void Clmbr::set_x( void )
 	int xcol;
 	if(Model==M3) xcol=0; else xcol=1;
 	for (i=0;i<n;i++) x[i] = *(x_in+xcol*n+i);
-	const double  min_xdiff= (x[n-1]-x[0])*0.001;
+	const double  min_xdiff= (x[n_int-1]-x[0])*0.001;
 	double  xib,  xi= x[0] - 1 - min_xdiff;
 
 	for(i=0;i<n;i++) {
@@ -49,7 +49,7 @@ void Clmbr::set_x( void )
 	if(lack)  stop( _("number of seperate 'x' values below minimum for changepoint inference") );
 
 	*px = x;
-	if( model_in < 0 )  for (i=0;i<n;i++)  (*px)[i] = -x[n-1-i];
+	if( model_in < 0 )  for (i=0;i<n;i++)  (*px)[i] = -x[n_int-1-i];
 
 	return;
 }

@@ -29,9 +29,11 @@ Clmbr::Clmbr(  NumericVector  yR,  NumericMatrix  xR,  NumericMatrix  wR,  int m
 	pqy = NULL;
 
 
-	int i, j;
+	R_xlen_t  i, j;
+	R_xlen_t  zero= static_cast<R_xlen_t>(0),  one= static_cast<R_xlen_t>(1) ;
 
-	n = yR.size();
+	n =  yR.size() ;
+	n_int =  static_cast<int>( n ) ;
 
 	xrank = xR.ncol();
 
@@ -44,11 +46,11 @@ Clmbr::Clmbr(  NumericVector  yR,  NumericMatrix  xR,  NumericMatrix  wR,  int m
 	bool  cov_matrix_I = true;
 	cov_matrix_diagonal = true;
 
-	if( wR(0,0) > -0.5 )  {		// flag for null 'weights'
-		if( wR.ncol()==1 )  {
-			for (i=0;i<n;i++)  if( fabs( wR(i,0) - 1. ) > zero_eq )  cov_matrix_I = false;
+	if( wR(zero,zero) > -0.5 )  {		// flag for null 'weights'
+		if( wR.ncol()==one )  {
+			for (i=zero;i<n;i++)  if( fabs( wR(i,zero) - 1. ) > zero_eq )  cov_matrix_I = false;
 		}  else  {
-			for (i=0;i<n;i++) for (j=0;j<n;j++) {
+			for (i=zero;i<n;i++) for (j=zero;j<n;j++) {
 				if (i==j &&  fabs( wR(i,j) - 1. )>zero_eq) cov_matrix_I = false;
 				if (i!=j && fabs( wR(i,j) )>zero_eq) {cov_matrix_I = false; cov_matrix_diagonal = false;}
 			}
@@ -70,11 +72,11 @@ Clmbr::Clmbr(  NumericVector  yR,  NumericMatrix  xR,  NumericMatrix  wR,  int m
 
 // store input values
 
-	for (i=0;i<n;i++) {
+	for (i=zero;i<n;i++) {
 		y_in[i] =  yR[i];
-		for(j=0; j< xrank; j++)  *(x_in+j*n+i) = xR(i,j);
-		if( vectorS )  { if( wR.ncol()==1 )  *(w_in+i) = wR(i,0);  else  *(w_in+i) = wR(i,i); }
-		if( matrixS )  for(j=0; j< n; j++)  *(w_in+j*n+i) = wR(i,j);
+		for(j=zero; j< xrank; j++)  *(x_in+j*n+i) = xR(i,j);
+		if( vectorS )  { if( wR.ncol()==one )  *(w_in+i) = wR(i,zero);  else  *(w_in+i) = wR(i,i); }
+		if( matrixS )  for(j=zero; j< n; j++)  *(w_in+j*n+i) = wR(i,j);
 	}
 
 
@@ -113,6 +115,7 @@ Clmbr::Clmbr( const Clmbr  &initM )
 	inverse= initM.inverse;
 
 	n = initM.n;
+	n_int = initM.n_int;
 
 	xrank = initM.xrank;
 
@@ -146,10 +149,13 @@ Clmbr::~Clmbr()
 // destructor
 {
 	const Vector<double>  free(0);
+	
+	R_xlen_t  zero= static_cast<R_xlen_t>(0),  one= static_cast<R_xlen_t>(1) ;
+
 	*px = *pv1h = *pxh = *psig1 = *psigx = *nan_m1 = *nan_m = free;
 	*pnse1 = *pnuse1 = *pusen = *puqe1 = *puqen = *puqx = free;
 	*py = *psy = *pqy = free;
-	for(int i=0; i<ns+1; i++) {
+	for(R_xlen_t i=zero; i<ns+one; i++) {
 		ps1[i]= free;  psx[i]= free;  pq1[i]= free;  pqx[i]= free;  pmq1[i]= free;
 	}
 	if(Model==M3)  *pm1h = free;

@@ -57,7 +57,7 @@ int Clmbr::cr( METHOD met, double incr, bool verbose, double * bounds)
 	int  N=0;
 	double width= 0;						
 	for (i=0;i<numr;i++) width += th_bds[2*i+1] - th_bds[2*i];
-	const int Nmax = width/inc + 1 + ns + 2*numr + 2;
+	const int  Nmax =  static_cast<int>(width/inc) + 1 + ns + 2*numr + 2;
 
 	double*  bds= Calloc( 3*Nmax, double );
 

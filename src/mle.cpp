@@ -102,7 +102,7 @@ double  Clmbr::mle(  bool verbose,  double *  max_gqysq,  double *  par  )  cons
 		if(Model==M1) {
 			thmle= NA;
 			alphamle= NA;
-			const double  slope= ( (*py)[ n-1 ] - (*py)[ 0 ] )/( (*px)[n-1]-(*px)[0] );
+			const double  slope= ( (*py)[ n_int-1 ] - (*py)[ 0 ] )/( (*px)[n_int-1]-(*px)[0] );
 			betamle = betapmle = slope;
 		}
 		if(Model==M2) {
@@ -117,7 +117,7 @@ double  Clmbr::mle(  bool verbose,  double *  max_gqysq,  double *  par  )  cons
 		}
 	}
 
-	const int  reflect = copysign( 1, model_in );
+	const int  reflect =  static_cast<int>( copysign( 1, model_in ) );
 
 //  if called by PARAM
 //  find 'theta' value for minimum of 'ff' =(Q*f)^2 to check for singular x-matrix

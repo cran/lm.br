@@ -37,7 +37,7 @@ double Clmbr::sl( double th_0,  METHOD met,  bool verbose )
 
 
 	if (verbose)  {
-		const int  reflect = copysign( 1, model_in );
+		const int  reflect =  static_cast<int>( copysign( 1, model_in ) );
 		Rcout << "  SL= " << sL << _("  for theta0 = ") << th_0*reflect ;
 		if( !trivial )  {
 			Rcout <<  _("  by method ");
@@ -85,7 +85,7 @@ double Clmbr::sl( double th_0,  double a0,  METHOD met,  bool verbose )
 
 
 	if (verbose)  {
-		const int  reflect = copysign( 1, model_in );
+		const int  reflect =  static_cast<int>( copysign( 1, model_in ) );
 		Rcout << "  SL= " << sL << _(" for (th0,a0)= ( ") << th_0*reflect << ", " << a0 << " )" ;
 		if( !trivial )  {
 			Rcout <<  _("  by method ");

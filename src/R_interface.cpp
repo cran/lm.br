@@ -255,7 +255,7 @@ NumericMatrix  Clmbr::cr4R( double CL,  int met,
 	if( incr == -1 )  inc= xinc;  else  inc= incr;
 
 	const double  maxwidth = xs[ns-1] - xs[0] + 2;						
-	const int  Nmax = maxwidth/inc + ns + 3;
+	const int  Nmax = static_cast<int>(maxwidth/inc) + ns + 3;
 
 	double*  Btmp= Calloc( Nmax*3, double );
 
@@ -264,16 +264,18 @@ NumericMatrix  Clmbr::cr4R( double CL,  int met,
 		stop( "dummy argument for dispatch, should be FALSE" );
 
 
-	const int  nrows = cr( MET, incr, false, Btmp ); 
+	const R_xlen_t  nrows = cr( MET, incr, false, Btmp ); 
 
 
 	set_SL(tmp);
 
+	R_xlen_t  zero= static_cast<R_xlen_t>(0),  one= static_cast<R_xlen_t>(1),  two= static_cast<R_xlen_t>(2);
+	
 	NumericMatrix  bds( nrows, 3 );
-	for(int i=0;i<nrows;i++)  {
-		bds(i,0) = *(Btmp + 0*nrows + i);
-		bds(i,1) = *(Btmp + 1*nrows + i);
-		bds(i,2) = *(Btmp + 2*nrows + i);
+	for(R_xlen_t i=0;i<nrows;i++)  {
+		bds(i,zero) = *(Btmp + 0*nrows + i);
+		bds(i,one) = *(Btmp + 1*nrows + i);
+		bds(i,two) = *(Btmp + 2*nrows + i);
 	}
 	Free( Btmp );
 
@@ -313,7 +315,7 @@ NumericVector  Clmbr::PARAM( void )  const
 
 void  Clmbr::SET_rWy( NumericVector rWy )  
 {
-	const int yn =rWy.size();
+	const int yn = static_cast<int>( rWy.size() );
 	if(yn!=n) stop( _("'rWy' vector has wrong dimension") );
 
 	double*  Ytmp= Calloc( n, double );

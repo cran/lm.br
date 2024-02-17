@@ -57,13 +57,14 @@ void  Clmbr::pre_calc( void )
 		const char  side = 'L',  tp = 'T';
 		{
 			lwork= -1;
+			int  xrank_int= static_cast<int>( xrank ) ;
 
-			F77_CALL(dormqr)( &side, &tp, &n, &nC0, &xrank, Q, &n, tau, C0, &n, tmp, &lwork, &info  FCONE FCONE);
+			F77_CALL(dormqr)( &side, &tp, &n_int, &nC0, &xrank_int, Q, &n_int, tau, C0, &n_int, tmp, &lwork, &info  FCONE FCONE);
 
-			if( info )  stop( _("LAPACK routine 'dormqr' failed") );  else  lwork= *tmp;
+			if( info )  stop( _("LAPACK routine 'dormqr' failed") );  else  lwork= static_cast<int>( *tmp );
 			double *  work= Calloc( lwork, double );
 
-			F77_CALL(dormqr)( &side, &tp, &n, &nC0, &xrank, Q, &n, tau, C0, &n, work, &lwork, &info  FCONE FCONE);
+			F77_CALL(dormqr)( &side, &tp, &n_int, &nC0, &xrank_int, Q, &n_int, tau, C0, &n_int, work, &lwork, &info  FCONE FCONE);
 
 			if( info )  stop( _("LAPACK routine 'dormqr' failed") );
 			Free( work );
@@ -153,16 +154,19 @@ void  Clmbr::pre_calc( void )
 			}
 		} 
 
+
+		int  xrank_int= static_cast<int>( xrank ) ;
+		
 		const char  side = 'L',  tp = 'T';
 		{
 			lwork= -1;
 
-			F77_CALL(dormqr)( &side, &tp, &n, &nC1, &xrank, Q, &n, tau, C1, &n, tmp, &lwork, &info  FCONE FCONE);
+			F77_CALL(dormqr)( &side, &tp, &n_int, &nC1, &xrank_int, Q, &n_int, tau, C1, &n_int, tmp, &lwork, &info  FCONE FCONE);
 
-			if( info )  stop( _("LAPACK routine 'dormqr' failed") );  else  lwork= *tmp; 
+			if( info )  stop( _("LAPACK routine 'dormqr' failed") );  else  lwork=  static_cast<int>( *tmp ); 
 			double *  work= Calloc( lwork, double );
 
-			F77_CALL(dormqr)( &side, &tp, &n, &nC1, &xrank, Q, &n, tau, C1, &n, work, &lwork, &info  FCONE FCONE);
+			F77_CALL(dormqr)( &side, &tp, &n_int, &nC1, &xrank_int, Q, &n_int, tau, C1, &n_int, work, &lwork, &info  FCONE FCONE);
 
 			if( info )  stop( _("LAPACK routine 'dormqr' failed") );
 			Free( work );
@@ -183,12 +187,12 @@ void  Clmbr::pre_calc( void )
 		{
 			lwork= -1;
 
-			F77_CALL(dormqr)( &side, &tp, &n, &nC1, &xrank, Q, &n, tau, Cx, &n, tmp, &lwork, &info  FCONE FCONE);
+			F77_CALL(dormqr)( &side, &tp, &n_int, &nC1, &xrank_int, Q, &n_int, tau, Cx, &n_int, tmp, &lwork, &info  FCONE FCONE);
 
-			if( info )  stop( _("LAPACK routine 'dormqr' failed") );  else  lwork= *tmp; 
+			if( info )  stop( _("LAPACK routine 'dormqr' failed") );  else  lwork=  static_cast<int>( *tmp ); 
 			double *  work= Calloc( lwork, double );
 
-			F77_CALL(dormqr)( &side, &tp, &n, &nC1, &xrank, Q, &n, tau, Cx, &n, work, &lwork, &info  FCONE FCONE);
+			F77_CALL(dormqr)( &side, &tp, &n_int, &nC1, &xrank_int, Q, &n_int, tau, Cx, &n_int, work, &lwork, &info  FCONE FCONE);
 
 			if( info )  stop( _("LAPACK routine 'dormqr' failed") );
 			Free( work );

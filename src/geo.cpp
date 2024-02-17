@@ -117,7 +117,7 @@ double Clmbr::geo_vu_D( double th2, double * err)  const
 
 			pr += fabs(result);
 			error += abserr;
-			if( ier > 0  &&  ier!=5 )  Rf_warning( _("integration flag") ); 
+			if( ier > 0  &&  ier!=5 )  Rf_warning( "%s", _("integration flag") ); 
 
 
 			if( !R_FINITE(thb) && !ISNAN(thb) )  
@@ -129,7 +129,7 @@ double Clmbr::geo_vu_D( double th2, double * err)  const
 
 			pr += fabs(result);
 			error += abserr;
-			if( ier > 0  &&  ier!=5 )  Rf_warning( _("integration flag") ); 
+			if( ier > 0  &&  ier!=5 )  Rf_warning( "%s", _("integration flag") ); 
 
 
 		} else {
@@ -143,7 +143,7 @@ double Clmbr::geo_vu_D( double th2, double * err)  const
 
 			pr += fabs(result);
 			error += abserr;
-			if( ier > 0  &&  ier!=5 )  Rf_warning( _("integration flag") ); 
+			if( ier > 0  &&  ier!=5 )  Rf_warning( "%s", _("integration flag") ); 
 
 		}
 
@@ -309,7 +309,7 @@ double Clmbr::geo_vu_NDab( int k,  double th_a,  double th_b,  int hilo, double 
 
 		pr += fabs(result);
 		error += abserr;
-		if( ier > 0  &&  ier!=5 )  Rf_warning( _("integration flag") ); 
+		if( ier > 0  &&  ier!=5 )  Rf_warning( "%s", _("integration flag") ); 
 
 
 		if( !R_FINITE(thb) && !ISNAN(thb) )  
@@ -321,7 +321,7 @@ double Clmbr::geo_vu_NDab( int k,  double th_a,  double th_b,  int hilo, double 
 
 		pr += fabs(result);
 		error += abserr;
-		if( ier > 0  &&  ier!=5 )  Rf_warning( _("integration flag") ); 
+		if( ier > 0  &&  ier!=5 )  Rf_warning( "%s", _("integration flag") ); 
 
 
 	}  else  {
@@ -335,7 +335,7 @@ double Clmbr::geo_vu_NDab( int k,  double th_a,  double th_b,  int hilo, double 
 
 		pr += fabs(result);
 		error += abserr;
-		if( ier > 0  &&  ier!=5 )  Rf_warning( _("integration flag") ); 
+		if( ier > 0  &&  ier!=5 )  Rf_warning( "%s", _("integration flag") ); 
 
 	}
 
@@ -415,7 +415,7 @@ double  Clmbr::geo_vk_D(  double th2,  double * err )  const
 
 			pr += fabs(result);
 			error += abserr;
-			if( ier > 0  &&  ier!=5 )  Rf_warning( _("integration flag") ); 
+			if( ier > 0  &&  ier!=5 )  Rf_warning( "%s", _("integration flag") ); 
 
 
 			if( !R_FINITE(thb) && !ISNAN(thb) )  
@@ -427,7 +427,7 @@ double  Clmbr::geo_vk_D(  double th2,  double * err )  const
 
 			pr += fabs(result);
 			error += abserr;
-			if( ier > 0  &&  ier!=5 )  Rf_warning( _("integration flag") ); 
+			if( ier > 0  &&  ier!=5 )  Rf_warning( "%s", _("integration flag") ); 
 
 		}  else  {		// no zero 
 
@@ -452,7 +452,7 @@ double  Clmbr::geo_vk_D(  double th2,  double * err )  const
 
 			pr += fabs(result);
 			error += abserr;
-			if( ier > 0  &&  ier!=5 )  Rf_warning( _("integration flag") ); 
+			if( ier > 0  &&  ier!=5 )  Rf_warning( "%s", _("integration flag") ); 
 		}
 
 		Free( iwork );  Free( work );
@@ -592,7 +592,7 @@ double Clmbr::geo_vk_NDab(  int k,  double th_a,  double th_b,  int hilo, double
 
 		pr += fabs(result);
 		error += abserr;
-		if( ier > 0  &&  ier!=5 )  Rf_warning( _("integration flag") ); 
+		if( ier > 0  &&  ier!=5 )  Rf_warning( "%s", _("integration flag") ); 
 
 
 		if( !R_FINITE(thb) && !ISNAN(thb) )  
@@ -604,7 +604,7 @@ double Clmbr::geo_vk_NDab(  int k,  double th_a,  double th_b,  int hilo, double
 
 		pr += fabs(result);
 		error += abserr;
-		if( ier > 0  &&  ier!=5 )  Rf_warning( _("integration flag") ); 
+		if( ier > 0  &&  ier!=5 )  Rf_warning( "%s", _("integration flag") ); 
 
 
 	}  else  {
@@ -630,7 +630,7 @@ double Clmbr::geo_vk_NDab(  int k,  double th_a,  double th_b,  int hilo, double
 
 		pr += fabs(result);
 		error += abserr;
-		if( ier > 0  &&  ier!=5 )  Rf_warning( _("integration flag") ); 
+		if( ier > 0  &&  ier!=5 )  Rf_warning( "%s", _("integration flag") ); 
 
 	}
 

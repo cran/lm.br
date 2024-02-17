@@ -46,7 +46,7 @@ void Clmbr::set_Sigma( void )
 		}
 
 		if( minD <= 0. )  stop( _("zero or negative 'weights' not allowed") );
-		if( minD/maxD < 1.e-7 )  Rf_warning( _("weights vector might be ill-conditioned for 'clr' method") );
+		if( minD/maxD < 1.e-7 )  Rf_warning( "%s", _("weights vector might be ill-conditioned for 'clr' method") );
 
 	}  else  {
 
@@ -68,15 +68,15 @@ void Clmbr::set_Sigma( void )
 				else
 					*(irS + j*n + i) = *(w_in + (n-1-j)*n + n-1-i);
 
-			F77_CALL(dsyevr)( &job, &range, &uplo, &n, irS, &n, &dd, &dd, &id, &id, &tol,
-								&ne, D, Q_, &n, isuppZ, tmp, &lwork, itmp, &liwork, &info FCONE FCONE FCONE);
+			F77_CALL(dsyevr)( &job, &range, &uplo, &n_int, irS, &n_int, &dd, &dd, &id, &id, &tol,
+								&ne, D, Q_, &n_int, isuppZ, tmp, &lwork, itmp, &liwork, &info FCONE FCONE FCONE);
 
 			if( info )  stop( _("LAPACK routine 'dsyevr' failed") );  else  { lwork= *tmp; liwork= *itmp; }
 			double *  work= Calloc( lwork, double );
 			int*  iwork= Calloc( liwork, int );
 
-			F77_CALL(dsyevr)( &job, &range, &uplo, &n, irS, &n, &dd, &dd, &id, &id, &tol,
-								&ne, D, Q_, &n, isuppZ, work, &lwork, iwork, &liwork, &info FCONE FCONE FCONE);
+			F77_CALL(dsyevr)( &job, &range, &uplo, &n_int, irS, &n_int, &dd, &dd, &id, &id, &tol,
+								&ne, D, Q_, &n_int, isuppZ, work, &lwork, iwork, &liwork, &info FCONE FCONE FCONE);
 
 			if( info || ne < n )  stop( _("LAPACK routine 'dsyevr' failed") );
 			Free( isuppZ );  Free( work );  Free( iwork );
@@ -105,7 +105,7 @@ void Clmbr::set_Sigma( void )
 				}
 		}
 
-		if( minD/maxD < 1.e-7 )  Rf_warning( _("weights matrix might be ill-conditioned for 'clr' method") );
+		if( minD/maxD < 1.e-7 )  Rf_warning( "%s", _("weights matrix might be ill-conditioned for 'clr' method") );
 		Free( D );  Free( Q_ );  Free( rD );
 	}
 

@@ -17,7 +17,8 @@ class Clmbr
 private:
 
 	MODEL Model;
-	int model_in, n, m, m1, ns, xrank;
+	R_xlen_t  n, m, m1, ns, xrank;
+	int model_in, n_int;
 	bool variance_unknown, inverse, vectorS, matrixS;
 	bool cov_matrix_diagonal, trivial, sety_called;
 

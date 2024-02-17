@@ -94,12 +94,13 @@ void  Clmbr::set_theta0( double th_0,  METHOD met )
 		double*  M= Calloc( m, double );
 		for(i=0;i<m;i++)  M[i] = g0[i];
 		int  ng =1,  lwork = -1,  info;
+		int  m_int= static_cast<int>( m );
 		double  tmp[1],  tau_[1];
 		{
-			F77_CALL(dgeqrf)( &m, &ng, M, &m, tau_, tmp, &lwork, &info );
-			if( info )  stop( _("LAPACK routine 'dgeqrf' failed") );  else  lwork= *tmp; 
+			F77_CALL(dgeqrf)( &m_int, &ng, M, &m_int, tau_, tmp, &lwork, &info );
+			if( info )  stop( _("LAPACK routine 'dgeqrf' failed") );  else  lwork=  static_cast<int>( *tmp ); 
 			double*  work= Calloc( lwork, double );
-			F77_CALL(dgeqrf)( &m, &ng, M, &m, tau_, work, &lwork, &info );
+			F77_CALL(dgeqrf)( &m_int, &ng, M, &m_int, tau_, work, &lwork, &info );
 			if( info )  stop( _("LAPACK routine 'dgeqrf' failed") );
 			Free( work );
 		}
@@ -112,10 +113,10 @@ void  Clmbr::set_theta0( double th_0,  METHOD met )
 		{
 			const char  side = 'L',  tp = 'N';
 			lwork= -1;
-			F77_CALL(dormqr)( &side, &tp, &m, &nCm, &ng, M, &m, tau_, Cm, &m, tmp, &lwork, &info  FCONE FCONE);
-			if( info )  stop( _("LAPACK routine 'dormqr' failed") );  else  lwork= *tmp; 
+			F77_CALL(dormqr)( &side, &tp, &m_int, &nCm, &ng, M, &m_int, tau_, Cm, &m_int, tmp, &lwork, &info  FCONE FCONE);
+			if( info )  stop( _("LAPACK routine 'dormqr' failed") );  else  lwork=  static_cast<int>( *tmp ); 
 			double*  work= Calloc( lwork, double );
-			F77_CALL(dormqr)( &side, &tp, &m, &nCm, &ng, M, &m, tau_, Cm, &m, work, &lwork, &info  FCONE FCONE);
+			F77_CALL(dormqr)( &side, &tp, &m_int, &nCm, &ng, M, &m_int, tau_, Cm, &m_int, work, &lwork, &info  FCONE FCONE);
 			if( info )  stop( _("LAPACK routine 'dormqr' failed") );
 			Free( work );
 		}

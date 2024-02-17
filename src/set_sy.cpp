@@ -30,13 +30,14 @@ void  Clmbr::set_sy( double * irsy,  METHOD met )
 		const char  side = 'L',  tp = 'T';
 		int  ny =1,  lwork= -1, info;
 		double tmp[1];
+		int  xrank_int= static_cast<int>( xrank ) ;
 
-		F77_CALL(dormqr)( &side, &tp, &n, &ny, &xrank, Q, &n, tau, virsy, &n, tmp, &lwork, &info  FCONE FCONE);
+		F77_CALL(dormqr)( &side, &tp, &n_int, &ny, &xrank_int, Q, &n_int, tau, virsy, &n_int, tmp, &lwork, &info  FCONE FCONE);
 
-		if( info )  stop( _("LAPACK routine 'dormqr' failed") );  else  lwork= *tmp;
+		if( info )  stop( _("LAPACK routine 'dormqr' failed") );  else  lwork=  static_cast<int>( *tmp );
 		double *  work= Calloc( lwork, double );
 
-		F77_CALL(dormqr)( &side, &tp, &n, &ny, &xrank, Q, &n, tau, virsy, &n, work, &lwork, &info  FCONE FCONE);
+		F77_CALL(dormqr)( &side, &tp, &n_int, &ny, &xrank_int, Q, &n_int, tau, virsy, &n_int, work, &lwork, &info  FCONE FCONE);
 
 		if( info )  stop( _("LAPACK routine 'dormqr' failed") );
 		Free( work );

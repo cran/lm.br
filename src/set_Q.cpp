@@ -42,13 +42,14 @@ void  Clmbr::set_Q( void )
 	double  tmp[1];
 	{
 		lwork = -1;
+		int  xrank_int= static_cast<int>( xrank );
 
-		F77_CALL(dgeqrf)( &n, &xrank, Q, &n, tau, tmp, &lwork, &info );
+		F77_CALL(dgeqrf)( &n_int, &xrank_int, Q, &n_int, tau, tmp, &lwork, &info );
 
-		if( info )  stop( _("LAPACK routine 'dgeqrf' failed") );  else  lwork= *tmp; 
+		if( info )  stop( _("LAPACK routine 'dgeqrf' failed") );  else  lwork=  static_cast<int>( *tmp ); 
 		double *  work= Calloc( lwork, double );
 
-		F77_CALL(dgeqrf)( &n, &xrank, Q, &n, tau, work, &lwork, &info );
+		F77_CALL(dgeqrf)( &n_int, &xrank_int, Q, &n_int, tau, work, &lwork, &info );
 
 		if( info )  stop( _("LAPACK routine 'dgeqrf' failed") );
 		Free( work );
