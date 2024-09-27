@@ -7,7 +7,7 @@
 
 double Clmbr::sl( double th_0,  METHOD met,  bool verbose )
 {
-	double  sL,  err = 0.;
+	double  sL= 0.,  err = 0.;
 
 	if(trivial)  { 
 		const double  thmle= mle(false);
@@ -58,7 +58,7 @@ double Clmbr::sl( double th_0,  METHOD met,  bool verbose )
 
 double Clmbr::sl( double th_0,  double a0,  METHOD met,  bool verbose )
 {
-	double  sL,  err = 0.;
+	double  sL= 0.,  err = 0.;
 
 	if(trivial) { 
 		const double  thmle= mle(false);

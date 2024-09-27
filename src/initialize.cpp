@@ -20,7 +20,7 @@ void Clmbr::initialize( void )
 
 
 
-	px = Calloc( 1, Vector<double> );
+	px = R_Calloc( 1, Vector<double> );
 	set_x();
 
 
@@ -30,11 +30,11 @@ void Clmbr::initialize( void )
 	if( vectorS || matrixS )  {
 
 		if(vectorS)  {
-			rS = Calloc( n, double );
-			irS = Calloc( n, double );
+			rS = R_Calloc( n, double );
+			irS = R_Calloc( n, double );
 		}  else  {
-			rS = Calloc( n*n, double );
-			irS = Calloc( n*n, double );
+			rS = R_Calloc( n*n, double );
+			irS = R_Calloc( n*n, double );
 		}
 
 		set_Sigma();
@@ -49,60 +49,60 @@ void Clmbr::initialize( void )
 	if( m1 < n )  cov_matrix_diagonal = false;
 
 
-	Q = Calloc( n*xrank, double );
-	tau = Calloc( xrank, double );
+	Q = R_Calloc( n*xrank, double );
+	tau = R_Calloc( xrank, double );
 
 	set_Q();
 
 
 // allocate memory for pre-calculated variables
-	pv1h = Calloc( 1, Vector<double> );
-	pxh = Calloc( 1, Vector<double> );
-	psig1 = Calloc( 1, Vector<double> );
-	psigx = Calloc( 1, Vector<double> );
-	nan_m1 = Calloc( 1, Vector<double> );
-	nan_m = Calloc( 1, Vector<double> );
-	pnse1 = Calloc( 1, Vector<double> );
-	pnuse1 = Calloc( 1, Vector<double> );
-	pusen = Calloc( 1, Vector<double> );
-	puqe1 = Calloc( 1, Vector<double> );
-	puqen = Calloc( 1, Vector<double> );
-	puqx = Calloc( 1, Vector<double> );
+	pv1h = R_Calloc( 1, Vector<double> );
+	pxh = R_Calloc( 1, Vector<double> );
+	psig1 = R_Calloc( 1, Vector<double> );
+	psigx = R_Calloc( 1, Vector<double> );
+	nan_m1 = R_Calloc( 1, Vector<double> );
+	nan_m = R_Calloc( 1, Vector<double> );
+	pnse1 = R_Calloc( 1, Vector<double> );
+	pnuse1 = R_Calloc( 1, Vector<double> );
+	pusen = R_Calloc( 1, Vector<double> );
+	puqe1 = R_Calloc( 1, Vector<double> );
+	puqen = R_Calloc( 1, Vector<double> );
+	puqx = R_Calloc( 1, Vector<double> );
 
 // array sizes that depend on 'ns'
-	is = Calloc( ns, int );
-	xs = Calloc( ns,  double );
-	ps1 = Calloc( ns+1, Vector<double> );
-	psx = Calloc( ns+1, Vector<double> );
-	pq1 = Calloc( ns+1, Vector<double> );
-	pqx = Calloc( ns+1, Vector<double> );
-	pmq1 =  Calloc( ns+1, Vector<double> );
-	if(Model==M3)  pm1h =  Calloc( 1, Vector<double> );
-	q11 = Calloc( ns+1, double );
-	qx1 = Calloc( ns+1, double );
-	qxx = Calloc( ns+1, double );
-	ck = Calloc( ns+1, double );
-	qff = Calloc( ns+1, double );
+	is = R_Calloc( ns, int );
+	xs = R_Calloc( ns,  double );
+	ps1 = R_Calloc( ns+1, Vector<double> );
+	psx = R_Calloc( ns+1, Vector<double> );
+	pq1 = R_Calloc( ns+1, Vector<double> );
+	pqx = R_Calloc( ns+1, Vector<double> );
+	pmq1 =  R_Calloc( ns+1, Vector<double> );
+	if(Model==M3)  pm1h =  R_Calloc( 1, Vector<double> );
+	q11 = R_Calloc( ns+1, double );
+	qx1 = R_Calloc( ns+1, double );
+	qxx = R_Calloc( ns+1, double );
+	ck = R_Calloc( ns+1, double );
+	qff = R_Calloc( ns+1, double );
 
 	pre_calc();
 
 
-	py = Calloc( 1, Vector<double> );
-	psy = Calloc( 1, Vector<double> );
-	pqy = Calloc( 1, Vector<double> );
+	py = R_Calloc( 1, Vector<double> );
+	psy = R_Calloc( 1, Vector<double> );
+	pqy = R_Calloc( 1, Vector<double> );
 
 	set_y();	// calls 'set_sy'
 
 	sety_called = false;
 
 
-	q10 = Calloc( ns+1, double );
-	qx0 = Calloc( ns+1, double );
-	a0 = Calloc( ns+1, double );
-	b0 = Calloc( ns+1, double );
-	f01 = Calloc( ns+1, double );
-	f0x = Calloc( ns+1, double );
-	B = Calloc( ns+1, double );
+	q10 = R_Calloc( ns+1, double );
+	qx0 = R_Calloc( ns+1, double );
+	a0 = R_Calloc( ns+1, double );
+	b0 = R_Calloc( ns+1, double );
+	f01 = R_Calloc( ns+1, double );
+	f0x = R_Calloc( ns+1, double );
+	B = R_Calloc( ns+1, double );
 
 	const double th_0 = xs[1];
 	th0 = th_0 + 1;
@@ -118,7 +118,7 @@ void Clmbr::initialize( void )
 
 	set_tol();
 
-	C = Calloc( 3, double );
+	C = R_Calloc( 3, double );
 	C[0]= get_C(m-2); C[1]= get_C(m-1); C[2]= get_C(m); 
 
 

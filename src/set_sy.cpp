@@ -11,7 +11,7 @@ void  Clmbr::set_sy( double * irsy,  METHOD met )
 	for (i=0;i<n;i++)
 		if ( !R_FINITE(irsy[i]) )  stop( _("invalid value in 'rWy' vector") );
 
-	double *  virsy= Calloc( n, double );
+	double *  virsy= R_Calloc( n, double );
 	for (i=0;i<n;i++)  if( model_in > 0 )  virsy[i] = irsy[i];  else  virsy[i] = irsy[n-1-i];
 
 	Vector<double>  vy(n),  sy(m1),  qy(m);
@@ -35,18 +35,18 @@ void  Clmbr::set_sy( double * irsy,  METHOD met )
 		F77_CALL(dormqr)( &side, &tp, &n_int, &ny, &xrank_int, Q, &n_int, tau, virsy, &n_int, tmp, &lwork, &info  FCONE FCONE);
 
 		if( info )  stop( _("LAPACK routine 'dormqr' failed") );  else  lwork=  static_cast<int>( *tmp );
-		double *  work= Calloc( lwork, double );
+		double *  work= R_Calloc( lwork, double );
 
 		F77_CALL(dormqr)( &side, &tp, &n_int, &ny, &xrank_int, Q, &n_int, tau, virsy, &n_int, work, &lwork, &info  FCONE FCONE);
 
 		if( info )  stop( _("LAPACK routine 'dormqr' failed") );
-		Free( work );
+		R_Free( work );
 	}
 
 
 	for(i=0;i<m1;i++) sy[i]= *(virsy+i+n-m1);
 	for(i=0;i<m;i++)  qy[i]= *(virsy+i+n-m);
-	Free( virsy );
+	R_Free( virsy );
 
 	*psy = sy;
 	*pqy = qy;

@@ -23,13 +23,13 @@ void Clmbr::set_y( void )
 
 // 'set_sy'  takes sy-values in original order
 //  i.e. not reversed for 'model_in' = -2 or -3
-	double*  irsy= Calloc( n, double );
+	double*  irsy= R_Calloc( n, double );
 	for (i=0;i<n;i++)
 		if( model_in > 0 )  irsy[i] = irSy[i];  else  irsy[i]= irSy[n_int-1-i];
 
 	set_sy( irsy, INIT );
 
-	Free( irsy );
+	R_Free( irsy );
 
 	return;
 }

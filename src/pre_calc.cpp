@@ -24,7 +24,7 @@ void  Clmbr::pre_calc( void )
 
 
 	int  lwork,  info;
-	double *  temp= Calloc( n, double );
+	double *  temp= R_Calloc( n, double );
 	double  tmp[1];
 
 
@@ -35,7 +35,7 @@ void  Clmbr::pre_calc( void )
 		for(i=is[ns-2]+1;i<=is[ns-1];i++)  en[i] = 1.;
 
 		const int  nC0 = 4;
-		double *  C0= Calloc( n*nC0, double );
+		double *  C0= R_Calloc( n*nC0, double );
 		for(i=0;i<n;i++) {
 			*(C0+i) = 1;
 			*(C0+n+i) = (*px)[i];
@@ -62,12 +62,12 @@ void  Clmbr::pre_calc( void )
 			F77_CALL(dormqr)( &side, &tp, &n_int, &nC0, &xrank_int, Q, &n_int, tau, C0, &n_int, tmp, &lwork, &info  FCONE FCONE);
 
 			if( info )  stop( _("LAPACK routine 'dormqr' failed") );  else  lwork= static_cast<int>( *tmp );
-			double *  work= Calloc( lwork, double );
+			double *  work= R_Calloc( lwork, double );
 
 			F77_CALL(dormqr)( &side, &tp, &n_int, &nC0, &xrank_int, Q, &n_int, tau, C0, &n_int, work, &lwork, &info  FCONE FCONE);
 
 			if( info )  stop( _("LAPACK routine 'dormqr' failed") );
-			Free( work );
+			R_Free( work );
 		}
  
 
@@ -87,7 +87,7 @@ void  Clmbr::pre_calc( void )
 			qe1[i]= *(C0+2*n+im);
 			qen[i]= *(C0+3*n+im);
 		}
-		Free( C0 );
+		R_Free( C0 );
 
 
 		const Vector<double>  dummy_m1(m1,0.),  dummy_m(m,0.); 
@@ -125,8 +125,8 @@ void  Clmbr::pre_calc( void )
 // pre-calculate  Q* "stub 1-"  and  Q* "stub x-"  vectors and scalars
 	{
 		const int  nC1 = ns+1;
-		double *  C1= Calloc( n*nC1, double );
-		double *  Cx= Calloc( n*nC1, double );
+		double *  C1= R_Calloc( n*nC1, double );
+		double *  Cx= R_Calloc( n*nC1, double );
 
 		Vector<double>  vk1(n,1.), kx(n);
 		kx = *px;
@@ -164,12 +164,12 @@ void  Clmbr::pre_calc( void )
 			F77_CALL(dormqr)( &side, &tp, &n_int, &nC1, &xrank_int, Q, &n_int, tau, C1, &n_int, tmp, &lwork, &info  FCONE FCONE);
 
 			if( info )  stop( _("LAPACK routine 'dormqr' failed") );  else  lwork=  static_cast<int>( *tmp ); 
-			double *  work= Calloc( lwork, double );
+			double *  work= R_Calloc( lwork, double );
 
 			F77_CALL(dormqr)( &side, &tp, &n_int, &nC1, &xrank_int, Q, &n_int, tau, C1, &n_int, work, &lwork, &info  FCONE FCONE);
 
 			if( info )  stop( _("LAPACK routine 'dormqr' failed") );
-			Free( work );
+			R_Free( work );
 		}
 	
 
@@ -181,7 +181,7 @@ void  Clmbr::pre_calc( void )
 				for( int k=0; k<n; k++) *(Cx+n*j+i) += *( irS + k*n + i ) * temp[k];
 			}
 		} 
-		Free( temp );
+		R_Free( temp );
 
 
 		{
@@ -190,12 +190,12 @@ void  Clmbr::pre_calc( void )
 			F77_CALL(dormqr)( &side, &tp, &n_int, &nC1, &xrank_int, Q, &n_int, tau, Cx, &n_int, tmp, &lwork, &info  FCONE FCONE);
 
 			if( info )  stop( _("LAPACK routine 'dormqr' failed") );  else  lwork=  static_cast<int>( *tmp ); 
-			double *  work= Calloc( lwork, double );
+			double *  work= R_Calloc( lwork, double );
 
 			F77_CALL(dormqr)( &side, &tp, &n_int, &nC1, &xrank_int, Q, &n_int, tau, Cx, &n_int, work, &lwork, &info  FCONE FCONE);
 
 			if( info )  stop( _("LAPACK routine 'dormqr' failed") );
-			Free( work );
+			R_Free( work );
 		}
 	
 
@@ -223,7 +223,7 @@ void  Clmbr::pre_calc( void )
 			if(j==0)  qff[j]= NaN;  else  qff[j]= (qx-xs[j-1]*q1)*(qx-xs[j-1]*q1);  
 		}
 		
-		Free( C1 );  Free( Cx );
+		R_Free( C1 );  R_Free( Cx );
 	}
 	
 

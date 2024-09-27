@@ -77,7 +77,7 @@ class Vector
         //
         //  assert(v_ == NULL);
 
-		if(N>0) v_ = Calloc(N,T);
+		if(N>0) v_ = R_Calloc(N,T);
 
         //  assert(v_  != NULL);
         if(N>0) vm1_ = v_-1;
@@ -145,7 +145,7 @@ class Vector
         if (v_ == NULL) return ;
 
         /* if we are here, then matrix was previously allocated */
-		Free(v_);
+		R_Free(v_);
 
         v_ = NULL;
         vm1_ = NULL;

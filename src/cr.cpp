@@ -31,16 +31,16 @@ int Clmbr::cr( METHOD met, double incr, bool verbose, double * bounds)
 
 	if(verbose_progress) { Rcout << "   " << _("getting theta-boundaries...   ");  Rflush(); }
 
-	double*  tmp = Calloc( 2*ns, double );
+	double*  tmp = R_Calloc( 2*ns, double );
 
 	int numr;
 	if(met==GEO)  numr = ci(GEO2,inc,false,tmp);  else  numr = ci(AF2,inc,false,tmp);
 
-	double*  th_bds= Calloc( 2*numr, double );
+	double*  th_bds= R_Calloc( 2*numr, double );
 
 	int i;
 	for (i=0;i<2*numr;i++)  th_bds[i] = tmp[i];
-	Free( tmp );
+	R_Free( tmp );
 
 
 // get (theta,alpha)-boundaries of confidence region(s)
@@ -59,7 +59,7 @@ int Clmbr::cr( METHOD met, double incr, bool verbose, double * bounds)
 	for (i=0;i<numr;i++) width += th_bds[2*i+1] - th_bds[2*i];
 	const int  Nmax =  static_cast<int>(width/inc) + 1 + ns + 2*numr + 2;
 
-	double*  bds= Calloc( 3*Nmax, double );
+	double*  bds= R_Calloc( 3*Nmax, double );
 
 
 	const double thmle= mle(false);
@@ -241,7 +241,7 @@ int Clmbr::cr( METHOD met, double incr, bool verbose, double * bounds)
 		}
 	}
 
-	Free( th_bds );  Free( bds );
+	R_Free( th_bds );  R_Free( bds );
 	return N;
 }
 

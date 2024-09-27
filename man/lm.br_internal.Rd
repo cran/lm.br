@@ -11,7 +11,7 @@
 \docType{class}
 
 
-\title{Internal lm.br class \code{"Cpp_Clmbr"} }
+\title{Internal lm.br class \code{Cpp_Clmbr} }
 
 \description{
 Internal S4 class.
@@ -21,12 +21,12 @@ Class of data + model objects used for broken line regression.  An object instan
 }
 
 \details{
-  This class is not meant for the user.
+  This class is internal, not meant for the user.
 }
 
 
 \section{Extends}{
-Class \code{"\linkS4class{C++Object}"}, directly.
+Class \code{"\link[Rcpp:C++Object-class]{C++Object}"}, directly.
 
 All reference classes extend and inherit methods from \code{"\linkS4class{envRefClass}"}.
 
@@ -48,6 +48,7 @@ All reference classes extend and inherit methods from \code{"\linkS4class{envRef
 
 \examples{
 showClass( Cpp_Clmbr )
+
 }
 
 

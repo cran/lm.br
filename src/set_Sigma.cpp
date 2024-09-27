@@ -51,14 +51,14 @@ void Clmbr::set_Sigma( void )
 	}  else  {
 
 // use LAPACK routine DSYEVR to get eigenvalues and eigenvectors of Sigma 
-		double *  D= Calloc( n, double ),  * Q_= Calloc( n*n, double );
+		double *  D= R_Calloc( n, double ),  * Q_= R_Calloc( n*n, double );
 		
 		{
 			const char  job ='V',  range ='A',  uplo ='L';
 			const int  id =0;	
 			const double  tol = 0, dd = 0;
 			int  ne, lwork= -1, itmp[1], liwork =-1, info =0;
-			int*  isuppZ= Calloc(2*n,int);
+			int*  isuppZ= R_Calloc(2*n,int);
 			double  tmp[1];
 
 //  use 'irS' as the working input matrix
@@ -72,17 +72,17 @@ void Clmbr::set_Sigma( void )
 								&ne, D, Q_, &n_int, isuppZ, tmp, &lwork, itmp, &liwork, &info FCONE FCONE FCONE);
 
 			if( info )  stop( _("LAPACK routine 'dsyevr' failed") );  else  { lwork= *tmp; liwork= *itmp; }
-			double *  work= Calloc( lwork, double );
-			int*  iwork= Calloc( liwork, int );
+			double *  work= R_Calloc( lwork, double );
+			int*  iwork= R_Calloc( liwork, int );
 
 			F77_CALL(dsyevr)( &job, &range, &uplo, &n_int, irS, &n_int, &dd, &dd, &id, &id, &tol,
 								&ne, D, Q_, &n_int, isuppZ, work, &lwork, iwork, &liwork, &info FCONE FCONE FCONE);
 
 			if( info || ne < n )  stop( _("LAPACK routine 'dsyevr' failed") );
-			Free( isuppZ );  Free( work );  Free( iwork );
+			R_Free( isuppZ );  R_Free( work );  R_Free( iwork );
 		}
 
-		double *  rD= Calloc(n,double);
+		double *  rD= R_Calloc(n,double);
 
 		for (i=0;i<n;i++)  {
 			if( D[i] <= 0. )  stop( _("'weights' matrix not positive-definite") );
@@ -106,7 +106,7 @@ void Clmbr::set_Sigma( void )
 		}
 
 		if( minD/maxD < 1.e-7 )  Rf_warning( "%s", _("weights matrix might be ill-conditioned for 'clr' method") );
-		Free( D );  Free( Q_ );  Free( rD );
+		R_Free( D );  R_Free( Q_ );  R_Free( rD );
 	}
 
 

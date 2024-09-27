@@ -101,10 +101,10 @@ double Clmbr::geo_vu_D( double th2, double * err)  const
 
 //  'Rdqag' parameters
 		int  inf_flag = -1,  neval =0,  ier =0,  limit =100,  lenw = 4*limit,  last =0;
-		int*  iwork= Calloc( limit, int );
+		int*  iwork= R_Calloc( limit, int );
 
 		double  epsabs = tol_sl_abs/2/ns,  epsrel = tol_sl_rel/2,  result =0,  abserr =0;
-		double *  work= Calloc( lenw, double );
+		double *  work= R_Calloc( lenw, double );
 
 		const void *  exc[2] = {  this,  &k  };
 		void **  ex = const_cast< void** >( exc );
@@ -147,7 +147,7 @@ double Clmbr::geo_vu_D( double th2, double * err)  const
 
 		}
 
-		Free( iwork );  Free( work );
+		R_Free( iwork );  R_Free( work );
 	}
 
 	if (err!=0)  *err = error;
@@ -292,10 +292,10 @@ double Clmbr::geo_vu_NDab( int k,  double th_a,  double th_b,  int hilo, double 
 
 //  'Rdqag' parameters
 	int  inf_flag = -1,  neval =0,  ier =0,  limit =100,  lenw = 4*limit,  last =0;
-	int*  iwork= Calloc( limit, int );
+	int*  iwork= R_Calloc( limit, int );
 
 	double  epsabs = tol_sl_abs/2/ns,  epsrel = tol_sl_rel/2,  result =0,  abserr =0;
-	double *  work= Calloc( lenw, double );
+	double *  work= R_Calloc( lenw, double );
 
 	const void *  exc[2] = {  this,  &k  };
 	void **  ex = const_cast< void** >( exc );
@@ -339,7 +339,7 @@ double Clmbr::geo_vu_NDab( int k,  double th_a,  double th_b,  int hilo, double 
 
 	}
 
-	Free( iwork );  Free( work );
+	R_Free( iwork );  R_Free( work );
 
 	if (err!=0)  *err = error;
 	return  min( pr, 1. );
@@ -397,10 +397,10 @@ double  Clmbr::geo_vk_D(  double th2,  double * err )  const
 
 //  'Rdqag' parameters
 		int  inf_flag = -1,  neval =0,  ier =0,  limit =100,  lenw = 4*limit,  last =0;
-		int*  iwork= Calloc( limit, int );
+		int*  iwork= R_Calloc( limit, int );
 
 		double  epsabs = tol_sl_abs/2/ns,  epsrel = tol_sl_rel/2,  result =0,  abserr =0;
-		double *  work= Calloc( lenw, double );
+		double *  work= R_Calloc( lenw, double );
 
 		const void *  exc[2] = {  this,  &k  };
 		void **  ex = const_cast< void** >( exc );
@@ -455,7 +455,7 @@ double  Clmbr::geo_vk_D(  double th2,  double * err )  const
 			if( ier > 0  &&  ier!=5 )  Rf_warning( "%s", _("integration flag") ); 
 		}
 
-		Free( iwork );  Free( work );
+		R_Free( iwork );  R_Free( work );
 	}
 
 
@@ -572,10 +572,10 @@ double Clmbr::geo_vk_NDab(  int k,  double th_a,  double th_b,  int hilo, double
 
 //  'Rdqag' parameters
 	int  inf_flag = -1,  neval =0,  ier =0,  limit =100,  lenw = 4*limit,  last =0;
-	int*  iwork= Calloc( limit, int );
+	int*  iwork= R_Calloc( limit, int );
 
 	double  epsabs = tol_sl_abs/2/ns,  epsrel = tol_sl_rel/2,  result =0,  abserr =0;
-	double *  work= Calloc( lenw, double );
+	double *  work= R_Calloc( lenw, double );
 
 	const void *  exc[2] = {  this,  &k  };
 	void **  ex = const_cast< void** >( exc );
@@ -634,7 +634,7 @@ double Clmbr::geo_vk_NDab(  int k,  double th_a,  double th_b,  int hilo, double
 
 	}
 
-	Free( iwork );  Free( work );
+	R_Free( iwork );  R_Free( work );
 
 	if (err!=0)  *err = error;
 	return  min( pr, 1. );

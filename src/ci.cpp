@@ -11,7 +11,7 @@ int Clmbr::ci( METHOD met, double incr, bool verbose, double * bounds)
 {
 	int numr = 0;
 
-	double* bds= Calloc( 2*ns, double );
+	double* bds= R_Calloc( 2*ns, double );
 
 
 	if (verbose)  {
@@ -68,7 +68,7 @@ int Clmbr::ci( METHOD met, double incr, bool verbose, double * bounds)
 
 	if(bounds != 0)  for (int i=0;i<2*numr;i+=2)  { bounds[i] = bds[i];  bounds[i+1] = bds[i+1]; }
 
-	Free( bds );
+	R_Free( bds );
 
 	return numr;
 }
@@ -161,7 +161,7 @@ int Clmbr::ci_geo( METHOD met,  double incr, double * bds )
 
 // get critical points
 
-	double* cpts= Calloc( ns+2, double );
+	double* cpts= R_Calloc( ns+2, double );
 
 	const double thmle = mle(false);
 
@@ -261,7 +261,7 @@ int Clmbr::ci_geo( METHOD met,  double incr, double * bds )
 	if (sl_th > SL && ind==1) bds[numi++] = Inf;
 
 
-	Free( cpts );
+	R_Free( cpts );
 	return numi/2;
 }
 

@@ -64,10 +64,10 @@ Clmbr::Clmbr(  NumericVector  yR,  NumericMatrix  xR,  NumericMatrix  wR,  int m
 	}
 
 
-	y_in = Calloc( n, double );  
-	x_in = Calloc( n*xrank, double ); 
-	if( vectorS )  w_in = Calloc( n, double );  
-	if( matrixS )  w_in = Calloc( n*n, double );  
+	y_in = R_Calloc( n, double );  
+	x_in = R_Calloc( n*xrank, double ); 
+	if( vectorS )  w_in = R_Calloc( n, double );  
+	if( matrixS )  w_in = R_Calloc( n*n, double );  
  
 
 // store input values
@@ -123,10 +123,10 @@ Clmbr::Clmbr( const Clmbr  &initM )
 	vectorS = initM.vectorS;
 	matrixS = initM.matrixS;
 
-	y_in = Calloc( n, double );  
-	x_in = Calloc( n*xrank, double ); 
-	if( vectorS )  w_in = Calloc( n, double );  
-	if( matrixS )  w_in = Calloc( n*n, double );  
+	y_in = R_Calloc( n, double );  
+	x_in = R_Calloc( n*xrank, double ); 
+	if( vectorS )  w_in = R_Calloc( n, double );  
+	if( matrixS )  w_in = R_Calloc( n*n, double );  
 
 
 // store input values
@@ -148,34 +148,34 @@ Clmbr::Clmbr( const Clmbr  &initM )
 Clmbr::~Clmbr()
 // destructor
 {
-	const Vector<double>  free(0);
+	const Vector<double>  zeroVec(0);
 	
 	R_xlen_t  zero= static_cast<R_xlen_t>(0),  one= static_cast<R_xlen_t>(1) ;
 
-	*px = *pv1h = *pxh = *psig1 = *psigx = *nan_m1 = *nan_m = free;
-	*pnse1 = *pnuse1 = *pusen = *puqe1 = *puqen = *puqx = free;
-	*py = *psy = *pqy = free;
+	*px = *pv1h = *pxh = *psig1 = *psigx = *nan_m1 = *nan_m = zeroVec;
+	*pnse1 = *pnuse1 = *pusen = *puqe1 = *puqen = *puqx = zeroVec;
+	*py = *psy = *pqy = zeroVec;
 	for(R_xlen_t i=zero; i<ns+one; i++) {
-		ps1[i]= free;  psx[i]= free;  pq1[i]= free;  pqx[i]= free;  pmq1[i]= free;
+		ps1[i]= zeroVec;  psx[i]= zeroVec;  pq1[i]= zeroVec;  pqx[i]= zeroVec;  pmq1[i]= zeroVec;
 	}
-	if(Model==M3)  *pm1h = free;
+	if(Model==M3)  *pm1h = zeroVec;
 
-	Free( w_in );  Free( x_in );  Free( y_in );  Free( xs );
-	Free( px );
-	Free( rS );  Free( irS );  Free( Q ); Free( tau );
-	Free( is );
-	Free( q11 );  Free( qx1 );  Free( qxx );  Free( ck );  Free( qff );
-	Free( q10 );  Free( qx0 );  Free( a0 );  Free( b0 );
-	Free( f01 );  Free( f0x );
-	Free( B );  Free( C );
-	Free( psig1 );  Free( psigx );  Free( pv1h );  Free( pxh );
-	Free( nan_m1 );  Free( pnse1 );  Free( pnuse1 );  Free( pusen );
-	Free( nan_m );  Free( puqe1 );  Free( puqen );  Free( puqx );
-	Free( ps1 );  Free( psx );
-	Free( pq1 );  Free( pqx );
-	Free( pmq1 ); Free( pm1h );
-	Free( py );  Free( psy );
-	Free( pqy );
+	R_Free( w_in );  R_Free( x_in );  R_Free( y_in );  R_Free( xs );
+	R_Free( px );
+	R_Free( rS );  R_Free( irS );  R_Free( Q ); R_Free( tau );
+	R_Free( is );
+	R_Free( q11 );  R_Free( qx1 );  R_Free( qxx );  R_Free( ck );  R_Free( qff );
+	R_Free( q10 );  R_Free( qx0 );  R_Free( a0 );  R_Free( b0 );
+	R_Free( f01 );  R_Free( f0x );
+	R_Free( B );  R_Free( C );
+	R_Free( psig1 );  R_Free( psigx );  R_Free( pv1h );  R_Free( pxh );
+	R_Free( nan_m1 );  R_Free( pnse1 );  R_Free( pnuse1 );  R_Free( pusen );
+	R_Free( nan_m );  R_Free( puqe1 );  R_Free( puqen );  R_Free( puqx );
+	R_Free( ps1 );  R_Free( psx );
+	R_Free( pq1 );  R_Free( pqx );
+	R_Free( pmq1 ); R_Free( pm1h );
+	R_Free( py );  R_Free( psy );
+	R_Free( pqy );
 
 }
 

@@ -183,7 +183,7 @@ NumericVector  Clmbr::ci2R( double CL,  int met,  int verboseR )
 	const bool  verbose = static_cast<bool>( verboseR );
 
 	const int  max_segments = 20;
-	double*  Btmp= Calloc( max_segments*2, double );
+	double*  Btmp= R_Calloc( max_segments*2, double );
 	
 	const double tmp = SL;
 	set_SL(1.-CL);
@@ -196,7 +196,7 @@ NumericVector  Clmbr::ci2R( double CL,  int met,  int verboseR )
 	for(int i=0; i < nsegments*2; i++)  {
 		bds(i) = *(Btmp + i);
 	}
-	Free( Btmp );
+	R_Free( Btmp );
 	
 	return  bds; 
 }
@@ -257,7 +257,7 @@ NumericMatrix  Clmbr::cr4R( double CL,  int met,
 	const double  maxwidth = xs[ns-1] - xs[0] + 2;						
 	const int  Nmax = static_cast<int>(maxwidth/inc) + ns + 3;
 
-	double*  Btmp= Calloc( Nmax*3, double );
+	double*  Btmp= R_Calloc( Nmax*3, double );
 
 	const bool  verbose = static_cast<bool>( verboseR );
 	if( verbose )  
@@ -277,7 +277,7 @@ NumericMatrix  Clmbr::cr4R( double CL,  int met,
 		bds(i,one) = *(Btmp + 1*nrows + i);
 		bds(i,two) = *(Btmp + 2*nrows + i);
 	}
-	Free( Btmp );
+	R_Free( Btmp );
 
 	return bds;
 }
@@ -297,14 +297,14 @@ NumericVector  Clmbr::PARAM( void )  const
 // function to pass parameter values to R-code
 // internal, not meant for the user
 { 
-	double  *const  pdummy =NULL,  *par= Calloc( 6, double );
+	double  *const  pdummy =NULL,  *par= R_Calloc( 6, double );
 
 	mle( false, pdummy, par ); 
 
 	const double  th= par[0],  a= par[1],  b= par[2],  
 			bp= par[3],  v= par[4],  thfmin= par[5];
 
-	Free( par );
+	R_Free( par );
 
 	const double  syc = static_cast<double>( sety_called );
 
@@ -318,13 +318,13 @@ void  Clmbr::SET_rWy( NumericVector rWy )
 	const int yn = static_cast<int>( rWy.size() );
 	if(yn!=n) stop( _("'rWy' vector has wrong dimension") );
 
-	double*  Ytmp= Calloc( n, double );
+	double*  Ytmp= R_Calloc( n, double );
 	
 	for (int i=0;i<n;i++) Ytmp[i] = rWy[i];
 
 	set_sy( Ytmp, GEO2 );
 
-	Free( Ytmp );
+	R_Free( Ytmp );
 
 	sety_called = true;
 
